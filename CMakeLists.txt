@@ -110,6 +110,17 @@ add_executable(${PROJECT_NAME}
     main.cpp
     generated/src/Helper.cpp
     env_fixes.h
+        classes/Blood_Bat.cpp
+        header/Blood_Bat.h
+        classes/Enemy.cpp
+        header/Enemy.h
+        classes/Enemies.cpp
+        header/Enemies.h
+        classes/Player.cpp
+        header/Player.h
+        classes/Room.cpp
+        header/Room.h
+
 )
 
 ###############################################################################
