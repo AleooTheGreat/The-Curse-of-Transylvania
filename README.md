@@ -1,4 +1,21 @@
-# Nu primesc notă pentru că nu am pus titlu și descriere
+# The-Curse-of-Transylvania
+The Curse of Transylvania is a multiroom game designed to help me learn OpenGL and SFML. 
+
+## Description: 
+The Transylvania Castle (Bran Castle) was visited by a group of young friends. The place was such a mystery to them that they lost the track of time. The castle is now their prison. They disbanded and began searching for an exit. They made a terrible mistake because they didn't know that the castle was haunted at night.
+
+Time has come to a halt! Enemies and valuable items abound in these rooms! Choose your character, gather the others, and make it out of the castle! 
+Good luck!
+
+## Insipiration, Technologies, Programming Languages
+
+>  **Inspiration:** The Binding of Isaac: Repentance, Darkest Dungeon and Pokemon
+>
+> **Technologies:** SFML and OpenGL
+>
+> **Programming Languages:** C++
+
+# Cerinte POO:
 
 ### Important!
 Aveți voie cu cod generat de modele de limbaj la care nu ați contribuit semnificativ doar în folder-ul `generated`.
@@ -71,5 +88,4 @@ O cerință nu se consideră îndeplinită dacă este realizată doar ca o serie
 
 ## Resurse
 
-- [SFML](https://github.com/SFML/SFML/tree/2.6.1) (Zlib)
 - adăugați trimiteri către resursele externe care v-au ajutat sau pe care le-ați folosit
