@@ -6,7 +6,7 @@
 #define OOP_ROOM_H
 #include <SFML/Graphics.hpp>
 #include<vector>
-#include "gameTile.h"
+#include "GameTile.h"
 
 class Room {
 
