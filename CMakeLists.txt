@@ -120,6 +120,8 @@ add_executable(${PROJECT_NAME}
         header/Player.h
         classes/Room.cpp
         header/Room.h
+        classes/GameTile.cpp
+        header/GameTile.h
 
 )
 
