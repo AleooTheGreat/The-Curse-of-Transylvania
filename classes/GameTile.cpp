@@ -5,10 +5,11 @@
 #include "../header/GameTile.h"
 
 
-GameTile::GameTile(const std::string& textureName, float x, float y , bool passable , bool exit){
+GameTile::GameTile(const std::string& texture, float x, float y , bool passable , bool exit){
     if(!setUpSprite()){
         return;
     }
+    textureName = texture;
      pos = sf::Vector2f(x,y);
      sprite.setPosition(pos);
      isFree = passable;

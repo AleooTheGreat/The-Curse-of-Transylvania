@@ -13,13 +13,16 @@
 class GameTile {
 
 public:
-    GameTile(const std::string&, float, float, bool, bool);
+    GameTile(const std::string& textureName, float x, float y, bool isFree, bool isExit);
     bool setUpSprite();
+    sf::Sprite sprite;
+
+private:
+    std::string textureName;
     bool isFree;
     bool isExit;
     sf::Vector2f pos;
     sf::Texture texture;
-    sf::Sprite sprite;
 };
 
 
