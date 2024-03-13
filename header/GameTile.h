@@ -14,7 +14,7 @@ class GameTile {
 
 public:
     GameTile(const std::string&, float, float, bool, bool);
-    bool setUpSprite(const std::string&);
+    bool setUpSprite();
     bool isFree;
     bool isExit;
     sf::Vector2f pos;

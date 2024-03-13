@@ -6,7 +6,7 @@
 
 
 GameTile::GameTile(const std::string& textureName, float x, float y , bool passable , bool exit){
-    if(!setUpSprite(textureName)){
+    if(!setUpSprite()){
         return;
     }
      pos = sf::Vector2f(x,y);
@@ -15,7 +15,7 @@ GameTile::GameTile(const std::string& textureName, float x, float y , bool passa
      isExit = exit;
 }
 
-bool GameTile::setUpSprite(const std::string& textureName) {
+bool GameTile::setUpSprite() {
     if(!texture.loadFromFile("textures/Brick_floor.png")){
         return false;
     }
