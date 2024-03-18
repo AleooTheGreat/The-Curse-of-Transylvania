@@ -29,12 +29,7 @@ int main() {
     wall_texture.loadFromFile("textures/Wall.png");
     wall_sprite.setTexture(wall_texture);
 
-
-
     window.setVerticalSyncEnabled(true);
-
-    ///texture
-    Room room = Room();
 
     while(window.isOpen()) {
 
@@ -48,10 +43,11 @@ int main() {
                 }
             }
 
+            ///HandleInput
         player.handleInput();
 
+            ///Time delta etc
         sf::Time deltaTime = clock.restart();
-
         player.update(deltaTime);
 
         window.clear();
@@ -70,7 +66,9 @@ int main() {
             }
         }
 
+        ///Player
         player.draw(window);
+
         window.display();
     }
     return 0;
