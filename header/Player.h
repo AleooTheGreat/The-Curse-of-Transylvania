@@ -8,11 +8,17 @@
 
 
 #include <string>
+#include <SFML/Graphics/RectangleShape.hpp>
+#include <SFML/System/Vector2.hpp>
+#include <SFML/System/Time.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Texture.hpp>
 
 class Player{
 public:
     ///Constructor
-    explicit Player(std::string  name = "Default", unsigned int hp = 100,float speed = 1.0f, float power = 1.0f);
+    explicit Player(std::string  name = "Default", unsigned int hp = 100,float speed = 4.5f, float power = 1.0f);
 
     ///Copy
     Player(const Player& other);
@@ -20,6 +26,9 @@ public:
 
     ///Other
     friend std::ostream& operator<<(std::ostream& os, const Player& player);
+    void handleInput();
+    void update(sf::Time deltaTime);
+    void draw(sf::RenderWindow& window);
 
     ///Destroy(Mosh Pit)
     ~Player();
@@ -29,6 +38,9 @@ private:
     unsigned int m_hp;
     float m_speed;
     float m_power;
+    sf::Sprite player_sprite;
+    sf::Texture player_texture;
+    sf::RectangleShape playerShape;
 };
 
 
