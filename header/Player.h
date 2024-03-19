@@ -27,7 +27,7 @@ public:
     ///Other
     friend std::ostream& operator<<(std::ostream& os, const Player& player);
     void handleInput();
-    void update(sf::Time deltaTime, std::vector<std::vector<int>>& map);
+    void update(sf::Time deltaTime, const std::vector<std::vector<int>>& map);
     void drawPlayer(sf::RenderWindow& window);
 
     ///Destroy(Mosh Pit)

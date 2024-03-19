@@ -59,7 +59,7 @@ void Player::handleInput() {
 
 }
 
-void Player::update(sf::Time deltaTime, std::vector<std::vector<int>> &map) {
+void Player::update(sf::Time deltaTime, const std::vector<std::vector<int>> &map) {
 
     int left = int((player_sprite.getGlobalBounds().left + velocity.x * deltaTime.asSeconds()) / 64);
     int right = left + 1;
