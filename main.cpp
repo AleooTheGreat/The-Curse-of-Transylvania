@@ -3,8 +3,6 @@
 #include <chrono>
 #include <thread>
 #include <SFML/Graphics.hpp>
-#include <Helper.h>
-#include "env_fixes.h"
 #include "header/Player.h"
 #include "header/Map.h"
 
@@ -36,10 +34,7 @@ int main() {
 
             ///HandleInput
         player.handleInput();
-
-            ///Time delta etc
-        sf::Time deltaTime = clock.restart();
-        player.update(deltaTime, map.getMap());
+        player.update(map.getMap());
 
         window.clear();
         map.draw(window);
