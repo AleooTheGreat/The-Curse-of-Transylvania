@@ -19,7 +19,6 @@ private:
     int m_width, m_height;
     std::vector<std::vector<int>> map1;
     sf::RenderTexture mapTexture;
-
 };
 
 

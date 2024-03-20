@@ -18,7 +18,7 @@
 class Player{
 public:
     ///Constructor
-    explicit Player(std::string  name = "Default", unsigned int hp = 100,float speed = 250.f, float power = 1.0f);
+    explicit Player(std::string  name = "Default", unsigned int hp = 100,float speed = 1.f, float power = 1.0f);
 
     ///Copy
     Player(const Player& other);
@@ -27,7 +27,7 @@ public:
     ///Other
     friend std::ostream& operator<<(std::ostream& os, const Player& player);
     void handleInput();
-    void update(sf::Time deltaTime, const std::vector<std::vector<int>>& map);
+    void update(sf::Time deltaTime, std::vector<std::vector<int>>& map);
     void drawPlayer(sf::RenderWindow& window);
 
     ///Destroy(Mosh Pit)
@@ -41,7 +41,7 @@ private:
     sf::Sprite player_sprite;
     sf::Texture player_texture;
     sf::RectangleShape playerShape;
-    sf::Vector2f velocity;
+    float x,y;
 };
 
 
