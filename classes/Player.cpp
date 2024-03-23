@@ -82,18 +82,7 @@ void Player::update(std::vector<std::vector<int>>& map) {
             x = 0;
         }
     }else if(map[left][top] == 0 || map[left][down] == 0 || map[right][top] == 0 || map[right][down] == 0){
-        if((map[left][top] == 0 || map[right][top] == 0) and y < 0 and sf::Keyboard::isKeyPressed(sf::Keyboard::W) ){
-                y = 0;
-        }
-        if ((map[left][down] == 0 || map[right][down] == 0) and y > 0 and sf::Keyboard::isKeyPressed(sf::Keyboard::S)){
-                y = 0;
-        }
-        if((map[left][down] == 0 || map[left][top] == 0) and x < 0 and sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-                x = 0;
-        }
-        if((map[right][down] == 0 || map[right][top] == 0) and x > 0 and sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-                x = 0;
-        }
+
     }
 
     player_sprite.move(x,y);

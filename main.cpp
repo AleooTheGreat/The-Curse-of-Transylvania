@@ -1,6 +1,4 @@
 #include <iostream>
-#include <array>
-#include <chrono>
 #include <thread>
 #include <SFML/Graphics.hpp>
 #include "header/Player.h"
@@ -11,8 +9,13 @@ int main() {
 
     Player player;
     Map map(1280,1280);
-
+    sf::Sprite testin;
+    sf::Texture testin_texture;
     sf::Clock clock;
+
+    testin_texture.loadFromFile("textures/Wall.png");
+    testin.setTexture(testin_texture);
+    testin.setPosition(0.f,0.f);
 
     ///window
     sf::RenderWindow window(sf::VideoMode(1 * 1280 + 64, 1 * 1280 + 64), "IDK", sf::Style::Default);
@@ -33,12 +36,13 @@ int main() {
             }
 
             ///HandleInput
-        player.handleInput();
-        player.update(map.getMap());
+      //  player.handleInput();
+       // player.update(map.getMap());
 
         window.clear();
-        map.draw(window);
-        player.drawPlayer(window);
+
+        Map::draw(Map::convert_map(map.getMap()), window);
+       // player.drawPlayer(window);
         window.display();
     }
     return 0;

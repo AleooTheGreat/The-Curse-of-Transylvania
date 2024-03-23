@@ -8,12 +8,14 @@
 
 #include <string>
 #include <SFML/Graphics/Sprite.hpp>
+#include "Global.h"
 
 class Map {
 public:
     Map(int width, int height);
-    void draw(sf::RenderWindow& window);
+    static void draw(const std::array<std::array<Cell, Map_height>,Map_width>& map,sf::RenderWindow &window);
     std::vector<std::vector<int>>& getMap();
+    static std::array<std::array<Cell, Map_height>,Map_width> convert_map(const std::vector<std::vector<int>>& map1);
 
 private:
     int m_width, m_height;

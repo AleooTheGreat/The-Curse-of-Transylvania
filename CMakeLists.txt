@@ -114,6 +114,7 @@ add_executable(${PROJECT_NAME}
         header/Player.h
         header/Map.h
         classes/Map.cpp
+        header/Global.h
 
 )
 

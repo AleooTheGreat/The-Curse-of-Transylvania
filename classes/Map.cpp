@@ -5,6 +5,8 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/RenderTexture.hpp>
+#include <SFML/Graphics/RectangleShape.hpp>
+#include <iostream>
 #include "../header/Map.h"
 
 Map::Map(int width,int height): m_width {width}, m_height{height} {
@@ -31,43 +33,42 @@ Map::Map(int width,int height): m_width {width}, m_height{height} {
             { 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 },
             { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
     };
-
-    sf::Sprite wall_sprite, brick_sprite;
-    sf::Texture wall,brick;
-
-    wall.loadFromFile("textures/Wall.png");
-    brick.loadFromFile("textures/Brick_floor.png");
-
-    wall_sprite.setTexture(wall);
-    brick_sprite.setTexture(brick);
-
-    mapTexture.create(m_width ,m_height);
-    mapTexture.clear();
-
-    for (int i = 0; i < m_width/64 ; i++){
-        for (int j = 0; j < m_height/64 ; j++){
-            if(!map1[i][j]){
-                wall_sprite.setPosition(float(i * 64),float(j * 64));
-                mapTexture.draw(wall_sprite);
-            }else{
-                brick_sprite.setPosition(float(i * 64),float(j * 64));
-                mapTexture.draw(brick_sprite);
-            }
-        }
-    }
-    mapTexture.display();
 }
 
 
-void Map::draw(sf::RenderWindow& window){
+void Map::draw(const std::array<std::array<Cell, Map_height>,Map_width>& i_map,sf::RenderWindow& window){
+    sf::RectangleShape cell_shape(sf::Vector2f(Cell_size,Cell_size));
 
-    sf::Sprite mapSprite;
-    mapSprite.setTexture(mapTexture.getTexture());
-
-    window.draw(mapSprite);
+    for(unsigned char a = 0; a < Map_width; a++){
+        for(unsigned char b = 0 ; b < Map_height; b++){
+            cell_shape.setPosition(float(Cell_size * a), float(Cell_size * b));
+            if(i_map[a][b] == Cell::Wall) {
+                cell_shape.setFillColor(sf::Color::Red);
+            }else{
+                cell_shape.setFillColor(sf::Color::White);
+            }
+            window.draw(cell_shape);
+        }
+    }
 }
 
 std::vector<std::vector<int>>& Map::getMap(){
     return map1;
+}
+
+std::array<std::array<Cell, Map_height>, Map_width> Map::convert_map(const std::vector<std::vector<int>>& map_sketch) {
+    std::array<std::array<Cell, Map_height>, Map_height> output_map{};
+
+    for(unsigned char a = 0; a < Map_height; a++){
+        for (unsigned char b = 0 ; b < Map_width; b++){
+            if(map_sketch[a][b] == 1){
+                output_map[a][b] = Cell::Floor;
+            }else{
+                output_map[a][b] = Cell::Wall;
+            }
+        }
+    }
+
+    return output_map;
 }
 
