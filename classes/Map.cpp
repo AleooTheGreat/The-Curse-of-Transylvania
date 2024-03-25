@@ -37,17 +37,22 @@ Map::Map(int width,int height): m_width {width}, m_height{height} {
 
 
 void Map::draw(const std::array<std::array<Cell, Map_height>,Map_width>& i_map,sf::RenderWindow& window){
-    sf::RectangleShape cell_shape(sf::Vector2f(Cell_size,Cell_size));
+    sf::Sprite cell_sprite;
+    sf::Texture wall_texture;
+    sf::Texture floor_texture;
+
+    wall_texture.loadFromFile("textures/Wall.png");
+    floor_texture.loadFromFile("textures/Brick_floor.png");
 
     for(unsigned char a = 0; a < Map_width; a++){
         for(unsigned char b = 0 ; b < Map_height; b++){
-            cell_shape.setPosition(float(Cell_size * a), float(Cell_size * b));
+            cell_sprite.setPosition(float(Cell_size * a), float(Cell_size * b));
             if(i_map[a][b] == Cell::Wall) {
-                cell_shape.setFillColor(sf::Color::Red);
+                cell_sprite.setTexture(wall_texture);
             }else{
-                cell_shape.setFillColor(sf::Color::White);
+                cell_sprite.setTexture(floor_texture);
             }
-            window.draw(cell_shape);
+            window.draw(cell_sprite);
         }
     }
 }

@@ -36,13 +36,13 @@ int main() {
             }
 
             ///HandleInput
-      //  player.handleInput();
-       // player.update(map.getMap());
+            player.handleInput();
+            player.update(map.getMap());
 
         window.clear();
 
         Map::draw(Map::convert_map(map.getMap()), window);
-       // player.drawPlayer(window);
+        player.drawPlayer(window);
         window.display();
     }
     return 0;
