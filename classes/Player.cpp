@@ -43,6 +43,9 @@ Player:: ~Player() {
 }
 void Player::handleInput() {
 
+    float player_attack = m_power;
+    std::cout<<player_attack;
+
     x = 0;
     y = 0;
 
