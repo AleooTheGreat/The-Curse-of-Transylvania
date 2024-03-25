@@ -22,7 +22,7 @@ Player::Player(std::string name, unsigned int hp, float speed, float power): m_n
     std::cout << "Player fost apelat" << '\n';
     x = 0;
     y = 0;
-}*////O sa o folosesc dar nu trec cu verde si ma enerveaza
+}///O sa o folosesc dar nu trec cu verde si ma enerveaza
 
 Player&Player::operator=(const Player&other) {
     m_name = other.m_name;
@@ -30,7 +30,7 @@ Player&Player::operator=(const Player&other) {
     m_speed = other.m_speed;
     m_power = other.m_power;
     return *this;
-}
+}*/
 
 
 std::ostream& operator<<(std::ostream& os, const Player& player) {
