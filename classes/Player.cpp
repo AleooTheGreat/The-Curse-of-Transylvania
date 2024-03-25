@@ -18,11 +18,11 @@ Player::Player(std::string name, unsigned int hp, float speed, float power): m_n
     y = 0.f;
 }
 
-Player::Player(const Player& other):m_name{other.m_name},m_hp{other.m_hp},m_speed{other.m_speed},m_power{other.m_power}{
+/*Player::Player(const Player& other):m_name{other.m_name},m_hp{other.m_hp},m_speed{other.m_speed},m_power{other.m_power}{
     std::cout << "Player fost apelat" << '\n';
     x = 0;
     y = 0;
-}
+}*////O sa o folosesc dar nu trec cu verde si ma enerveaza
 
 Player&Player::operator=(const Player&other) {
     m_name = other.m_name;

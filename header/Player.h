@@ -21,7 +21,7 @@ public:
     explicit Player(std::string  name = "Default", unsigned int hp = 100,float speed = 1.f, float power = 1.0f);
 
     ///Copy
-    Player(const Player& other);
+    //Player(const Player& other); O sa il folosesc dar vreau sa am totul cu verde
     Player& operator=(const Player& other);
 
     ///Other

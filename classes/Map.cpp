@@ -6,10 +6,10 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/RenderTexture.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
-#include <iostream>
+#include <array>
 #include "../header/Map.h"
 
-Map::Map(int width,int height): m_width {width}, m_height{height} {
+Map::Map(){
 
     this->map1 = {
             { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },

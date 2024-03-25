@@ -1,6 +1,7 @@
 #include <iostream>
 #include <thread>
 #include <SFML/Graphics.hpp>
+#include <array>
 #include "header/Player.h"
 #include "header/Map.h"
 
@@ -8,7 +9,7 @@
 int main() {
 
     Player player;
-    Map map(1280,1280);
+    Map map;
     sf::Sprite testin;
     sf::Texture testin_texture;
     sf::Clock clock;

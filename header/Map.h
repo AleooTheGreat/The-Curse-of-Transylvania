@@ -12,13 +12,12 @@
 
 class Map {
 public:
-    Map(int width, int height);
+    Map();
     static void draw(const std::array<std::array<Cell, Map_height>,Map_width>& map,sf::RenderWindow &window);
     std::vector<std::vector<int>>& getMap();
     static std::array<std::array<Cell, Map_height>,Map_width> convert_map(const std::vector<std::vector<int>>& map1);
 
 private:
-    int m_width, m_height;
     std::vector<std::vector<int>> map1;
     sf::RenderTexture mapTexture;
 };
