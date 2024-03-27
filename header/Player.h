@@ -14,6 +14,7 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <vector>
+#include <array>
 #include "Global.h"
 
 class Player{
@@ -30,7 +31,7 @@ public:
     void handleInput();
     void update(const std::array<std::array<Cell, Map_height>,Map_width>& map);
     void drawPlayer(sf::RenderWindow& window);
-    static bool wall_collision(unsigned short i_x, unsigned short i_y, const std::array<std::array<Cell, Map_height>,Map_width>);
+    static bool wall_collision(unsigned short i_x, unsigned short i_y, std::array<std::array<Cell, Map_height>,Map_width> i_map);
 
     ///Destroy(Mosh Pit)
     ~Player();

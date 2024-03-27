@@ -103,7 +103,7 @@ void Player::drawPlayer(sf::RenderWindow& window) {
 
 }
 
-bool Player::wall_collision(unsigned short i_x, unsigned short i_y,const std::array<std::array<Cell, Map_height>, Map_width> i_map) {
+bool Player::wall_collision(unsigned short i_x, unsigned short i_y, std::array<std::array<Cell, Map_height>, Map_width> i_map) {
 
     bool output = false;
 
