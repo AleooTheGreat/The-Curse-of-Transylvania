@@ -14,6 +14,7 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <vector>
+#include "Global.h"
 
 class Player{
 public:
@@ -27,8 +28,9 @@ public:
     ///Other
     friend std::ostream& operator<<(std::ostream& os, const Player& player);
     void handleInput();
-    void update(const std::vector<std::vector<int>>& map);
+    void update(const std::array<std::array<Cell, Map_height>,Map_width>& map);
     void drawPlayer(sf::RenderWindow& window);
+    static bool wall_collision(unsigned short i_x, unsigned short i_y, const std::array<std::array<Cell, Map_height>,Map_width>);
 
     ///Destroy(Mosh Pit)
     ~Player();

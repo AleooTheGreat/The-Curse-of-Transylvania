@@ -38,7 +38,7 @@ int main() {
 
             ///HandleInput
             player.handleInput();
-            player.update(map.getMap());
+            player.update(Map::convert_map(map.getMap()));
 
         window.clear();
 
