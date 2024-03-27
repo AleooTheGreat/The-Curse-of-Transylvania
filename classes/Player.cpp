@@ -140,9 +140,12 @@ bool Player::wall_collision(unsigned short i_x, unsigned short i_y, std::array<s
             {
                 x2 = static_cast<short>(std::ceil(cell_x));
                 y2 = static_cast<short>(std::ceil(cell_y));
+
+                break;
             }
             default:
-                std::cout << "Nici perete";//Ma obliga tidy sa am si un default
+                std::cout << "Niciun perete" <<'\n';
+                //Ma obliga tidy sa am si un default
         }
 
         //Check we are inside
