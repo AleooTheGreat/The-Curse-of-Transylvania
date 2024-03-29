@@ -24,7 +24,7 @@ public:
 
     ///Copy
     //Player(const Player& other); O sa il folosesc dar vreau sa am totul cu verde
-    //Player& operator=(const Player& other);
+    //Player& operator=(const Player& other);///
 
     ///Other
     friend std::ostream& operator<<(std::ostream& os, const Player& player);
