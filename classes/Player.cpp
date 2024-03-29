@@ -33,7 +33,6 @@ Player&Player::operator=(const Player&other) {
     return *this;
 }*/
 
-
 std::ostream& operator<<(std::ostream& os, const Player& player) {
     os << "Player Name: " << player.m_name << ", HP: " << player.m_hp <<'\n';
     return os;
@@ -42,6 +41,7 @@ std::ostream& operator<<(std::ostream& os, const Player& player) {
 Player:: ~Player() {
     std::cout << "U got destructed"<< '\n';
 }
+
 void Player::handleInput() {
 
     float player_attack = m_power;

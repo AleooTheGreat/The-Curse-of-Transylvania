@@ -18,7 +18,7 @@ public:
     static std::array<std::array<Cell, Map_height>,Map_width> convert_map(const std::vector<std::vector<int>>& map1);
 
 private:
-    std::vector<std::vector<int>> map1;
+    std::vector<std::vector<int>> map1;///ce faci fra este un test asta
     sf::RenderTexture mapTexture;
 };
 
