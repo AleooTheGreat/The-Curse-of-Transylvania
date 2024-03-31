@@ -110,11 +110,13 @@ add_executable(${PROJECT_NAME}
     main.cpp
     generated/src/Helper.cpp
     env_fixes.h
-        classes/Player.cpp
+        source/Player.cpp
         header/Player.h
         header/Map.h
-        classes/Map.cpp
+        source/Map.cpp
         header/Global.h
+        source/Bat.cpp
+        header/Bat.h
 
 )
 

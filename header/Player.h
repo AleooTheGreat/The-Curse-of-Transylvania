@@ -20,13 +20,13 @@
 class Player{
 public:
     ///Constructor
-    explicit Player(std::string  name = "Default", unsigned int hp = 100,float speed = 1.f, float power = 1.0f);
+    explicit Player(const std::string& name = "Gigel", unsigned int hp = 100, float speed = 1.f, float power = 1.0f, const std::string& texture = "textures/Player.png");
 
     ///Copy
-    //Player(const Player& other); O sa il folosesc dar vreau sa am totul cu verde
-    //Player& operator=(const Player& other);///
+   /* Player(const Player& other); //O sa il folosesc dar vreau sa am totul cu verde
+    Player& operator=(const Player& other);*/
 
-    ///Other
+///Other
     friend std::ostream& operator<<(std::ostream& os, const Player& player);
     void handleInput();
     void update(const std::array<std::array<Cell, Map_height>,Map_width>& map);
@@ -41,9 +41,9 @@ private:
     unsigned int m_hp;
     float m_speed;
     float m_power;
+    std::string m_texture;
     sf::Sprite player_sprite;
     sf::Texture player_texture;
-    sf::RectangleShape playerShape;
     float x,y;
 };
 

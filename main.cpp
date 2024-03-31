@@ -4,19 +4,18 @@
 #include <array>
 #include "header/Player.h"
 #include "header/Map.h"
+#include "header/Bat.h"
 
 
 int main() {
 
+    Bat bat1;
+    Bat bat2 = bat1;
+    bat2.update(200,300);
+    Bat bat3(bat1);
+    bat3.update(300,400);
     Player player;
     Map map;
-    sf::Sprite testin;
-    sf::Texture testin_texture;
-    sf::Clock clock;
-
-    testin_texture.loadFromFile("textures/Wall.png");
-    testin.setTexture(testin_texture);
-    testin.setPosition(0.f,0.f);
 
     ///window
     sf::RenderWindow window(sf::VideoMode(1 * 1280 + 64, 1 * 1280 + 64), "IDK", sf::Style::Default);
@@ -44,6 +43,9 @@ int main() {
 
         Map::draw(Map::convert_map(map.getMap()), window);
         player.drawPlayer(window);
+        bat1.draw(window);
+        bat2.draw(window);
+        bat3.draw(window);
         window.display();
     }
     return 0;

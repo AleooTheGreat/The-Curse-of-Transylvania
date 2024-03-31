@@ -10,16 +10,21 @@
 #include <array>
 #include <SFML/Window/Keyboard.hpp>
 
-Player::Player(std::string name, unsigned int hp, float speed, float power): m_name(std::move(name)), m_hp(hp), m_speed(speed), m_power(power) {
+Player::Player(const std::string& name, unsigned int hp, float speed, float power, const std::string& texture): m_name(name), m_hp(hp), m_speed(speed), m_power(power), m_texture(texture) {
 
-    player_texture.loadFromFile("textures/Player.png");
+    player_texture.loadFromFile(m_texture);
     player_sprite.setTexture(player_texture);
     player_sprite.setPosition(640.0f, 640.0f);
     x = 0.f;
     y = 0.f;
 }
 
-/*Player::Player(const Player& other):m_name{other.m_name},m_hp{other.m_hp},m_speed{other.m_speed},m_power{other.m_power}{
+/*Player::Player(const Player& other):m_name{other.m_name},m_hp{other.m_hp},m_speed{other.m_speed},m_power{other.m_power},m_texture(other.m_texture){
+
+    player_texture.loadFromFile(m_texture);
+    player_sprite.setTexture(player_texture);
+    player_sprite.setPosition(other.player_sprite.getPosition());
+
     std::cout << "Player fost apelat" << '\n';
     x = 0;
     y = 0;
@@ -30,6 +35,12 @@ Player&Player::operator=(const Player&other) {
     m_hp = other.m_hp;
     m_speed = other.m_speed;
     m_power = other.m_power;
+    m_texture = other.m_texture;
+
+    player_texture.loadFromFile(m_texture);
+    player_sprite.setTexture(player_texture);
+    player_sprite.setPosition(other.player_sprite.getPosition());
+
     return *this;
 }*/
 
@@ -45,7 +56,6 @@ Player:: ~Player() {
 void Player::handleInput() {
 
     float player_attack = m_power;
-    std::cout<<player_attack;
 
     x = 0;
     y = 0;
@@ -99,8 +109,6 @@ void Player::update(const std::array<std::array<Cell, Map_height>,Map_width>& ma
 
 void Player::drawPlayer(sf::RenderWindow& window) {
     window.draw(player_sprite);
-
-
 }
 
 bool Player::wall_collision(unsigned short i_x, unsigned short i_y, std::array<std::array<Cell, Map_height>, Map_width> i_map) {
@@ -157,5 +165,6 @@ bool Player::wall_collision(unsigned short i_x, unsigned short i_y, std::array<s
     }
     return output;
 }
+
 
 
