@@ -6,7 +6,6 @@
 #include <cmath>
 #include <string>
 #include <iostream>
-#include <utility>
 #include <array>
 #include <SFML/Window/Keyboard.hpp>
 
@@ -56,6 +55,9 @@ Player:: ~Player() {
 void Player::handleInput() {
 
     float player_attack = m_power;
+    if(player_attack < 0.5f){
+        std::cout << "Sigur ai facut ceva gresit! Mergi la sala!" << '\n';
+    }
 
     x = 0;
     y = 0;
