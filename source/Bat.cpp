@@ -5,10 +5,11 @@
 #include<iostream>
 #include<string>
 #include <valarray>
+#include <SFML/Window/Keyboard.hpp>
 #include "../header/Bat.h"
 #include "../header/Map_collision.h"
 
-Bat::Bat(unsigned int hp, float speed, float dmg, std::string texturePath)
+Bat::Bat(int hp, float speed, float dmg, std::string texturePath)
     : bat_power(dmg),bat_speed(speed), bat_hp(hp), bat_texturePath(std::move(texturePath)),
     position{64,64}, direction(0), target{600,600} {
     bat_texture.loadFromFile(bat_texturePath);
@@ -16,7 +17,7 @@ Bat::Bat(unsigned int hp, float speed, float dmg, std::string texturePath)
 
 }
 
-Bat::Bat(const Bat& other): bat_power(other.bat_power), bat_speed(other.bat_speed), bat_hp(other.bat_hp),
+/*Bat::Bat(const Bat& other): bat_power(other.bat_power), bat_speed(other.bat_speed), bat_hp(other.bat_hp),
                             bat_texturePath(other.bat_texturePath),position{64,64}, direction(0),target{0,0} {
 
     bat_texture.loadFromFile(bat_texturePath);
@@ -44,7 +45,7 @@ Bat& Bat::operator=(const Bat& other) {
         std::cout << "Bat has been copied successfully.\n";
     }
     return *this;
-}
+}*/
 
 
 float Bat::get_target_distance(unsigned char i_direction) const
@@ -84,7 +85,6 @@ float Bat::get_target_distance(unsigned char i_direction) const
 
     return static_cast<float>(sqrt(pow(x - target.x, 2) + pow(y - target.y, 2)));
 }
-
 
 bool Bat::player_collision(Player& player) const
 {
@@ -180,6 +180,13 @@ void Bat::update(Player& player, std::array<std::array<Cell, Map_height>, Map_wi
             std::cout << "Player HP: " << player.getHp() << '\n';
             attackTimer.restart();
         }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::E)){
+            if(attackTimer.getElapsedTime().asSeconds() >= 0.1) {
+                std::cout<<bat_hp<<'\n';
+                bat_hp -= (int) (floor(player.get_attack()));
+                attackTimer.restart();
+            }
+        }
     }
 
 }
@@ -196,4 +203,8 @@ void Bat::draw(sf::RenderWindow& window) {
 void Bat::reset() {
     bat_hp = 20;
     position ={64,64};
+}
+
+int Bat::getHp() const{
+    return bat_hp;
 }

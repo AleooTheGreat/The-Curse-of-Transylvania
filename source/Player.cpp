@@ -11,7 +11,7 @@
 #include <string>
 #include <utility>
 
-Player::Player(std::string  name, unsigned int hp, float speed, float power, std::string texture)
+Player::Player(std::string  name, int hp, float speed, float power, std::string texture)
                 :m_name(std::move(name)), m_hp(hp), m_speed(speed), m_power(power), m_texture(std::move(texture)) {
     player_texture.loadFromFile(m_texture);
     player_sprite.setTexture(player_texture);
@@ -56,15 +56,13 @@ Player:: ~Player() {
 
 void Player::handleInput() {
 
-    float player_attack = m_power;
-    if(player_attack < 0.5f){
-        std::cout << "Sigur ai facut ceva gresit! Mergi la sala!" << '\n';
-    }
-
     position.x = 0;
     position.y = 0;
 
+    attack_texture.loadFromFile("textures/attack.png");
+
 }
+
 
 void Player::update(const std::array<std::array<Cell, Map_height>,Map_width>& map) {
 
@@ -111,19 +109,31 @@ void Player::update(const std::array<std::array<Cell, Map_height>,Map_width>& ma
     }
 
 
+
 }
 
 
 void Player::drawPlayer(sf::RenderWindow& window) {
     player_sprite.move(position.x,position.y);
+
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::E)){
+        player_sprite.setTexture(attack_texture);
+    }else{
+        player_sprite.setTexture(player_texture);
+    }
+
     window.draw(player_sprite);
+}
+
+float Player::get_attack() const {
+    return m_power;
 }
 
 void Player::loseHp(float dmg){
     m_hp -= std::ceil(dmg);
 }
 
-unsigned int Player::getHp() const{
+int Player::getHp() const{
     return m_hp;
 }
 

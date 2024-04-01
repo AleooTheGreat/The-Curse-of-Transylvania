@@ -39,7 +39,7 @@ int main() {
                 }
             }
 
-            if(player.getHp() > 0) {
+            if(player.getHp() > 0 && bat1.getHp() > 0) {
                 ///HandleInput
                 player.handleInput();
                 player.update(Map::convert_map(map.getMap()));
@@ -58,6 +58,9 @@ int main() {
                 if(sf::Keyboard::isKeyPressed(sf::Keyboard::R)){
                     player.reset();
                     bat1.reset();
+                }
+                if(sf::Keyboard::isKeyPressed(sf::Keyboard::E)){
+                    return 0;
                 }
             }
         window.display();

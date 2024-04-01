@@ -14,10 +14,10 @@
 class Bat {
 public:
 
-    explicit Bat(unsigned int hp = 20,float speed = 1, float dmg = 5, std::string texturePath = "textures/Bat.png");
+    explicit Bat(int hp = 20,float speed = 1, float dmg = 5, std::string texturePath = "textures/Bat.png");
 
-    Bat& operator=(const Bat& other);
-    Bat(const Bat& other);
+    //Bat& operator=(const Bat& other);
+    //Bat(const Bat& other);
 
     ~Bat();
 
@@ -26,11 +26,12 @@ public:
     void update(Player& player, std::array<std::array<Cell, Map_height>, Map_width> i_map);
     void draw(sf::RenderWindow& window);
     void reset();
+    int getHp() const;
 
 private:
     float bat_power;
     float bat_speed;
-    unsigned int bat_hp;
+    int bat_hp;
     sf::Sprite bat_sprite;
     sf::Texture bat_texture;
     std::string bat_texturePath;

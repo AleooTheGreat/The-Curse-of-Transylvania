@@ -20,7 +20,7 @@
 class Player{
 public:
     ///Constructor
-    explicit Player(std::string  name = "Gigel", unsigned int hp = 100, float speed = 1.f, float power = 1.0f,
+    explicit Player(std::string  name = "Gigel", int hp = 100, float speed = 1.f, float power = 4.0f,
                     std::string texture = "textures/Player.png");
 
     ///Copy
@@ -33,7 +33,8 @@ public:
     void update(const std::array<std::array<Cell, Map_height>,Map_width>& map);
     void drawPlayer(sf::RenderWindow& window);
     void loseHp(float dmg);
-    unsigned int getHp() const;
+    float get_attack() const;
+    int getHp() const;
     Position getPosition();
     sf::FloatRect getBounds();
     void reset();
@@ -43,14 +44,15 @@ public:
 
 private:
     std::string m_name;
-    unsigned int m_hp;
+    int m_hp;
     float m_speed;
     float m_power;
     std::string m_texture;
     sf::Sprite player_sprite;
     sf::Texture player_texture;
-    Position position;
+    Position position{};
     unsigned char direction;
+    sf::Texture attack_texture;
 };
 
 
