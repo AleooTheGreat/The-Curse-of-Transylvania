@@ -49,10 +49,8 @@ bool Map_collision::map_collision(unsigned short i_x, unsigned short i_y, std::a
             }
             default:
                 std::cout << "Niciun perete" <<'\n';
-                //Ma obliga tidy sa am si un default
         }
 
-        //Check we are inside
         if (0 <= x2 && 0 <= y2 && Map_height > y2 && Map_width > x2) {
             if (Cell::Wall == i_map[x2][y2]) {
                 output = true;

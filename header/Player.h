@@ -23,11 +23,6 @@ public:
     explicit Player(std::string  name = "Gigel", int hp = 100, float speed = 1.f, float power = 4.0f,
                     std::string texture = "textures/Player.png");
 
-    ///Copy
-   /* Player(const Player& other); //O sa il folosesc dar vreau sa am totul cu verde
-    Player& operator=(const Player& other);*/
-
-///Other
     friend std::ostream& operator<<(std::ostream& os, const Player& player);
     void handleInput();
     void update(const std::array<std::array<Cell, Map_height>,Map_width>& map);

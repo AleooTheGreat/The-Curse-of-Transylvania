@@ -15,35 +15,10 @@ Player::Player(std::string  name, int hp, float speed, float power, std::string 
                 :m_name(std::move(name)), m_hp(hp), m_speed(speed), m_power(power), m_texture(std::move(texture)) {
     player_texture.loadFromFile(m_texture);
     player_sprite.setTexture(player_texture);
-    player_sprite.setPosition(640.0f, 640.0f);
+    player_sprite.setPosition(640.0f, 576.0f);
     direction = 0;
     position = {0,0};
 }
-
-/*Player::Player(const Player& other):m_name{other.m_name},m_hp{other.m_hp},m_speed{other.m_speed},m_power{other.m_power},m_texture(other.m_texture){
-
-    player_texture.loadFromFile(m_texture);
-    player_sprite.setTexture(player_texture);
-    player_sprite.setPosition(other.player_sprite.getPosition());
-
-    std::cout << "Player fost apelat" << '\n';
-    x = 0;
-    y = 0;
-}///O sa o folosesc dar nu trec cu verde si ma enerveaza
-
-Player&Player::operator=(const Player&other) {
-    m_name = other.m_name;
-    m_hp = other.m_hp;
-    m_speed = other.m_speed;
-    m_power = other.m_power;
-    m_texture = other.m_texture;
-
-    player_texture.loadFromFile(m_texture);
-    player_sprite.setTexture(player_texture);
-    player_sprite.setPosition(other.player_sprite.getPosition());
-
-    return *this;
-}*/
 
 std::ostream& operator<<(std::ostream& os, const Player& player) {
     os << "Player Name: " << player.m_name << ", HP: " << player.m_hp <<'\n';

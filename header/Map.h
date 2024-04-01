@@ -14,12 +14,11 @@ class Map {
 public:
     Map();
     static void draw(const std::array<std::array<Cell, Map_height>,Map_width>& map,sf::RenderWindow &window);
-    std::vector<std::vector<int>>& getMap();
-    static std::array<std::array<Cell, Map_height>,Map_width> convert_map(const std::vector<std::vector<int>>& map1);
+    std::array<std::string,Map_height>& getMap();
+    static std::array<std::array<Cell, Map_height>,Map_width> convert_map(const std::array<std::string,Map_height>& map1);
 
 private:
-    std::vector<std::vector<int>> map1;///ce faci fra este un test asta
-    sf::RenderTexture mapTexture;
+    std::array<std::string,Map_height> map1;
 };
 
 
