@@ -59,7 +59,7 @@ int main() {
                     player.reset();
                     bat1.reset();
                 }
-                if(sf::Keyboard::isKeyPressed(sf::Keyboard::E)){
+                if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)){
                     return 0;
                 }
             }
