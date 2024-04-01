@@ -7,6 +7,16 @@ The Transylvania Castle (Bran Castle) was visited by a group of young friends. T
 Time has come to a halt! Enemies and valuable items abound in these rooms! Choose your character, gather the others, and make it out of the castle! 
 Good luck!
 
+## Tema 1, Challenge 1
+You are trapped with a blood bat. Kill him and win!
+
+## Controls:
+>> **Movement:** W,A,S,D
+>>
+>> **Attack:** E
+>>
+>> **Rules:** The player is not scaled to 32x32 so you must enter perfectly on the "tunnels".
+
 ## Insipiration, Technologies, Programming Languages
 
 >  **Inspiration:** The Binding of Isaac: Repentance, Darkest Dungeon and Pokemon
