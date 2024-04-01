@@ -20,7 +20,8 @@
 class Player{
 public:
     ///Constructor
-    explicit Player(const std::string& name = "Gigel", unsigned int hp = 100, float speed = 1.f, float power = 1.0f, const std::string& texture = "textures/Player.png");
+    explicit Player(std::string  name = "Gigel", unsigned int hp = 100, float speed = 1.f, float power = 1.0f,
+                    std::string texture = "textures/Player.png");
 
     ///Copy
    /* Player(const Player& other); //O sa il folosesc dar vreau sa am totul cu verde
@@ -31,7 +32,11 @@ public:
     void handleInput();
     void update(const std::array<std::array<Cell, Map_height>,Map_width>& map);
     void drawPlayer(sf::RenderWindow& window);
-    static bool wall_collision(unsigned short i_x, unsigned short i_y, std::array<std::array<Cell, Map_height>,Map_width> i_map);
+    void loseHp(float dmg);
+    unsigned int getHp() const;
+    Position getPosition();
+    sf::FloatRect getBounds();
+    void reset();
 
     ///Destroy(Mosh Pit)
     ~Player();
@@ -44,7 +49,8 @@ private:
     std::string m_texture;
     sf::Sprite player_sprite;
     sf::Texture player_texture;
-    float x,y;
+    Position position;
+    unsigned char direction;
 };
 
 

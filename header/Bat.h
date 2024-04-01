@@ -9,27 +9,35 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
+#include "Player.h"
 
 class Bat {
 public:
 
-    explicit Bat(unsigned int hp = 20, float dmg = 5.0, const std::string& texturePath = "textures/Bat.png");
+    explicit Bat(unsigned int hp = 20,float speed = 1, float dmg = 5, std::string texturePath = "textures/Bat.png");
 
     Bat& operator=(const Bat& other);
     Bat(const Bat& other);
 
     ~Bat();
 
-    void update(float x = 100, float y = 100);
+    float get_target_distance(unsigned char i_direction) const;
+    bool player_collision(Player& player) const;
+    void update(Player& player, std::array<std::array<Cell, Map_height>, Map_width> i_map);
     void draw(sf::RenderWindow& window);
+    void reset();
 
 private:
-
     float bat_power;
+    float bat_speed;
     unsigned int bat_hp;
     sf::Sprite bat_sprite;
     sf::Texture bat_texture;
     std::string bat_texturePath;
+    Position position;
+    unsigned char direction;
+    Position target{};
+    sf::Clock attackTimer;
 };
 
 

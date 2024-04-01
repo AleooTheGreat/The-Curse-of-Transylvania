@@ -3,19 +3,21 @@
 //
 
 #include "../header/Player.h"
+#include "../header/Map_collision.h"
 #include <cmath>
-#include <string>
 #include <iostream>
 #include <array>
 #include <SFML/Window/Keyboard.hpp>
+#include <string>
+#include <utility>
 
-Player::Player(const std::string& name, unsigned int hp, float speed, float power, const std::string& texture): m_name(name), m_hp(hp), m_speed(speed), m_power(power), m_texture(texture) {
-
+Player::Player(std::string  name, unsigned int hp, float speed, float power, std::string texture)
+                :m_name(std::move(name)), m_hp(hp), m_speed(speed), m_power(power), m_texture(std::move(texture)) {
     player_texture.loadFromFile(m_texture);
     player_sprite.setTexture(player_texture);
     player_sprite.setPosition(640.0f, 640.0f);
-    x = 0.f;
-    y = 0.f;
+    direction = 0;
+    position = {0,0};
 }
 
 /*Player::Player(const Player& other):m_name{other.m_name},m_hp{other.m_hp},m_speed{other.m_speed},m_power{other.m_power},m_texture(other.m_texture){
@@ -59,24 +61,25 @@ void Player::handleInput() {
         std::cout << "Sigur ai facut ceva gresit! Mergi la sala!" << '\n';
     }
 
-    x = 0;
-    y = 0;
+    position.x = 0;
+    position.y = 0;
 
 }
 
 void Player::update(const std::array<std::array<Cell, Map_height>,Map_width>& map) {
 
     std::array<bool, 4> walls{};
-    walls[0] = wall_collision((unsigned short)(m_speed + player_sprite.getPosition().x), (unsigned short)player_sprite.getPosition().y, map);
-    walls[1] = wall_collision((unsigned short)(player_sprite.getPosition().x), (unsigned short)(player_sprite.getPosition().y - m_speed), map);
-    walls[2] = wall_collision((unsigned short)(player_sprite.getPosition().x - m_speed), (unsigned short)(player_sprite.getPosition().y), map);
-    walls[3] = wall_collision((unsigned short)(player_sprite.getPosition().x), (unsigned short)(m_speed + player_sprite.getPosition().y), map);
+    walls[0] = Map_collision::map_collision((unsigned short)(m_speed + player_sprite.getPosition().x), (unsigned short)player_sprite.getPosition().y, map);
+    walls[1] = Map_collision::map_collision((unsigned short)(player_sprite.getPosition().x), (unsigned short)(player_sprite.getPosition().y - m_speed), map);
+    walls[2] = Map_collision::map_collision((unsigned short)(player_sprite.getPosition().x - m_speed), (unsigned short)(player_sprite.getPosition().y), map);
+    walls[3] = Map_collision::map_collision((unsigned short)(player_sprite.getPosition().x), (unsigned short)(m_speed + player_sprite.getPosition().y), map);
 
     if (1 == sf::Keyboard::isKeyPressed(sf::Keyboard::D))
     {
         if (0 == walls[0])
         {
-            x += m_speed;
+            direction = 0;
+            position.x += m_speed;
         }
     }
 
@@ -84,7 +87,8 @@ void Player::update(const std::array<std::array<Cell, Map_height>,Map_width>& ma
     {
         if (0 == walls[1])
         {
-            y -= m_speed;
+            direction = 1;
+            position.y -= m_speed;
         }
     }
 
@@ -92,7 +96,8 @@ void Player::update(const std::array<std::array<Cell, Map_height>,Map_width>& ma
     {
         if (0 == walls[2])
         {
-            x -= m_speed;
+            direction = 2;
+            position.x -= m_speed;
         }
     }
 
@@ -100,73 +105,39 @@ void Player::update(const std::array<std::array<Cell, Map_height>,Map_width>& ma
     {
         if (0 == walls[3])
         {
-            y += m_speed;
+            direction = 3;
+            position.y += m_speed;
         }
     }
 
 
-    player_sprite.move(x,y);
 }
 
 
 void Player::drawPlayer(sf::RenderWindow& window) {
+    player_sprite.move(position.x,position.y);
     window.draw(player_sprite);
 }
 
-bool Player::wall_collision(unsigned short i_x, unsigned short i_y, std::array<std::array<Cell, Map_height>, Map_width> i_map) {
-
-    bool output = false;
-
-    float cell_x = float(i_x) / static_cast<float>(Cell_size);
-    float cell_y = float(i_y) / static_cast<float>(Cell_size);
-
-    for (unsigned char a = 0; a < 4; a++) {
-        short x2 = 0;
-        short y2 = 0;
-
-        switch (a) {
-            case 0: //Top left cell
-            {
-                x2 = static_cast<short>(std::floor(cell_x));
-                y2 = static_cast<short>(std::floor(cell_y));
-
-                break;
-            }
-            case 1: //Top right cell
-            {
-                x2 = static_cast<short>(std::ceil(cell_x));
-                y2 = static_cast<short>(std::floor(cell_y));
-
-                break;
-            }
-            case 2: //Bottom left cell
-            {
-                x2 = static_cast<short>(std::floor(cell_x));
-                y2 = static_cast<short>(std::ceil(cell_y));
-
-                break;
-            }
-            case 3: //Bottom right cell
-            {
-                x2 = static_cast<short>(std::ceil(cell_x));
-                y2 = static_cast<short>(std::ceil(cell_y));
-
-                break;
-            }
-            default:
-                std::cout << "Niciun perete" <<'\n';
-                //Ma obliga tidy sa am si un default
-        }
-
-        //Check we are inside
-        if (0 <= x2 && 0 <= y2 && Map_height > y2 && Map_width > x2) {
-            if (Cell::Wall == i_map[x2][y2]) {
-                output = true;
-            }
-        }
-    }
-    return output;
+void Player::loseHp(float dmg){
+    m_hp -= std::ceil(dmg);
 }
 
+unsigned int Player::getHp() const{
+    return m_hp;
+}
+
+Position Player::getPosition() {
+    return {player_sprite.getPosition().x,player_sprite.getPosition().x};
+}
+
+sf::FloatRect Player::getBounds(){
+    return player_sprite.getGlobalBounds();
+}
+
+void Player::reset(){
+    m_hp = 100;
+    player_sprite.setPosition(640,640);
+}
 
 

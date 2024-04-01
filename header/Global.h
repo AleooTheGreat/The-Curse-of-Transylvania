@@ -13,7 +13,17 @@ constexpr unsigned char Map_width = 20;
 enum Cell{
     Wall,
     Floor
+};
 
+struct Position
+{
+    float x;
+    float y;
+
+    bool operator==(const Position& i_position) const
+    {
+        return this->x == i_position.x && this->y == i_position.y;
+    }
 };
 
 #endif //OOP_GLOBAL_H
