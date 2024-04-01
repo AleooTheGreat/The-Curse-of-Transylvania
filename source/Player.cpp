@@ -119,7 +119,7 @@ void Player::drawPlayer(sf::RenderWindow& window) {
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::E)){
         player_sprite.setTexture(attack_texture);
     }else{
-        player_sprite.setTexture(player_texture);
+        player_sprite.setTexture(player_texture);//
     }
 
     window.draw(player_sprite);
