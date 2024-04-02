@@ -15,11 +15,14 @@ class GameEngine {
 public:
     GameEngine();
     void run();
+    friend std::ostream& operator<<(std::ostream& os, GameEngine& gameEngine);
+
 private:
     void processEvents();
     void update();
     void render();
 
+    bool is_render;
     sf::RenderWindow window;
     Player player;
     Map map;

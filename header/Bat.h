@@ -18,6 +18,7 @@ public:
 
     //Bat& operator=(const Bat& other);
     //Bat(const Bat& other);
+    friend std::ostream& operator<<(std::ostream& os,const Bat& bat);
 
     ~Bat();
 

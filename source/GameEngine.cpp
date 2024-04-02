@@ -3,6 +3,7 @@
 //
 
 #include "../header/GameEngine.h"
+#include <iomanip>
 
 GameEngine::GameEngine(): window(sf::VideoMode(1 * 1280 + 64, 1 * 1280 + 64), "IDK", sf::Style::Default){
 
@@ -62,4 +63,9 @@ void GameEngine::render() {
     }
 
     window.display();
+}
+
+std::ostream &operator<<(std::ostream &os, GameEngine &gameEngine) {
+    os << std::boolalpha <<gameEngine.is_render;
+    return os;
 }

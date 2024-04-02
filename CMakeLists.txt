@@ -117,8 +117,6 @@ add_executable(${PROJECT_NAME}
         header/Global.h
         source/Bat.cpp
         header/Bat.h
-        source/Map_collision.cpp
-        header/Map_collision.h
         source/GameEngine.cpp
         header/GameEngine.h
 

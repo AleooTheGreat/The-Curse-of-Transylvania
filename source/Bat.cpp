@@ -7,7 +7,7 @@
 #include <valarray>
 #include <SFML/Window/Keyboard.hpp>
 #include "../header/Bat.h"
-#include "../header/Map_collision.h"
+#include "../header/Map.h"
 
 Bat::Bat(int hp, float speed, float dmg, std::string texturePath)
     : bat_power(dmg),bat_speed(speed), bat_hp(hp), bat_texturePath(std::move(texturePath)),
@@ -47,6 +47,11 @@ Bat& Bat::operator=(const Bat& other) {
     return *this;
 }*/
 
+
+std::ostream& operator<<(std::ostream& os, const Bat& bat) {
+    os <<"Bat current hp: " << bat.bat_hp << '\n';
+    return os;
+}
 
 float Bat::get_target_distance(unsigned char i_direction) const
 {
@@ -101,10 +106,10 @@ void Bat::update(Player& player, std::array<std::array<Cell, Map_height>, Map_wi
     unsigned char available_ways = 0;
 
     std::array<bool, 4> walls{};
-    walls[0] = Map_collision::map_collision((unsigned short)(speed + position.x), (unsigned short)(position.y), i_map);
-    walls[1] = Map_collision::map_collision((unsigned short)(position.x), (unsigned short)(position.y - speed), i_map);
-    walls[2] = Map_collision::map_collision((unsigned short)(position.x - speed), (unsigned short)(position.y), i_map);
-    walls[3] = Map_collision::map_collision((unsigned short)(position.x), (unsigned short)(speed + position.y), i_map);
+    walls[0] = Map::map_collision((unsigned short)(speed + position.x), (unsigned short)(position.y), i_map);
+    walls[1] = Map::map_collision((unsigned short)(position.x), (unsigned short)(position.y - speed), i_map);
+    walls[2] = Map::map_collision((unsigned short)(position.x - speed), (unsigned short)(position.y), i_map);
+    walls[3] = Map::map_collision((unsigned short)(position.x), (unsigned short)(speed + position.y), i_map);
 
     unsigned char optimal_direction = 4;
     target = player.getPosition();
@@ -208,3 +213,4 @@ void Bat::reset() {
 int Bat::getHp() const{
     return bat_hp;
 }
+

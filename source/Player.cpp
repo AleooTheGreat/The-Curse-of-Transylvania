@@ -3,7 +3,7 @@
 //
 
 #include "../header/Player.h"
-#include "../header/Map_collision.h"
+#include "../header/Map.h"
 #include <cmath>
 #include <iostream>
 #include <array>
@@ -42,10 +42,10 @@ void Player::handleInput() {
 void Player::update(const std::array<std::array<Cell, Map_height>,Map_width>& map) {
 
     std::array<bool, 4> walls{};
-    walls[0] = Map_collision::map_collision((unsigned short)(m_speed + player_sprite.getPosition().x), (unsigned short)player_sprite.getPosition().y, map);
-    walls[1] = Map_collision::map_collision((unsigned short)(player_sprite.getPosition().x), (unsigned short)(player_sprite.getPosition().y - m_speed), map);
-    walls[2] = Map_collision::map_collision((unsigned short)(player_sprite.getPosition().x - m_speed), (unsigned short)(player_sprite.getPosition().y), map);
-    walls[3] = Map_collision::map_collision((unsigned short)(player_sprite.getPosition().x), (unsigned short)(m_speed + player_sprite.getPosition().y), map);
+    walls[0] = Map::map_collision((unsigned short)(m_speed + player_sprite.getPosition().x), (unsigned short)player_sprite.getPosition().y, map);
+    walls[1] = Map::map_collision((unsigned short)(player_sprite.getPosition().x), (unsigned short)(player_sprite.getPosition().y - m_speed), map);
+    walls[2] = Map::map_collision((unsigned short)(player_sprite.getPosition().x - m_speed), (unsigned short)(player_sprite.getPosition().y), map);
+    walls[3] = Map::map_collision((unsigned short)(player_sprite.getPosition().x), (unsigned short)(m_speed + player_sprite.getPosition().y), map);
 
     if (1 == sf::Keyboard::isKeyPressed(sf::Keyboard::D))
     {

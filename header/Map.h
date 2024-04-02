@@ -13,12 +13,16 @@
 class Map {
 public:
     Map();
-    static void draw(const std::array<std::array<Cell, Map_height>,Map_width>& map,sf::RenderWindow &window);
+    static bool map_collision(unsigned short i_x, unsigned short i_y, std::array<std::array<Cell, Map_height>,Map_width> i_map);
+    static void draw(const std::array<std::array<Cell, Map_height>,Map_width>& map, sf::RenderWindow &window);
     std::array<std::string,Map_height>& getMap();
     static std::array<std::array<Cell, Map_height>,Map_width> convert_map(const std::array<std::string,Map_height>& map1);
 
+    ///<<
+    friend std::ostream& operator<<(std::ostream& os, const Map& map);
 private:
     std::array<std::string,Map_height> map1;
+    bool was_draw;
 };
 
 
