@@ -40,6 +40,7 @@ private:
     unsigned char direction;
     Position target{};
     sf::Clock attackTimer;
+    sf::Clock getAttacked;
 };
 
 

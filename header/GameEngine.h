@@ -15,7 +15,7 @@ class GameEngine {
 public:
     GameEngine();
     void run();
-    friend std::ostream& operator<<(std::ostream& os, GameEngine& gameEngine);
+    friend std::ostream& operator<<(std::ostream& os, const GameEngine& gameEngine);
 
 private:
     void processEvents();
@@ -28,7 +28,10 @@ private:
     Map map;
     Bat bat1;
     sf::Texture end_screen_texture;
+    sf::Texture win_screen_texture;
     sf::Sprite end_screen;
+    sf::Sprite win_screen;
+
 };
 
 

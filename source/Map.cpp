@@ -6,7 +6,6 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/RenderTexture.hpp>
 #include <array>
-#include <iomanip>
 #include <cmath>
 #include <iostream>
 #include "../header/Map.h"

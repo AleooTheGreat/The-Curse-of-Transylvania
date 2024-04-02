@@ -7,13 +7,16 @@
 
 GameEngine::GameEngine(): window(sf::VideoMode(1 * 1280 + 64, 1 * 1280 + 64), "IDK", sf::Style::Default){
 
+    is_render = false;
     ///Initializam window-ul
     window.setView(sf::View(sf::FloatRect(0, 0, 1280, 1280)));
     window.setVerticalSyncEnabled(true);
 
     ///Alte resurse care apartin tot de window
+    win_screen_texture.loadFromFile("textures/win_screen.png");
     end_screen_texture.loadFromFile("textures/end_screen.png");
     end_screen.setTexture(end_screen_texture);
+    win_screen.setTexture(win_screen_texture);
 }
 
 void GameEngine::run() {
@@ -59,13 +62,17 @@ void GameEngine::render() {
         player.drawPlayer(window);
         bat1.draw(window);
     } else {
-        window.draw(end_screen);
+        if(player.getHp() <= 0) {
+            window.draw(end_screen);
+        }else{
+            window.draw(win_screen);
+        }
     }
 
     window.display();
 }
 
-std::ostream &operator<<(std::ostream &os, GameEngine &gameEngine) {
+std::ostream &operator<<(std::ostream &os, const GameEngine &gameEngine) {
     os << std::boolalpha <<gameEngine.is_render;
     return os;
 }

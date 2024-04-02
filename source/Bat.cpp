@@ -2,9 +2,9 @@
 // Created by pasca on 3/31/2024.
 //
 
+#include <cmath>
 #include<iostream>
 #include<string>
-#include <valarray>
 #include <SFML/Window/Keyboard.hpp>
 #include "../header/Bat.h"
 #include "../header/Map.h"
@@ -180,19 +180,26 @@ void Bat::update(Player& player, std::array<std::array<Cell, Map_height>, Map_wi
     }
 
     if(player_collision(player)) {
-        if(attackTimer.getElapsedTime().asSeconds() >= 0.2) {
+        if(attackTimer.getElapsedTime().asSeconds() >= 0.75) {
             player.loseHp(bat_power);
             std::cout << "Player HP: " << player.getHp() << '\n';
             attackTimer.restart();
         }
+
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::E)){
-            if(attackTimer.getElapsedTime().asSeconds() >= 0.1) {
-                std::cout<<bat_hp<<'\n';
-                bat_hp -= (int) (floor(player.get_attack()));
-                attackTimer.restart();
+            std::cout << bat_hp << '\n';
+            if(getAttacked.getElapsedTime().asSeconds() < 0.007) {
+                std::cout<<"hit"<<'\n';
+                bat_hp -= (int) (std::floor(player.get_attack()));
+            }if(getAttacked.getElapsedTime().asSeconds() > 0.3){
+                std::cout<<"reset"<<'\n';
+                getAttacked.restart();
             }
         }
+
     }
+
+
 
 }
 
