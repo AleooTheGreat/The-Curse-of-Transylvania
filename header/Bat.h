@@ -16,8 +16,8 @@ public:
 
     explicit Bat(int hp = 20,float speed = 1, float dmg = 5, std::string texturePath = "textures/Bat.png");
 
-    //Bat& operator=(const Bat& other);
-    //Bat(const Bat& other);
+    Bat& operator=(const Bat& other);
+    Bat(const Bat& other);
     friend std::ostream& operator<<(std::ostream& os,const Bat& bat);
 
     ~Bat();
@@ -26,8 +26,9 @@ public:
     bool player_collision(Player& player) const;
     void update(Player& player, std::array<std::array<Cell, Map_height>, Map_width> i_map);
     void draw(sf::RenderWindow& window);
-    void reset();
+    void reset(int id);
     int getHp() const;
+    void setPosition(float x, float y);
 
 private:
     float bat_power;

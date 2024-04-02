@@ -17,11 +17,12 @@ Bat::Bat(int hp, float speed, float dmg, std::string texturePath)
 
 }
 
-/*Bat::Bat(const Bat& other): bat_power(other.bat_power), bat_speed(other.bat_speed), bat_hp(other.bat_hp),
-                            bat_texturePath(other.bat_texturePath),position{64,64}, direction(0),target{0,0} {
+Bat::Bat(const Bat& other): bat_power(other.bat_power), bat_speed(other.bat_speed), bat_hp(other.bat_hp),
+                            bat_texturePath(other.bat_texturePath),position{768,960}, direction(0),target{0,0} {
 
     bat_texture.loadFromFile(bat_texturePath);
     bat_sprite.setTexture(bat_texture);
+    bat_sprite.setPosition(other.bat_sprite.getPosition());
     std::cout << "Bat has been copied successfully.\n";
 }
 
@@ -33,7 +34,7 @@ Bat& Bat::operator=(const Bat& other) {
         bat_power = other.bat_power;
         bat_speed = other.bat_speed;
         bat_texturePath = other.bat_texturePath;
-        position = {64,64};
+        position = {1152,256};
         direction = 0;
         target = {0,0};
 
@@ -45,7 +46,7 @@ Bat& Bat::operator=(const Bat& other) {
         std::cout << "Bat has been copied successfully.\n";
     }
     return *this;
-}*/
+}
 
 
 std::ostream& operator<<(std::ostream& os, const Bat& bat) {
@@ -187,12 +188,12 @@ void Bat::update(Player& player, std::array<std::array<Cell, Map_height>, Map_wi
         }
 
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::E)){
-            std::cout << bat_hp << '\n';
+
             if(getAttacked.getElapsedTime().asSeconds() < 0.007) {
                 std::cout<<"hit"<<'\n';
                 bat_hp -= (int) (std::floor(player.get_attack()));
-            }if(getAttacked.getElapsedTime().asSeconds() > 0.3){
-                std::cout<<"reset"<<'\n';
+                std::cout << bat_hp << '\n';
+            }if(getAttacked.getElapsedTime().asSeconds() > 0.4){
                 getAttacked.restart();
             }
         }
@@ -204,7 +205,7 @@ void Bat::update(Player& player, std::array<std::array<Cell, Map_height>, Map_wi
 }
 
 Bat::~Bat() {
-    std::cout << "Bat has been destroyed successfully.\n";
+    std::cout << "Sunt destructorul Bat.\n";
 }
 
 void Bat::draw(sf::RenderWindow& window) {
@@ -212,12 +213,26 @@ void Bat::draw(sf::RenderWindow& window) {
     window.draw(bat_sprite);
 }
 
-void Bat::reset() {
+void Bat::reset(int id) {
     bat_hp = 20;
-    position ={64,64};
+    if(id == 2) {
+       position.x = 768;
+       position.y = 960;
+    }else if(id == 3){
+        position.x = 1152;
+        position.y = 256;
+    }else{
+        position.x = 64;
+        position.y = 64;
+    }
 }
 
 int Bat::getHp() const{
     return bat_hp;
+}
+
+void Bat::setPosition(float x, float y) {
+    position.x = x;
+    position.y = y;
 }
 

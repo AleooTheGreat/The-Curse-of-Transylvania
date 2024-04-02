@@ -3,11 +3,17 @@
 //
 
 #include "../header/GameEngine.h"
-#include <iomanip>
+#include <iostream>
 
 GameEngine::GameEngine(): window(sf::VideoMode(1 * 1280 + 64, 1 * 1280 + 64), "IDK", sf::Style::Default){
 
+    ///Initializari
+    Bat bat4(bat1);  ///Aici demonstram ca functioneaza copy si cu egal si &Bat
+    bat3 = bat4;
+    bat3.setPosition(768,960);
+    bat2 = bat1;
     is_render = false;
+
     ///Initializam window-ul
     window.setView(sf::View(sf::FloatRect(0, 0, 1280, 1280)));
     window.setVerticalSyncEnabled(true);
@@ -38,14 +44,25 @@ void GameEngine::processEvents() {
 }
 
 void GameEngine::update() {
-    if(player.getHp() > 0 && bat1.getHp() > 0) {
+
+    if(player.getHp() > 0 && (bat1.getHp() > 0 || bat2.getHp() > 0 || bat3.getHp() > 0)) {
         player.handleInput();
         player.update(Map::convert_map(map.getMap()));
-        bat1.update(player, Map::convert_map(map.getMap()));
+        if(bat1.getHp() > 0) {
+            bat1.update(player, Map::convert_map(map.getMap()));
+        }
+        if(bat2.getHp() > 0) {
+            bat2.update(player, Map::convert_map(map.getMap()));
+        }
+        if(bat3.getHp() > 0) {
+            bat3.update(player, Map::convert_map(map.getMap()));
+        }
     }else{
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::R)){
             player.reset();
-            bat1.reset();
+            bat1.reset(1);
+            bat2.reset(2);
+            bat3.reset(3);
         }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)){
             window.close();
@@ -57,13 +74,24 @@ void GameEngine::update() {
 void GameEngine::render() {
     window.clear();
 
-    if(player.getHp() > 0 && bat1.getHp() > 0) {
+    if(player.getHp() > 0 && (bat1.getHp() > 0 || bat2.getHp() > 0 || bat3.getHp() > 0)) {
+
         Map::draw(Map::convert_map(map.getMap()), window);
         player.drawPlayer(window);
-        bat1.draw(window);
+
+        if(bat1.getHp() > 0) {
+            bat1.draw(window);
+        }
+        if(bat2.getHp() > 0) {
+            bat2.draw(window);
+        }
+        if(bat3.getHp() > 0) {
+            bat3.draw(window);
+        }
     } else {
         if(player.getHp() <= 0) {
             window.draw(end_screen);
+            std::cout<<"Ai murit! ;)"<<'\n';
         }else{
             window.draw(win_screen);
         }
@@ -75,4 +103,8 @@ void GameEngine::render() {
 std::ostream &operator<<(std::ostream &os, const GameEngine &gameEngine) {
     os << std::boolalpha <<gameEngine.is_render;
     return os;
+}
+
+GameEngine::~GameEngine() {
+    std::cout<<"Sunt destructorul GameEngine!"<<'\n';
 }

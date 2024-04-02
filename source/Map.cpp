@@ -141,4 +141,8 @@ std::ostream& operator<<(std::ostream& os, const Map& map) {
     return os;
 }
 
+Map::~Map() {
+    std::cout<<"Sunt destructorul Map"<<'\n';
+}
+
 

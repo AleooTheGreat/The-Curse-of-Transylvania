@@ -13,11 +13,15 @@
 class GameEngine {
 
 public:
+
     GameEngine();
     void run();
+
     friend std::ostream& operator<<(std::ostream& os, const GameEngine& gameEngine);
+    ~GameEngine();
 
 private:
+
     void processEvents();
     void update();
     void render();
@@ -27,6 +31,8 @@ private:
     Player player;
     Map map;
     Bat bat1;
+    Bat bat2;
+    Bat bat3;
     sf::Texture end_screen_texture;
     sf::Texture win_screen_texture;
     sf::Sprite end_screen;

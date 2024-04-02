@@ -26,7 +26,7 @@ std::ostream& operator<<(std::ostream& os, const Player& player) {
 }
 
 Player:: ~Player() {
-    std::cout << "U got destructed"<< '\n';
+    std::cout << "Sunt destructorul Player"<< '\n';
 }
 
 void Player::handleInput() {

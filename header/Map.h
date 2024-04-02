@@ -20,6 +20,7 @@ public:
 
     ///<<
     friend std::ostream& operator<<(std::ostream& os, const Map& map);
+    ~Map();
 private:
     std::array<std::string,Map_height> map1;
     bool was_draw;
