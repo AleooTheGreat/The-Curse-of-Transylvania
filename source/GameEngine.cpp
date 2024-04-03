@@ -45,21 +45,21 @@ void GameEngine::processEvents() {
 
 void GameEngine::update() {
 
-    if(player.getHp() > 0 && (bat1.getHp() > 0 || bat2.getHp() > 0 || bat3.getHp() > 0)) {
-        player.handleInput();
-        player.update(Map::convert_map(map.getMap()));
+    if(main_player_first.getHp() > 0 && (bat1.getHp() > 0 || bat2.getHp() > 0 || bat3.getHp() > 0)) {
+        main_player_first.handleInput();
+        main_player_first.update(Map::convert_map(map.getMap()));
         if(bat1.getHp() > 0) {
-            bat1.update(player, Map::convert_map(map.getMap()));
+            bat1.update(main_player_first, Map::convert_map(map.getMap()));
         }
         if(bat2.getHp() > 0) {
-            bat2.update(player, Map::convert_map(map.getMap()));
+            bat2.update(main_player_first, Map::convert_map(map.getMap()));
         }
         if(bat3.getHp() > 0) {
-            bat3.update(player, Map::convert_map(map.getMap()));
+            bat3.update(main_player_first, Map::convert_map(map.getMap()));
         }
     }else{
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::R)){
-            player.reset();
+            main_player_first.reset();
             bat1.reset(1);
             bat2.reset(2);
             bat3.reset(3);
@@ -74,10 +74,10 @@ void GameEngine::update() {
 void GameEngine::render() {
     window.clear();
 
-    if(player.getHp() > 0 && (bat1.getHp() > 0 || bat2.getHp() > 0 || bat3.getHp() > 0)) {
+    if(main_player_first.getHp() > 0 && (bat1.getHp() > 0 || bat2.getHp() > 0 || bat3.getHp() > 0)) {
 
         Map::draw(Map::convert_map(map.getMap()), window);
-        player.drawPlayer(window);
+        main_player_first.drawPlayer(window);
 
         if(bat1.getHp() > 0) {
             bat1.draw(window);
@@ -89,7 +89,7 @@ void GameEngine::render() {
             bat3.draw(window);
         }
     } else {
-        if(player.getHp() <= 0) {
+        if(main_player_first.getHp() <= 0) {
             window.draw(end_screen);
             std::cout<<"Ai murit! ;)"<<'\n';
         }else{

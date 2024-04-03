@@ -92,16 +92,16 @@ float Bat::get_target_distance(unsigned char i_direction) const
     return static_cast<float>(sqrt(pow(x - target.x, 2) + pow(y - target.y, 2)));
 }
 
-bool Bat::player_collision(Player& player) const
+bool Bat::player_collision(Player& main_player) const
 {
 
     sf::FloatRect batBounds = bat_sprite.getGlobalBounds();
-    sf::FloatRect playerBounds = player.getBounds();
+    sf::FloatRect playerBounds = main_player.getBounds();
 
     return batBounds.intersects(playerBounds);
 }
 
-void Bat::update(Player& player, std::array<std::array<Cell, Map_height>, Map_width> i_map) {
+void Bat::update(Player& main_player, std::array<std::array<Cell, Map_height>, Map_width> i_map) {
 
     float speed = 1.f;
     unsigned char available_ways = 0;
@@ -113,7 +113,7 @@ void Bat::update(Player& player, std::array<std::array<Cell, Map_height>, Map_wi
     walls[3] = Map::map_collision((unsigned short)(position.x), (unsigned short)(speed + position.y), i_map);
 
     unsigned char optimal_direction = 4;
-    target = player.getPosition();
+    target = main_player.getPosition();
    // std::cout<<target.x<<" "<< target.y<<'\n';
 
     for (unsigned char a = 0; a < 4; a++)
@@ -180,10 +180,10 @@ void Bat::update(Player& player, std::array<std::array<Cell, Map_height>, Map_wi
         }
     }
 
-    if(player_collision(player)) {
+    if(player_collision(main_player)) {
         if(attackTimer.getElapsedTime().asMilliseconds() >= 750) {
-            player.loseHp(bat_power);
-            std::cout << "Player HP: " << player.getHp() << '\n';
+            main_player.loseHp(bat_power);
+            std::cout << "Player HP: " << main_player.getHp() << '\n';
             attackTimer.restart();
         }
 
@@ -191,7 +191,7 @@ void Bat::update(Player& player, std::array<std::array<Cell, Map_height>, Map_wi
 
             if(getAttacked.getElapsedTime().asMilliseconds() < 15) {
                 std::cout<<"hit"<<'\n';
-                bat_hp -= (int) (std::floor(player.get_attack()));
+                bat_hp -= (int) (std::floor(main_player.get_attack()));
                 std::cout << bat_hp << '\n';
             }if(getAttacked.getElapsedTime().asMilliseconds() > 150){
                 getAttacked.restart();

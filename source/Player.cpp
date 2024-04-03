@@ -20,8 +20,8 @@ Player::Player(std::string  name, int hp, float speed, float power, std::string 
     position = {0,0};
 }
 
-std::ostream& operator<<(std::ostream& os, const Player& player) {
-    os << "Player Name: " << player.m_name << ", HP: " << player.m_hp <<'\n';
+std::ostream& operator<<(std::ostream& os, const Player& main_player) {
+    os << "Player Name: " << main_player.m_name << ", HP: " << main_player.m_hp <<'\n';
     return os;
 }
 
@@ -35,6 +35,8 @@ void Player::handleInput() {
     position.y = 0;
 
     attack_texture.loadFromFile("textures/attack.png");
+    attack_texture_left.loadFromFile("textures/attack_left.png");
+    player_texture_left .loadFromFile("textures/Player_left.png");
 
 }
 
@@ -91,10 +93,19 @@ void Player::update(const std::array<std::array<Cell, Map_height>,Map_width>& ma
 void Player::drawPlayer(sf::RenderWindow& window) {
     player_sprite.move(position.x,position.y);
 
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::E)){
-        player_sprite.setTexture(attack_texture);
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::E) ){
+        if(direction == 0) {
+            player_sprite.setTexture(attack_texture);
+        }else{
+            player_sprite.setTexture(attack_texture_left);
+        }
     }else{
-        player_sprite.setTexture(player_texture);//
+        if(direction == 0) {
+            player_sprite.setTexture(player_texture);
+        }else{
+            player_sprite.setTexture(player_texture_left);
+        }
+
     }
 
     window.draw(player_sprite);

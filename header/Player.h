@@ -50,6 +50,8 @@ private:
     Position position{};
     unsigned char direction;
     sf::Texture attack_texture;
+    sf::Texture player_texture_left;
+    sf::Texture attack_texture_left;
 };
 
 

@@ -28,7 +28,7 @@ private:
 
     bool is_render;
     sf::RenderWindow window;
-    Player player;
+    Player main_player_first;
     Map map;
     Bat bat1;
     Bat bat2;
