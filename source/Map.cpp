@@ -42,8 +42,8 @@ void Map::draw(const std::array<std::array<Cell, Map_height>,Map_width>& i_map,s
     sf::Texture wall_texture;
     sf::Texture floor_texture;
 
-    wall_texture.loadFromFile("textures/Wall.png");
-    floor_texture.loadFromFile("textures/Brick_floor.png");
+    wall_texture.loadFromFile("textures/wall.png");
+    floor_texture.loadFromFile("textures/brick_floor.png");
 
     for(unsigned char a = 0; a < Map_width; a++){
         for(unsigned char b = 0 ; b < Map_height; b++){

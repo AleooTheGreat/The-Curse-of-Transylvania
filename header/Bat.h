@@ -14,7 +14,7 @@
 class Bat {
 public:
 
-    explicit Bat(int hp = 20,float speed = 1, float dmg = 5, std::string texturePath = "textures/Bat.png");
+    explicit Bat(int hp = 20,float speed = 1, float dmg = 5, std::string texturePath = "textures/bat.png");
 
     Bat& operator=(const Bat& other);
     Bat(const Bat& other);

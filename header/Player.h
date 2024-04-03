@@ -21,7 +21,7 @@ class Player{
 public:
     ///Constructor
     explicit Player(std::string  name = "Gigel", int hp = 100, float speed = 1.f, float power = 4.0f,
-                    std::string texture = "textures/Player.png");
+                    std::string texture = "textures/player.png");
 
     ///Operator<<
     friend std::ostream& operator<<(std::ostream& os, const Player& player);

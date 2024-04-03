@@ -36,7 +36,7 @@ void Player::handleInput() {
 
     attack_texture.loadFromFile("textures/attack.png");
     attack_texture_left.loadFromFile("textures/attack_left.png");
-    player_texture_left .loadFromFile("textures/Player_left.png");
+    player_texture_left .loadFromFile("textures/player_left.png");
 
 }
 
