@@ -189,7 +189,7 @@ void Bat::update(Player& player, std::array<std::array<Cell, Map_height>, Map_wi
 
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::E)){
 
-            if(getAttacked.getElapsedTime().asMilliseconds() < 7) {
+            if(getAttacked.getElapsedTime().asMilliseconds() < 15) {
                 std::cout<<"hit"<<'\n';
                 bat_hp -= (int) (std::floor(player.get_attack()));
                 std::cout << bat_hp << '\n';
