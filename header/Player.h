@@ -20,7 +20,7 @@
 class Player{
 public:
     ///Constructor
-    explicit Player(std::string  name = "Gigel", int hp = 100, float speed = 1.f, float power = 4.0f,
+    explicit Player(std::string  name = "Gigel", int hp = 100, float speed = 1.25f, float power = 4.0f,
                     std::string texture = "textures/player.png");
 
     ///Operator<<
