@@ -181,7 +181,7 @@ void Bat::update(Player& player, std::array<std::array<Cell, Map_height>, Map_wi
     }
 
     if(player_collision(player)) {
-        if(attackTimer.getElapsedTime().asSeconds() >= 0.75) {
+        if(attackTimer.getElapsedTime().asMilliseconds() >= 750) {
             player.loseHp(bat_power);
             std::cout << "Player HP: " << player.getHp() << '\n';
             attackTimer.restart();
@@ -189,11 +189,11 @@ void Bat::update(Player& player, std::array<std::array<Cell, Map_height>, Map_wi
 
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::E)){
 
-            if(getAttacked.getElapsedTime().asSeconds() < 0.007) {
+            if(getAttacked.getElapsedTime().asMilliseconds() < 7) {
                 std::cout<<"hit"<<'\n';
                 bat_hp -= (int) (std::floor(player.get_attack()));
                 std::cout << bat_hp << '\n';
-            }if(getAttacked.getElapsedTime().asSeconds() > 0.15){
+            }if(getAttacked.getElapsedTime().asMilliseconds() > 150){
                 getAttacked.restart();
             }
         }
