@@ -5,7 +5,7 @@
 #include "../header/GameEngine.h"
 #include <iostream>
 
-GameEngine::GameEngine(): window(sf::VideoMode(1 * 1280 + 64, 1 * 1280 + 64), "IDK", sf::Style::Default){
+GameEngine::GameEngine(): window(sf::VideoMode(1 * 1280 + 64, 1 * 1280 + 64), "My Window", sf::Style::Default){
 
     ///Initializari
     Bat bat4(bat1);  ///Aici demonstram ca functioneaza copy si cu egal si &Bat
