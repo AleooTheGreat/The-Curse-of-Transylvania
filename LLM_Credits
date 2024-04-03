@@ -1,34 +1,12 @@
 This file contains all the LLM I used and how he helped me.
 
-ChatGPT_4:
+I used ChatGPT4.0 only as ChatBot. I asked him about my collision detection and he gave me some concepts that were not implemented because I found better solutions. 
 
-My prompt: "I am using SFML and I am trying to create a map class in which I can create a great map for my game.
-            What is the most efficient way to create a map with walls (players can't pass them), floor and enemies?
-            A matrix? For in for? Do you have a better solution? Also keep in mind that we must use collisions and stuff!"
+His biggest help was generating my textures and explaining me how to scale my player to interact with my current detection algorithm for walls.
 
-Response: "1. Map Representation
-           Using a matrix (2D array or vector of vectors) to represent your map is a common and efficient approach.
-           Each cell in the matrix can hold a value that represents different types of tiles or entities in your game (e.g., wall, floor, enemy).
+His solution was quite good so I implemented: "It assumes the top-left corner of the sprite is at (i_x, i_y) and calculates the bottom-right corner by adding 31 to both i_x and i_y (since the sprite dimensions are 32x32,
+we use 31 to stay within the bounds of the sprite). It then iterates over every cell within these bounds, checking for collisions with walls. " This was very helpful and I figured out it is not that non-efficient overall.
 
-           Walls and Floors: You can assign different integers for walls and floors. For example, 0 for empty space, 1 for walls, and 2 for floors.
-           Enemies: Enemies can be dynamically placed on the map. You can either mark their positions in the same matrix or maintain a separate list
-           of entities with their coordinates.
-
-           2. Tile-Based Approach
-           A tile-based map consists of small, square images (tiles) that you piece together to create larger maps. SFML makes it easy to draw these
-           tiles based on the values in your matrix.
-           Each tile type (wall, floor) has a corresponding sprite.
-           Loop through the matrix, and for each cell, draw the corresponding sprite at the appropriate position.
-
-           3. Collision Detection
-
-           To implement collision detection:
-           Walls: Check the matrix to see if the player's next position would be a wall. If the matrix at the player's next position contains
-           the value for a wall, prevent the movement.
-           Enemies: You can check collisions with enemies by comparing the player's position or bounding box with those of enemies.
-
-           4. Efficiency Tips
-           Spatial Partitioning: For larger maps with many entities, consider using spatial partitioning techniques like Quad-trees or Grid-based
-           collision detection to reduce the number of collision checks.
-           Layered Rendering: Render static parts of your map (like floors and walls) to a separate render texture or layer. This way, you only
-           need to redraw dynamic entities (like players and enemies) each frame."
+Also my biggest inspiration is from Kofybrek : 
+https://www.youtube.com/@Kofybrek - here he explains what he is doing (funny guy! I like him)
+https://github.com/Kofybrek - here he explains more about implementation and you can see his code.
