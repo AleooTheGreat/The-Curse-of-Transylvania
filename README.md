@@ -8,14 +8,14 @@ Time has come to a halt! Enemies and valuable items abound in these rooms! Choos
 Good luck!
 
 ## Tema 1, Challenge 1
-You are trapped with a blood bat. Kill him and win!
+Ohhh nooo! You wake up and you see that you are trapped. You decide to explore the room, but... **YOU ARE NOT ALONE**. The bats attack you! Kill them before they kill you! Be fast they are thirsty!!!
 
 ## Controls:
->> **Movement:** W,A,S,D
+>> **Movement:** *W,A,S,D*
 >>
->> **Attack:** E
+>> **Attack:** *E*
 >>
->> **Rules:** The player is not scaled to 32x32 so you must enter perfectly on the "tunnels".
+>> **Other controls** *R to reset and ESC to exit*
 
 ## Insipiration, Technologies, Programming Languages
 
