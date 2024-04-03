@@ -193,7 +193,7 @@ void Bat::update(Player& player, std::array<std::array<Cell, Map_height>, Map_wi
                 std::cout<<"hit"<<'\n';
                 bat_hp -= (int) (std::floor(player.get_attack()));
                 std::cout << bat_hp << '\n';
-            }if(getAttacked.getElapsedTime().asSeconds() > 0.4){
+            }if(getAttacked.getElapsedTime().asSeconds() > 0.15){
                 getAttacked.restart();
             }
         }

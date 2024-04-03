@@ -84,6 +84,35 @@ std::array<std::array<Cell, Map_height>, Map_width> Map::convert_map(const std::
     return output_map;
 }
 
+
+bool Map::map_collision_player(unsigned short i_x, unsigned short i_y, std::array<std::array<Cell, Map_height>, Map_width> i_map) {
+    bool collision = false;
+
+    int topLeftX = i_x / Cell_size;
+    int topLeftY = i_y / Cell_size;
+
+    int bottomRightX = (i_x + 30) / Cell_size;
+    int bottomRightY = (i_y + 55) / Cell_size;
+
+
+    for (int x = topLeftX; x <= bottomRightX; ++x) {
+        for (int y = topLeftY; y <= bottomRightY; ++y) {
+
+            if (x >= 0 && x < Map_width && y >= 0 && y < Map_height) {
+
+                if (i_map[x][y] == Cell::Wall) {
+                    collision = true;
+                    break;
+                }
+            }
+        }
+
+        if (collision) break;
+    }
+
+    return collision;
+}
+
 bool Map::map_collision(unsigned short i_x, unsigned short i_y, std::array<std::array<Cell, Map_height>, Map_width> i_map) {
 
     bool output = false;
