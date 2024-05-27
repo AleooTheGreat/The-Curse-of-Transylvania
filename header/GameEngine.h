@@ -9,6 +9,7 @@
 #include <SFML/Window/Event.hpp>
 #include "Bat.h"
 #include "Map.h"
+#include "Chapter1.h"
 
 class GameEngine {
 
@@ -27,12 +28,11 @@ private:
     void render();
 
     bool is_render;
+
     sf::RenderWindow window;
-    Player main_player_first;
-    Map map;
-    Bat bat1;
-    Bat bat2;
-    Bat bat3;
+
+    Chapter1 ch1;
+
     sf::Texture end_screen_texture;
     sf::Texture win_screen_texture;
     sf::Sprite end_screen;

@@ -7,11 +7,6 @@
 
 GameEngine::GameEngine(): window(sf::VideoMode(1 * 1280 + 64, 1 * 1280 + 64), "My Window", sf::Style::Default){
 
-    ///Initializari
-    Bat bat4(bat1);  ///Aici demonstram ca functioneaza copy si cu egal si &Bat
-    bat3 = bat4;
-    bat3.setPosition(768,960);
-    bat2 = bat1;
     is_render = false;
 
     ///Initializam window-ul
@@ -36,7 +31,6 @@ void GameEngine::run() {
 void GameEngine::processEvents() {
     sf::Event event{};
     while(window.pollEvent(event)){
-
         if(event.type == sf::Event::Closed) {
             window.close();
         }
@@ -44,25 +38,11 @@ void GameEngine::processEvents() {
 }
 
 void GameEngine::update() {
-
-    if(main_player_first.getHp() > 0 && (bat1.getHp() > 0 || bat2.getHp() > 0 || bat3.getHp() > 0)) {
-        main_player_first.handleInput();
-        main_player_first.update(Map::convert_map(map.getMap()));
-        if(bat1.getHp() > 0) {
-            bat1.update(main_player_first, Map::convert_map(map.getMap()));
-        }
-        if(bat2.getHp() > 0) {
-            bat2.update(main_player_first, Map::convert_map(map.getMap()));
-        }
-        if(bat3.getHp() > 0) {
-            bat3.update(main_player_first, Map::convert_map(map.getMap()));
-        }
+    if(ch1.keepCondition() == 1) {
+        ch1.update();
     }else{
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::R)){
-            main_player_first.reset();
-            bat1.reset(1);
-            bat2.reset(2);
-            bat3.reset(3);
+           window.close();
         }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)){
             window.close();
@@ -74,22 +54,10 @@ void GameEngine::update() {
 void GameEngine::render() {
     window.clear();
 
-    if(main_player_first.getHp() > 0 && (bat1.getHp() > 0 || bat2.getHp() > 0 || bat3.getHp() > 0)) {
-
-        Map::draw(Map::convert_map(map.getMap()), window);
-        main_player_first.drawPlayer(window);
-
-        if(bat1.getHp() > 0) {
-            bat1.draw(window);
-        }
-        if(bat2.getHp() > 0) {
-            bat2.draw(window);
-        }
-        if(bat3.getHp() > 0) {
-            bat3.draw(window);
-        }
+    if(ch1.keepCondition() == 1) {
+        ch1.render(window);
     } else {
-        if(main_player_first.getHp() <= 0) {
+        if(ch1.keepCondition() == 0) {
             window.draw(end_screen);
             std::cout<<"Ai murit! ;)"<<'\n';
         }else{

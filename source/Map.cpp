@@ -10,33 +10,6 @@
 #include <iostream>
 #include "../header/Map.h"
 
-Map::Map(){
-    was_draw = true;
-    this->map1 = {
-            "####################",
-            "#        #         #",
-            "# ## ### # ### ##  #",
-            "#                  #",
-            "# ## # ##### # ### #",
-            "#    #   #   #     #",
-            "#### ### # ### #####",
-            "#   # #       # #  #",
-            "##### # ## ## # ####",
-            "#       #   #      #",
-            "##### # ## ## # ####",
-            "#   # #       # #  #",
-            "#### # ##### # #####",
-            "#        #         #",
-            "# ## ### # ### ### #",
-            "# #            #   #",
-            "## # # ##### # # ###",
-            "#    #   #   #     #",
-            "# ###### # ######  #",
-            "####################"
-    };
-}
-
-
 void Map::draw(const std::array<std::array<Cell, Map_height>,Map_width>& i_map,sf::RenderWindow& window){
     sf::Sprite cell_sprite;
     sf::Texture wall_texture;
@@ -56,10 +29,6 @@ void Map::draw(const std::array<std::array<Cell, Map_height>,Map_width>& i_map,s
             window.draw(cell_sprite);
         }
     }
-}
-
-std::array<std::string,Map_height>& Map::getMap(){
-    return map1;
 }
 
 std::array<std::array<Cell, Map_height>, Map_width> Map::convert_map(const std::array<std::string,Map_height>& map_sketch) {
@@ -163,11 +132,6 @@ bool Map::map_collision(unsigned short i_x, unsigned short i_y, std::array<std::
         }
     }
     return output;
-}
-
-std::ostream& operator<<(std::ostream& os, const Map& map) {
-    os << std::boolalpha << map.was_draw << '\n';
-    return os;
 }
 
 Map::~Map() {

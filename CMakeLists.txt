@@ -119,6 +119,10 @@ add_executable(${PROJECT_NAME}
         header/Bat.h
         source/GameEngine.cpp
         header/GameEngine.h
+        source/Chapter1.cpp
+        header/Chapter1.h
+        source/Chapter2.cpp
+        header/Chapter2.h
 
 )
 
