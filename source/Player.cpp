@@ -124,7 +124,7 @@ int Player::getHp() const{
 }
 
 Position Player::getPosition() {
-    return {player_sprite.getPosition().x,player_sprite.getPosition().x};
+    return {player_sprite.getPosition().x,player_sprite.getPosition().y};
 }
 
 sf::FloatRect Player::getBounds(){

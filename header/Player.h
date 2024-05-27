@@ -32,9 +32,10 @@ public:
     void loseHp(float dmg);
     float get_attack() const;
     int getHp() const;
-    Position getPosition();
+
+    virtual Position getPosition();
     sf::FloatRect getBounds();
-   [[maybe_unused]] void reset();
+    void reset();
 
     ///Destroy(Mosh Pit)
     ~Player();

@@ -10,6 +10,7 @@
 #include "Bat.h"
 #include "Map.h"
 #include "Chapter1.h"
+#include "Chapter2.h"
 
 class GameEngine {
 
@@ -32,6 +33,7 @@ private:
     sf::RenderWindow window;
 
     Chapter1 ch1;
+    Chapter2 ch2;
 
     sf::Texture end_screen_texture;
     sf::Texture win_screen_texture;

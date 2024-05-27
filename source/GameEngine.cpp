@@ -41,6 +41,7 @@ void GameEngine::update() {
     if(ch1.keepCondition() == 1) {
         ch1.update();
     }else{
+        ch2.update();
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::R)){
            window.close();
         }
@@ -61,7 +62,8 @@ void GameEngine::render() {
             window.draw(end_screen);
             std::cout<<"Ai murit! ;)"<<'\n';
         }else{
-            window.draw(win_screen);
+            ch2.render(window);
+            //window.draw(win_screen);
         }
     }
 

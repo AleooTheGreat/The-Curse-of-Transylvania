@@ -198,6 +198,11 @@ void Bat::update(Player& main_player, std::array<std::array<Cell, Map_height>, M
             }
         }
 
+
+    }
+
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::X)){
+        bat_hp = 0;
     }
 
 

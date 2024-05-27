@@ -26,7 +26,7 @@ public:
     bool player_collision(Player& player) const;
     void update(Player& player, std::array<std::array<Cell, Map_height>, Map_width> i_map);
     void draw(sf::RenderWindow& window);
-    [[maybe_unused]]void reset(int id);
+    void reset(int id);
     int getHp() const;
     void setPosition(float x, float y);
 

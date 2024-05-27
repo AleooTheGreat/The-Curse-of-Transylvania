@@ -54,7 +54,7 @@ void Chapter1::update() {
     }else if(main_player.getHp() < 0){
          stage = Defeat;
     }else{
-        stage = Victory;
+        stage = Next;
     }
 }
 
@@ -63,7 +63,7 @@ unsigned short int Chapter1::keepCondition() {
         case Defeat: {
             return 0;
         }
-        case Victory: {
+        case Next: {
             return 2;
         }
         case Playing: {

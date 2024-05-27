@@ -27,7 +27,7 @@ private:
     Bat bat3;
     enum situation{
         Defeat,
-        Victory,
+        Next,
         Playing
     };
     situation stage;

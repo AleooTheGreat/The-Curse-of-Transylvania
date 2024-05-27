@@ -123,6 +123,14 @@ add_executable(${PROJECT_NAME}
         header/Chapter1.h
         source/Chapter2.cpp
         header/Chapter2.h
+        source/Enemy.cpp
+        header/Enemy.h
+        source/Vampir.cpp
+        header/Vampir.h
+        source/Skelet.cpp
+        header/Skelet.h
+        source/NPC.cpp
+        header/NPC.h
 
 )
 
