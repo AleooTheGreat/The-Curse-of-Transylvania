@@ -34,7 +34,7 @@ public:
     int getHp() const;
     Position getPosition();
     sf::FloatRect getBounds();
-    void reset();
+   [[maybe_unused]] void reset();
 
     ///Destroy(Mosh Pit)
     ~Player();
