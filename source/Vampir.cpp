@@ -1,30 +1,58 @@
-//
-// Created by pasca on 5/27/2024.
-//
-
+#include "../header/Vampir.h"
 #include <utility>
 #include <valarray>
 #include <iostream>
 #include <SFML/Window/Keyboard.hpp>
-#include "../header/Vampir.h"
 
-Vampir::Vampir(int hp, unsigned short int dmg, float speed, std::string  texturePath) : v_hp{hp}, v_dmg{dmg},
-v_speed{speed}, vampir_texturePath{std::move(texturePath)}, target{100,100}, chase{true}, initialPosition({0,0}) {
+Vampir::Vampir(int hp, unsigned short int dmg, float speed, std::string texturePath)
+        : v_hp{hp}, v_dmg{dmg}, v_speed{speed}, chase{true},vampir_texturePath{std::move(texturePath)},
+          target{100, 100}, initialPosition({0, 0}), circularRotation{false},
+          rotationAngle{0.0f}, rotationRadius{150.0f}, rotationSpeed{0.01f}, verticalOffset{0.0f} {
     vampir_texture.loadFromFile(vampir_texturePath);
     vampir_sprite.setTexture(vampir_texture);
-    vampir_sprite.setPosition(600,600);
-    circularRotation = false;
-    rotationAngle = 0.0f;
-    rotationRadius = 150.0f;
-    rotationSpeed = 0.01f;
-    verticalOffset = 0.0f;
+    vampir_sprite.setPosition(600, 600);
+}
+
+Vampir::Vampir(const Vampir& other)
+        : v_hp{other.v_hp}, v_dmg{other.v_dmg}, v_speed{other.v_speed}, chase{other.chase},
+          vampir_texturePath{other.vampir_texturePath}, target{other.target},
+          initialPosition{other.initialPosition}, circularRotation{other.circularRotation},
+          rotationAngle{other.rotationAngle}, rotationRadius{other.rotationRadius},
+          rotationSpeed{other.rotationSpeed}, verticalOffset{other.verticalOffset} {
+    vampir_texture.loadFromFile(vampir_texturePath);
+    vampir_sprite.setTexture(vampir_texture);
+    vampir_sprite.setPosition(other.vampir_sprite.getPosition());
+}
+
+Vampir& Vampir::operator=(Vampir other) {
+    swap(*this, other);
+    return *this;
+}
+
+void swap(Vampir& first, Vampir& second) noexcept {
+    using std::swap;
+    swap(first.v_hp, second.v_hp);
+    swap(first.v_dmg, second.v_dmg);
+    swap(first.v_speed, second.v_speed);
+    swap(first.chase, second.chase);
+    swap(first.vampir_texturePath, second.vampir_texturePath);
+    swap(first.vampir_sprite, second.vampir_sprite);
+    swap(first.vampir_texture, second.vampir_texture);
+    swap(first.target, second.target);
+    swap(first.initialPosition, second.initialPosition);
+    swap(first.circularRotation, second.circularRotation);
+    swap(first.rotationAngle, second.rotationAngle);
+    swap(first.rotationRadius, second.rotationRadius);
+    swap(first.rotationSpeed, second.rotationSpeed);
+    swap(first.verticalOffset, second.verticalOffset);
+    swap(first.attackTimer, second.attackTimer);
+    swap(first.getAttacked, second.getAttacked);
 }
 
 void Vampir::update(Player& p, NPC& npc) {
     if (circularRotation) {
-
         rotationAngle += rotationSpeed;
-        verticalOffset += std::sin(rotationAngle) * 0.5f; // Adjust the vertical movement as needed
+        verticalOffset += std::sin(rotationAngle) * 0.5f;
         float x = initialPosition.x + rotationRadius * std::cos(rotationAngle);
         float y = initialPosition.y + rotationRadius * std::sin(rotationAngle) + verticalOffset;
         vampir_sprite.setPosition(x, y);
@@ -65,13 +93,13 @@ void Vampir::update(Player& p, NPC& npc) {
             attackTimer.restart();
         }
 
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::E)){
-
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
             if(getAttacked.getElapsedTime().asMilliseconds() < 20) {
-                std::cout<<"hit"<<'\n';
-                v_hp -= (int) (std::floor(p.get_attack()));
+                std::cout << "hit" << '\n';
+                v_hp -= static_cast<int>(std::floor(p.get_attack()));
                 std::cout << v_hp << '\n';
-            }if(getAttacked.getElapsedTime().asMilliseconds() > 200){
+            }
+            if(getAttacked.getElapsedTime().asMilliseconds() > 200){
                 getAttacked.restart();
             }
         }
@@ -88,7 +116,6 @@ void Vampir::drawEnemy(sf::RenderWindow &window) {
     window.draw(vampir_sprite);
 }
 
-
 void Vampir::positionUpdate(float x,float y) {
     vampir_sprite.setPosition(x,y);
 }
@@ -100,6 +127,3 @@ std::shared_ptr<Enemy> Vampir::clone() const {
 int Vampir::getEnemyHp() const {
     return v_hp;
 }
-
-
-

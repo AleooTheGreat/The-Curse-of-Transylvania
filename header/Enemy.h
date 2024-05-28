@@ -1,12 +1,9 @@
-//
-// Created by pasca on 5/27/2024.
-//
-
 #ifndef OOP_ENEMY_H
 #define OOP_ENEMY_H
-#include<SFML/Graphics/RenderWindow.hpp>
-#include<memory>
-#include<vector>
+
+#include <SFML/Graphics/RenderWindow.hpp>
+#include <memory>
+#include <vector>
 #include "Player.h"
 #include "NPC.h"
 #include "Global.h"
@@ -24,6 +21,5 @@ protected:
     Enemy(const Enemy &other) = default;
     Enemy &operator=(const Enemy &other) = default;
 };
-
 
 #endif //OOP_ENEMY_H

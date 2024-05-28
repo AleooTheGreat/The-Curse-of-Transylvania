@@ -1,20 +1,44 @@
-//
-// Created by pasca on 5/27/2024.
-//
-
 #include "../header/Skelet.h"
 #include <utility>
 #include <valarray>
 #include <iostream>
 #include <SFML/Window/Keyboard.hpp>
 
-Skelet::Skelet(int hp, unsigned short int dmg, float speed, std::string  texturePath) : s_hp{hp}, s_dmg{dmg},
-s_speed{speed}, skelet_texturePath{std::move(texturePath)}, target{100,100},
-npcInitialPosition({0,0}), state{CHASING_NPC} {
+Skelet::Skelet(int hp, unsigned short int dmg, float speed, std::string texturePath)
+        : s_hp{hp}, s_dmg{dmg}, s_speed{speed}, skelet_texturePath{std::move(texturePath)},
+          target{100, 100}, npcInitialPosition({0, 0}), state{CHASING_NPC} {
     skelet_texture.loadFromFile(skelet_texturePath);
     skelet_sprite.setTexture(skelet_texture);
-    skelet_sprite.setPosition(600,600);
+    skelet_sprite.setPosition(600, 600);
+}
 
+Skelet::Skelet(const Skelet& other)
+        : s_hp{other.s_hp}, s_dmg{other.s_dmg}, s_speed{other.s_speed},
+          skelet_texturePath{other.skelet_texturePath}, target{other.target},
+          npcInitialPosition{other.npcInitialPosition}, state{other.state} {
+    skelet_texture.loadFromFile(skelet_texturePath);
+    skelet_sprite.setTexture(skelet_texture);
+    skelet_sprite.setPosition(other.skelet_sprite.getPosition());
+}
+
+Skelet& Skelet::operator=(Skelet other) {
+    swap(*this, other);
+    return *this;
+}
+
+void swap(Skelet& first, Skelet& second) noexcept {
+    using std::swap;
+    swap(first.s_hp, second.s_hp);
+    swap(first.s_dmg, second.s_dmg);
+    swap(first.s_speed, second.s_speed);
+    swap(first.skelet_texturePath, second.skelet_texturePath);
+    swap(first.skelet_sprite, second.skelet_sprite);
+    swap(first.skelet_texture, second.skelet_texture);
+    swap(first.target, second.target);
+    swap(first.npcInitialPosition, second.npcInitialPosition);
+    swap(first.state, second.state);
+    swap(first.attackTimer, second.attackTimer);
+    swap(first.getAttacked, second.getAttacked);
 }
 
 void Skelet::update(Player& p, NPC& npc) {
@@ -30,7 +54,7 @@ void Skelet::update(Player& p, NPC& npc) {
         case ATTACKING_PLAYER:
             target = p.getPosition();
             if (player_collision(p)) {
-                    state = RETURNING_TO_NPC;
+                state = RETURNING_TO_NPC;
             }
             break;
 
@@ -67,13 +91,13 @@ void Skelet::update(Player& p, NPC& npc) {
             attackTimer.restart();
         }
 
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::E)){
-
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
             if(getAttacked.getElapsedTime().asMilliseconds() < 20) {
-                std::cout<<"hit"<<'\n';
-                s_hp -= (int) (std::floor(p.get_attack()));
+                std::cout << "hit" << '\n';
+                s_hp -= static_cast<int>(std::floor(p.get_attack()));
                 std::cout << s_hp << '\n';
-            }if(getAttacked.getElapsedTime().asMilliseconds() > 200){
+            }
+            if(getAttacked.getElapsedTime().asMilliseconds() > 200){
                 getAttacked.restart();
             }
         }
@@ -89,7 +113,6 @@ bool Skelet::player_collision(Player& p) const {
 void Skelet::drawEnemy(sf::RenderWindow &window) {
     window.draw(skelet_sprite);
 }
-
 
 void Skelet::positionUpdate(float x,float y) {
     skelet_sprite.setPosition(x,y);
