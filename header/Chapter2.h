@@ -13,11 +13,13 @@
 #include "Vampir.h"
 #include "NPC.h"
 #include "Global.h"
+#include "Skelet.h"
 
 class Chapter2 {
 public:
     explicit Chapter2();
     void generateEnemies();
+    int keepPlaying();
     void update();
     void render(sf::RenderWindow& window);
 private:
@@ -26,6 +28,18 @@ private:
     NPC help_player;
     std::vector<std::shared_ptr<Enemy>> enemies;
     std::vector<Position> poziti;
+    enum tip_wave{
+        Begin,
+        Medium,
+        Hard
+    };
+    tip_wave wave;
+    enum tip_Playing{
+        Playing,
+        Defeat,
+        Victory
+    };
+    tip_Playing stage;
 };
 
 

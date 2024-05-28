@@ -11,12 +11,15 @@
 #include "Player.h"
 class NPC : public Player{
 public:
-    explicit NPC(unsigned short int hp = 100, std::string texture = "textures/help_girl.png");
+    explicit NPC(short int hp = 100, std::string texture = "textures/help_girl.png");
     void update();
     void drawNPC(sf::RenderWindow& window);
+    void loseHp(float dmg) override;
+    int getHp() const override;
+    void heal(short int hp);
     Position getPosition() override;
 private:
-    unsigned short int npc_hp;
+    short int npc_hp;
     sf::Texture npc_texture;
     sf::Sprite npc_sprite;
     std::string npc_string;

@@ -29,13 +29,12 @@ public:
     void handleInput();
     void update(const std::array<std::array<Cell, Map_height>,Map_width>& map);
     void drawPlayer(sf::RenderWindow& window);
-    void loseHp(float dmg);
+    virtual void loseHp(float dmg);
     float get_attack() const;
-    int getHp() const;
-
+    virtual int getHp() const;
+    void buff(int hp, float power);
     virtual Position getPosition();
     sf::FloatRect getBounds();
-    void reset();
 
     ///Destroy(Mosh Pit)
     ~Player();

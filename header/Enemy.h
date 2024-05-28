@@ -17,7 +17,9 @@ public:
     virtual void drawEnemy(sf::RenderWindow& window) = 0;
     virtual std::shared_ptr<Enemy> clone() const = 0;
     virtual ~Enemy() = default;
+    virtual int getEnemyHp() const = 0;
     Enemy() = default;
+
 protected:
     Enemy(const Enemy &other) = default;
     Enemy &operator=(const Enemy &other) = default;

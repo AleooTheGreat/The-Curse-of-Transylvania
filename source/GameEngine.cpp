@@ -40,16 +40,19 @@ void GameEngine::processEvents() {
 void GameEngine::update() {
     if(ch1.keepCondition() == 1) {
         ch1.update();
-    }else{
-        ch2.update();
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::R)){
-           window.close();
+    }else if(ch1.keepCondition() == 2){
+        if(ch2.keepPlaying() == 2) {
+            ch2.update();
+        }else {
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+                window.close();
+            }
         }
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)){
+    }else{
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
             window.close();
         }
     }
-
 }
 
 void GameEngine::render() {
@@ -57,14 +60,16 @@ void GameEngine::render() {
 
     if(ch1.keepCondition() == 1) {
         ch1.render(window);
-    } else {
-        if(ch1.keepCondition() == 0) {
-            window.draw(end_screen);
-            std::cout<<"Ai murit! ;)"<<'\n';
-        }else{
+    } else if(ch1.keepCondition() == 2){
+        if(ch2.keepPlaying() == 2){
             ch2.render(window);
-            //window.draw(win_screen);
+        }else if(ch2.keepPlaying() == 1){
+            window.draw(win_screen);
+        }else{
+            window.draw(end_screen);
         }
+    }else{
+        window.draw(end_screen);
     }
 
     window.display();

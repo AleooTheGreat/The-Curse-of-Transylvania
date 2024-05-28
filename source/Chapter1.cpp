@@ -66,11 +66,8 @@ unsigned short int Chapter1::keepCondition() {
         case Next: {
             return 2;
         }
-        case Playing: {
-            return 1;
-        }
         default: {
-            return 3;
+            return 1;
         }
     }
 

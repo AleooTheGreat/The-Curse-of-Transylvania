@@ -4,7 +4,7 @@
 
 #include "../header/NPC.h"
 
-NPC::NPC(unsigned short int hp, std::string texture) : npc_hp{hp},npc_string{std::move(texture)}{
+NPC::NPC(short int hp, std::string texture) : npc_hp{hp},npc_string{std::move(texture)}{
     npc_texture.loadFromFile(npc_string);
     npc_sprite.setTexture(npc_texture);
     npc_sprite.setPosition(600,600);
@@ -21,5 +21,18 @@ void NPC::drawNPC(sf::RenderWindow& window) {
 Position NPC::getPosition() {
     return {npc_sprite.getPosition().x,npc_sprite.getPosition().y};
 }
+
+void NPC::loseHp(float dmg) {
+    npc_hp -= (short)(dmg);
+}
+
+int NPC::getHp() const {
+    return npc_hp;
+}
+
+void NPC::heal(short hp) {
+    npc_hp = hp;
+}
+
 
 

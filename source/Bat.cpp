@@ -218,20 +218,6 @@ void Bat::draw(sf::RenderWindow& window) {
     window.draw(bat_sprite);
 }
 
-void Bat::reset(int id) {
-    bat_hp = 20;
-    if(id == 2) {
-       position.x = 768;
-       position.y = 960;
-    }else if(id == 3){
-        position.x = 1152;
-        position.y = 256;
-    }else{
-        position.x = 64;
-        position.y = 64;
-    }
-}
-
 int Bat::getHp() const{
     return bat_hp;
 }

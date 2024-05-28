@@ -131,9 +131,10 @@ sf::FloatRect Player::getBounds(){
     return player_sprite.getGlobalBounds();
 }
 
-void Player::reset(){
-    m_hp = 100;
-    player_sprite.setPosition(640,640);
+
+void Player::buff(int hp, float power) {
+    m_hp = hp;
+    m_power = power;
 }
 
 
