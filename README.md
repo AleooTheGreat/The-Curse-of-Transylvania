@@ -7,15 +7,17 @@ The Transylvania Castle (Bran Castle) was visited by a group of young friends. T
 Time has come to a halt! Enemies and valuable items abound in these rooms! Choose your character, gather the others, and make it out of the castle! 
 Good luck!
 
-## Tema 1, Challenge 1
+## Tema 1, Chapter 1
 Ohhh nooo! You wake up and you see that you are trapped. You decide to explore the room, but... **YOU ARE NOT ALONE**. The bats attack you! Kill them before they kill you! Be fast they are thirsty!!!
+## Tema 2, Chapter 2
+"Hellppp! Helppp meeee!! I am to scared to move helppp meee!!! VAMPIRES AND SKELETONS!!!" You know what you have to do! Go save the girl from the vampires and skeletons chasing her.
 
 ## Controls:
 >> **Movement:** *W,A,S,D*
 >>
 >> **Attack:** *E*
 >>
->> **Other controls** *R to reset and ESC to exit*
+>> **Other controls** *ESC to exit*
 
 ## Insipiration, Technologies, Programming Languages
 
