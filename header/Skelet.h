@@ -26,7 +26,6 @@ private:
     sf::Texture skelet_texture;
     std::string skelet_texturePath;
     Position target;
-    bool chase;
     sf::Clock attackTimer;
     sf::Clock getAttacked;
     bool player_collision(Player& main_player) const;

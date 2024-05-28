@@ -5,28 +5,7 @@
 #include "../header/Chapter1.h"
 
 Chapter1::Chapter1() {
-      map1 = {
-              "####################",
-              "#        #         #",
-              "# ## ### # ### ##  #",
-              "#                  #",
-              "# ## # ##### # ### #",
-              "#    #   #   #     #",
-              "#### ### # ### #####",
-              "#   # #       # #  #",
-              "##### # ## ## # ####",
-              "#       #   #      #",
-              "##### # ## ## # ####",
-              "#   # #       # #  #",
-              "#### # ##### # #####",
-              "#        #         #",
-              "# ## ### # ### ### #",
-              "# #            #   #",
-              "## # # ##### # # ###",
-              "#    #   #   #     #",
-              "# ###### # ######  #",
-              "####################"
-      };
+    readMapFromFile("maps/map1.txt");
 
     ///Initializari
      Bat bat4(bat1);  ///Aici demonstram ca functioneaza copy si cu egal si &Bat
@@ -89,4 +68,18 @@ void Chapter1::render(sf::RenderWindow &window) {
             bat3.draw(window);
         }
     }
+}
+
+void Chapter1::readMapFromFile(const std::string& filePath) {
+    std::ifstream fin(filePath);
+
+    std::string line;
+    int index = 0;
+
+    while(std::getline(fin,line) && index < Map_height){
+        map1[index] = line;
+        index++;
+    }
+
+    fin.close();
 }

@@ -40,6 +40,7 @@ private:
         Victory
     };
     tip_Playing stage;
+    void readFromFile(const std::string& filePath);
 };
 
 

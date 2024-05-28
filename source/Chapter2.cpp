@@ -6,35 +6,15 @@
 #include <chrono>
 #include <unordered_map>
 #include <iostream>
+#include <fstream>
 #include "../header/Chapter2.h"
 
 Chapter2::Chapter2() : poziti({
         {100, 100}, {150, 250}, {350, 250}, {700, 200}, {1000, 300},
         {1000, 1100}, {900, 100}, {1050, 250}, {1250, 1250}, {790, 900},
         {1100, 100}, {100, 1100}}),wave{Begin}, stage{Playing} {
-    map2 = {
-            "####################",
-            "#                  #",
-            "#                  #",
-            "#                  #",
-            "#                  #",
-            "#                  #",
-            "#                  #",
-            "#                  #",
-            "#                  #",
-            "#                  #",
-            "#                  #",
-            "#                  #",
-            "#                  #",
-            "#                  #",
-            "#                  #",
-            "#                  #",
-            "#                  #",
-            "#                  #",
-            "#                  #",
-            "####################"
-    };
 
+    readFromFile("maps/map2.txt");
     generateEnemies();
 
 }
@@ -191,6 +171,20 @@ int Chapter2::keepPlaying() {
             return 2;
         }
     }
+}
+
+void Chapter2::readFromFile(const std::string &filePath) {
+    std::ifstream fin(filePath);
+
+    int index = 0;
+    std::string line;
+
+    while(std::getline(fin,line) && index < Map_height){
+        map2[index] = line;
+        index ++;
+    }
+
+    fin.close();
 }
 
 

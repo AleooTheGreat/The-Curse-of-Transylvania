@@ -9,7 +9,7 @@
 #include <SFML/Window/Keyboard.hpp>
 
 Skelet::Skelet(int hp, unsigned short int dmg, float speed, std::string  texturePath) : s_hp{hp}, s_dmg{dmg},
-s_speed{speed}, skelet_texturePath{std::move(texturePath)}, target{100,100}, chase{true},
+s_speed{speed}, skelet_texturePath{std::move(texturePath)}, target{100,100},
 npcInitialPosition({0,0}), state{CHASING_NPC} {
     skelet_texture.loadFromFile(skelet_texturePath);
     skelet_sprite.setTexture(skelet_texture);

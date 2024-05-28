@@ -6,6 +6,7 @@
 #define OOP_CHAPTER1_H
 #include<iostream>
 #include<array>
+#include<fstream>
 #include "Map.h"
 #include "Player.h"
 #include "Bat.h"
@@ -31,6 +32,7 @@ private:
         Playing
     };
     situation stage;
+    void readMapFromFile(const std::string& filePath);
 };
 
 
