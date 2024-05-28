@@ -9,14 +9,24 @@
 #include <cmath>
 #include <iostream>
 #include "../header/Map.h"
+#include "../header/GameExceptions.h"
 
 void Map::draw(const std::array<std::array<Cell, Map_height>,Map_width>& i_map,sf::RenderWindow& window){
     sf::Sprite cell_sprite;
     sf::Texture wall_texture;
     sf::Texture floor_texture;
 
-    wall_texture.loadFromFile("textures/wall.png");
-    floor_texture.loadFromFile("textures/brick_floor.png");
+    try {
+        if (!wall_texture.loadFromFile("textures/wall.png")) {
+            throw TextureLoadException("Failed to load wall.png");
+        }
+        if (!floor_texture.loadFromFile("textures/brick_floor.png")) {
+            throw TextureLoadException("Failed to load brick_floor.png");
+        }
+    } catch (const TextureLoadException& e) {
+        std::cerr << e.what() << std::endl;
+        throw;
+    }
 
     for(unsigned char a = 0; a < Map_width; a++){
         for(unsigned char b = 0 ; b < Map_height; b++){

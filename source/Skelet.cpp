@@ -1,13 +1,22 @@
 #include "../header/Skelet.h"
+#include "../header/GameExceptions.h"
 #include <utility>
 #include <valarray>
 #include <iostream>
 #include <SFML/Window/Keyboard.hpp>
 
+
 Skelet::Skelet(int hp, unsigned short int dmg, float speed, std::string texturePath)
         : s_hp{hp}, s_dmg{dmg}, s_speed{speed}, skelet_texturePath{std::move(texturePath)},
           target{100, 100}, npcInitialPosition({0, 0}), state{CHASING_NPC} {
-    skelet_texture.loadFromFile(skelet_texturePath);
+    try {
+        if (!skelet_texture.loadFromFile(skelet_texturePath)) {
+            throw TextureLoadException("Failed to load Skelet texture: " + skelet_texturePath);
+        }
+    } catch (const TextureLoadException& e) {
+        std::cerr << e.what() << std::endl;
+        throw;
+    }
     skelet_sprite.setTexture(skelet_texture);
     skelet_sprite.setPosition(600, 600);
 }
@@ -16,7 +25,14 @@ Skelet::Skelet(const Skelet& other)
         : s_hp{other.s_hp}, s_dmg{other.s_dmg}, s_speed{other.s_speed},
           skelet_texturePath{other.skelet_texturePath}, target{other.target},
           npcInitialPosition{other.npcInitialPosition}, state{other.state} {
-    skelet_texture.loadFromFile(skelet_texturePath);
+    try {
+        if (!skelet_texture.loadFromFile(skelet_texturePath)) {
+            throw TextureLoadException("Failed to load Skelet texture: " + skelet_texturePath);
+        }
+    } catch (const TextureLoadException& e) {
+        std::cerr << e.what() << std::endl;
+        throw;
+    }
     skelet_sprite.setTexture(skelet_texture);
     skelet_sprite.setPosition(other.skelet_sprite.getPosition());
 }

@@ -1,14 +1,23 @@
 #include "../header/Vampir.h"
+#include "../header/GameExceptions.h"
 #include <utility>
 #include <valarray>
 #include <iostream>
 #include <SFML/Window/Keyboard.hpp>
 
+
 Vampir::Vampir(int hp, unsigned short int dmg, float speed, std::string texturePath)
         : v_hp{hp}, v_dmg{dmg}, v_speed{speed}, chase{true},vampir_texturePath{std::move(texturePath)},
           target{100, 100}, initialPosition({0, 0}), circularRotation{false},
           rotationAngle{0.0f}, rotationRadius{150.0f}, rotationSpeed{0.01f}, verticalOffset{0.0f} {
-    vampir_texture.loadFromFile(vampir_texturePath);
+    try {
+        if (!vampir_texture.loadFromFile(vampir_texturePath)) {
+            throw TextureLoadException("Failed to load Vampir texture: " + vampir_texturePath);
+        }
+    } catch (const TextureLoadException& e) {
+        std::cerr << e.what() << std::endl;
+        throw;
+    }
     vampir_sprite.setTexture(vampir_texture);
     vampir_sprite.setPosition(600, 600);
 }
@@ -19,7 +28,14 @@ Vampir::Vampir(const Vampir& other)
           initialPosition{other.initialPosition}, circularRotation{other.circularRotation},
           rotationAngle{other.rotationAngle}, rotationRadius{other.rotationRadius},
           rotationSpeed{other.rotationSpeed}, verticalOffset{other.verticalOffset} {
-    vampir_texture.loadFromFile(vampir_texturePath);
+    try {
+        if (!vampir_texture.loadFromFile(vampir_texturePath)) {
+            throw TextureLoadException("Failed to load Vampir texture: " + vampir_texturePath);
+        }
+    } catch (const TextureLoadException& e) {
+        std::cerr << e.what() << std::endl;
+        throw;
+    }
     vampir_sprite.setTexture(vampir_texture);
     vampir_sprite.setPosition(other.vampir_sprite.getPosition());
 }

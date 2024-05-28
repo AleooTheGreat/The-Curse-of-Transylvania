@@ -3,17 +3,23 @@
 //
 
 #include "../header/Chapter1.h"
+#include "../header/GameExceptions.h"
 
 Chapter1::Chapter1() {
-    readMapFromFile("maps/map1.txt");
+    try {
+        readMapFromFile("maps/map1.txt");
+    } catch (const FileLoadException& e) {
+        std::cerr << e.what() << std::endl;
+        throw;
+    }
 
     ///Initializari
-     Bat bat4(bat1);  ///Aici demonstram ca functioneaza copy si cu egal si &Bat
-     bat3 = bat4;
-     bat3.setPosition(768,960);
-     bat2 = bat1;
+    Bat bat4(bat1);  ///Aici demonstram ca functioneaza copy si cu egal si &Bat
+    bat3 = bat4;
+    bat3.setPosition(768,960);
+    bat2 = bat1;
 
-     stage = Playing;
+    stage = Playing;
 }
 
 void Chapter1::update() {
@@ -72,13 +78,20 @@ void Chapter1::render(sf::RenderWindow &window) {
 
 void Chapter1::readMapFromFile(const std::string& filePath) {
     std::ifstream fin(filePath);
+    if (!fin.is_open()) {
+        throw FileLoadException("Could not open file: " + filePath);
+    }
 
     std::string line;
     int index = 0;
 
-    while(std::getline(fin,line) && index < Map_height){
+    while (std::getline(fin, line) && index < Map_height) {
         map1[index] = line;
         index++;
+    }
+
+    if (index < Map_height) {
+        throw FileLoadException("File is incomplete: " + filePath);
     }
 
     fin.close();

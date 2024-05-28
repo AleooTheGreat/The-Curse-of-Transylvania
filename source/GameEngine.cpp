@@ -1,15 +1,26 @@
 #include "../header/GameEngine.h"
+#include "../header/GameExceptions.h"
 #include <iostream>
 
+
 GameEngine::GameEngine() : window(sf::VideoMode(1 * 1280 + 64, 1 * 1280 + 64), "My Window", sf::Style::Default) {
+    try {
+        if (!win_screen_texture.loadFromFile("textures/win_screen.png")) {
+            throw TextureLoadException("Failed to load win_screen.png");
+        }
+        if (!end_screen_texture.loadFromFile("textures/end_screen.png")) {
+            throw TextureLoadException("Failed to load end_screen.png");
+        }
+    } catch (const TextureLoadException& e) {
+        std::cerr << e.what() << std::endl;
+        window.close();
+        throw;
+    }
 
     is_render = false;
-
     window.setView(sf::View(sf::FloatRect(0, 0, 1280, 1280)));
     window.setVerticalSyncEnabled(true);
 
-    win_screen_texture.loadFromFile("textures/win_screen.png");
-    end_screen_texture.loadFromFile("textures/end_screen.png");
     end_screen.setTexture(end_screen_texture);
     win_screen.setTexture(win_screen_texture);
 

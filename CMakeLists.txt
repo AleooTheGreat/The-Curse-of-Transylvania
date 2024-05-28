@@ -131,6 +131,7 @@ add_executable(${PROJECT_NAME}
         header/Skelet.h
         source/NPC.cpp
         header/NPC.h
+        header/GameExceptions.h
 
 )
 

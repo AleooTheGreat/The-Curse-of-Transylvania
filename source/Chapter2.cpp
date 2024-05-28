@@ -4,25 +4,31 @@
 #include <iostream>
 #include <fstream>
 #include "../header/Chapter2.h"
+#include "../header/GameExceptions.h"
+
 
 Chapter2::Chapter2() : poziti({
                                       {100, 100}, {150, 250}, {350, 250}, {700, 200}, {1000, 300},
                                       {1000, 1100}, {900, 100}, {1050, 250}, {1250, 1250}, {790, 900},
                                       {1100, 100}, {100, 1100}}), wave{Begin}, stage{Playing} {
-
-    readFromFile("maps/map2.txt");
-    generateEnemies();
+    try {
+        readFromFile("maps/map2.txt");
+        generateEnemies();
+    } catch (const FileLoadException& e) {
+        std::cerr << e.what() << std::endl;
+        throw;
+    }
 }
 
 void Chapter2::generateEnemies() {
     std::unordered_map<unsigned long long, bool> frq;
 
     if (wave == Begin) {
-        // Generate 4 vampires
+        /// Generam 4 vampiri
         for (int i = 0; i <= 3; i++) {
             auto vamp1 = std::make_shared<Vampir>();
 
-            // Generate random positions
+            /// Generam pozitii random
             std::random_device rd;
             std::mt19937 gen(rd());
             std::uniform_int_distribution<unsigned long long> distrib(0, poziti.size() - 1);
@@ -39,11 +45,10 @@ void Chapter2::generateEnemies() {
 
         frq.clear();
     } else if (wave == Medium) {
-        // Generate 5 skeletons
+        /// generam 5 skeletoni
         for (int i = 0; i <= 4; i++) {
             auto skelet = std::make_shared<Skelet>();
 
-            // Generate random positions
             std::random_device rd;
             std::mt19937 gen(rd());
             std::uniform_int_distribution<unsigned long long> distrib(0, poziti.size() - 1);
@@ -60,11 +65,10 @@ void Chapter2::generateEnemies() {
 
         frq.clear();
     } else if (wave == Hard) {
-        // Generate 5 skeletons and 4 vampires
+        /// generam 5 vampiri cu 4 skeletoni
         for (int i = 0; i <= 4; i++) {
             auto skelet = std::make_shared<Skelet>();
 
-            // Generate random positions
             std::random_device rd;
             std::mt19937 gen(rd());
             std::uniform_int_distribution<unsigned long long> distrib(0, poziti.size() - 1);
@@ -81,7 +85,6 @@ void Chapter2::generateEnemies() {
         for (int i = 0; i <= 3; i++) {
             auto vamp1 = std::make_shared<Vampir>();
 
-            // Generate random positions
             std::random_device rd;
             std::mt19937 gen(rd());
             std::uniform_int_distribution<unsigned long long> distrib(0, poziti.size() - 1);
@@ -158,13 +161,13 @@ void Chapter2::checkEnemies() {
 
 void Chapter2::render(sf::RenderWindow &window) {
     Map::draw(Map::convert_map(map2), window);
-    main_player.drawPlayer(window);
     help_player.drawNPC(window);
     for (auto& it : enemies) {
         if (it->getEnemyHp() > 0) {
             it->drawEnemy(window);
         }
     }
+    main_player.drawPlayer(window);
 }
 
 int Chapter2::keepPlaying() {
@@ -183,13 +186,19 @@ int Chapter2::keepPlaying() {
 
 void Chapter2::readFromFile(const std::string &filePath) {
     std::ifstream fin(filePath);
+    if (!fin.is_open()) {
+        throw FileLoadException("Could not open file: " + filePath);
+    }
 
     int index = 0;
     std::string line;
-
     while (std::getline(fin, line) && index < Map_height) {
         map2[index] = line;
         index++;
+    }
+
+    if (index < Map_height) {
+        throw FileLoadException("File is incomplete: " + filePath);
     }
 
     fin.close();

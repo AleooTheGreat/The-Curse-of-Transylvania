@@ -4,6 +4,7 @@
 
 #include "../header/Player.h"
 #include "../header/Map.h"
+#include "../header/GameExceptions.h"
 #include <cmath>
 #include <iostream>
 #include <array>
@@ -12,14 +13,20 @@
 #include <utility>
 
 Player::Player(std::string  name, int hp, float speed, float power, std::string texture)
-                :m_name(std::move(name)), m_hp(hp), m_speed(speed), m_power(power), m_texture(std::move(texture)) {
-    player_texture.loadFromFile(m_texture);
+        :m_name(std::move(name)), m_hp(hp), m_speed(speed), m_power(power), m_texture(std::move(texture)) {
+    try {
+        if (!player_texture.loadFromFile(m_texture)) {
+            throw TextureLoadException("Failed to load player texture: " + m_texture);
+        }
+    } catch (const TextureLoadException& e) {
+        std::cerr << e.what() << std::endl;
+        throw;
+    }
     player_sprite.setTexture(player_texture);
     player_sprite.setPosition(640.0f, 576.0f);
     direction = 0;
     position = {0,0};
 }
-
 std::ostream& operator<<(std::ostream& os, const Player& main_player) {
     os << "Player Name: " << main_player.m_name << ", HP: " << main_player.m_hp <<'\n';
     return os;

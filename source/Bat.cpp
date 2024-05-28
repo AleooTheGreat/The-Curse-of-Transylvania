@@ -7,14 +7,21 @@
 #include<string>
 #include <SFML/Window/Keyboard.hpp>
 #include "../header/Bat.h"
+#include "../header/GameExceptions.h"
 #include "../header/Map.h"
 
 Bat::Bat(int hp, float speed, float dmg, std::string texturePath)
-    : bat_power(dmg),bat_speed(speed), bat_hp(hp), bat_texturePath(std::move(texturePath)),
-    position{64,64}, direction(0), target{600,600} {
-    bat_texture.loadFromFile(bat_texturePath);
+        : bat_power(dmg),bat_speed(speed), bat_hp(hp), bat_texturePath(std::move(texturePath)),
+          position{64,64}, direction(0), target{600,600} {
+    try {
+        if (!bat_texture.loadFromFile(bat_texturePath)) {
+            throw TextureLoadException("Failed to load bat texture: " + bat_texturePath);
+        }
+    } catch (const TextureLoadException& e) {
+        std::cerr << e.what() << std::endl;
+        throw;
+    }
     bat_sprite.setTexture(bat_texture);
-
 }
 
 Bat::Bat(const Bat& other): bat_power(other.bat_power), bat_speed(other.bat_speed), bat_hp(other.bat_hp),
