@@ -183,6 +183,7 @@ endif()
 # update name in .github/workflows/cmake.yml:29 when changing "bin" name here
 install(TARGETS ${PROJECT_NAME} DESTINATION bin)
 install(DIRECTORY textures DESTINATION bin)
+install(DIRECTORY maps DESTINATION bin)
 # install(DIRECTORY some_dir1 some_dir2 DESTINATION bin)
 # install(FILES some_file1.txt some_file2.md DESTINATION bin)
 if(APPLE)
