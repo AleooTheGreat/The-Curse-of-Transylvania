@@ -4,6 +4,7 @@
 #include <vector>
 #include <array>
 #include <memory>
+#include <unordered_map>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include "Player.h"
 #include "Map.h"
@@ -22,6 +23,7 @@ public:
     static void testCopyAndSwap();
 
 private:
+    void populate(int nivel_wave,int count);
     std::array<std::string, Map_height> map2;
     Player main_player;
     NPC help_player;
@@ -39,6 +41,7 @@ private:
         Victory
     };
     tip_Playing stage;
+    std::unordered_map<unsigned long long, bool> frq;
     void readFromFile(const std::string& filePath);
     void checkEnemies();
 };

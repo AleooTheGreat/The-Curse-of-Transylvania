@@ -1,6 +1,5 @@
 #include <random>
 #include <chrono>
-#include <unordered_map>
 #include <iostream>
 #include <fstream>
 #include "../header/Chapter2.h"
@@ -21,85 +20,22 @@ Chapter2::Chapter2() : poziti({
 }
 
 void Chapter2::generateEnemies() {
-    std::unordered_map<unsigned long long, bool> frq;
+
 
     if (wave == Begin) {
+
         /// Generam 4 vampiri
-        for (int i = 0; i <= 3; i++) {
-            auto vamp1 = std::make_shared<Vampir>();
+        populate(1,3);
 
-            /// Generam pozitii random
-            std::random_device rd;
-            std::mt19937 gen(rd());
-            std::uniform_int_distribution<unsigned long long> distrib(0, poziti.size() - 1);
-
-            unsigned long long number = distrib(gen);
-            while (frq[number]) {
-                number = distrib(gen);
-            }
-            frq[number] = true;
-            vamp1->positionUpdate(poziti[number].x, poziti[number].y);
-
-            enemies.emplace_back(vamp1);
-        }
-
-        frq.clear();
     } else if (wave == Medium) {
+
         /// generam 5 skeletoni
-        for (int i = 0; i <= 4; i++) {
-            auto skelet = std::make_shared<Skelet>();
+        populate(2,5);
 
-            std::random_device rd;
-            std::mt19937 gen(rd());
-            std::uniform_int_distribution<unsigned long long> distrib(0, poziti.size() - 1);
-
-            unsigned long long number = distrib(gen);
-            while (frq[number]) {
-                number = distrib(gen);
-            }
-            frq[number] = true;
-            skelet->positionUpdate(poziti[number].x, poziti[number].y);
-
-            enemies.emplace_back(skelet);
-        }
-
-        frq.clear();
     } else if (wave == Hard) {
         /// generam 5 vampiri cu 4 skeletoni
-        for (int i = 0; i <= 4; i++) {
-            auto skelet = std::make_shared<Skelet>();
-
-            std::random_device rd;
-            std::mt19937 gen(rd());
-            std::uniform_int_distribution<unsigned long long> distrib(0, poziti.size() - 1);
-
-            unsigned long long number = distrib(gen);
-            while (frq[number]) {
-                number = distrib(gen);
-            }
-            frq[number] = true;
-            skelet->positionUpdate(poziti[number].x, poziti[number].y);
-
-            enemies.emplace_back(skelet);
-        }
-        for (int i = 0; i <= 3; i++) {
-            auto vamp1 = std::make_shared<Vampir>();
-
-            std::random_device rd;
-            std::mt19937 gen(rd());
-            std::uniform_int_distribution<unsigned long long> distrib(0, poziti.size() - 1);
-
-            unsigned long long number = distrib(gen);
-            while (frq[number]) {
-                number = distrib(gen);
-            }
-            frq[number] = true;
-            vamp1->positionUpdate(poziti[number].x, poziti[number].y);
-
-            enemies.emplace_back(vamp1);
-        }
-
-        frq.clear();
+        populate(1,5);
+        populate(2,4);
     }
 }
 
@@ -229,4 +165,43 @@ void Chapter2::testCopyAndSwap() {
     /// verificam ca totul e ok
     std::cout << "Assigned Skelet HP: " << assigned_skelet.getEnemyHp() << std::endl;
     std::cout << "Assigned Vampir HP: " << assigned_vampir.getEnemyHp() << std::endl;
+}
+
+void Chapter2::populate(int nivel_wave, int count) {
+    for(int i = 0 ; i < count ; i++) {
+        if (nivel_wave == 1) {
+            auto vamp1 = std::make_shared<Vampir>();
+
+            /// Generam pozitii random
+            std::random_device rd;
+            std::mt19937 gen(rd());
+            std::uniform_int_distribution<unsigned long long> distrib(0, poziti.size() - 1);
+
+            unsigned long long number = distrib(gen);
+            while (frq[number]) {
+                number = distrib(gen);
+            }
+            frq[number] = true;
+            vamp1->positionUpdate(poziti[number].x, poziti[number].y);
+
+            enemies.emplace_back(vamp1);
+        } else {
+            auto skelet = std::make_shared<Skelet>();
+
+            std::random_device rd;
+            std::mt19937 gen(rd());
+            std::uniform_int_distribution<unsigned long long> distrib(0, poziti.size() - 1);
+
+            unsigned long long number = distrib(gen);
+            while (frq[number]) {
+                number = distrib(gen);
+            }
+            frq[number] = true;
+            skelet->positionUpdate(poziti[number].x, poziti[number].y);
+
+            enemies.emplace_back(skelet);
+        }
+    }
+
+    frq.clear();
 }
