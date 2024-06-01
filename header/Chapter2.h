@@ -12,6 +12,7 @@
 #include "NPC.h"
 #include "Global.h"
 #include "Skelet.h"
+#include "Zombie.h"
 
 class Chapter2 {
 public:
@@ -23,12 +24,12 @@ public:
     static void testCopyAndSwap();
 
 private:
-    void populate(int nivel_wave,int count);
+    static void populate(int nivel_wave,int count);
     std::array<std::string, Map_height> map2;
     Player main_player;
     NPC help_player;
-    std::vector<std::shared_ptr<Enemy>> enemies;
-    std::vector<Position> poziti;
+    static std::vector<std::shared_ptr<Enemy>> enemies;
+    static std::vector<Position> poziti;
     enum tip_wave {
         Begin,
         Medium,
@@ -41,9 +42,8 @@ private:
         Victory
     };
     tip_Playing stage;
-    std::unordered_map<unsigned long long, bool> frq;
+    static std::unordered_map<unsigned long long, bool> frq;
     void readFromFile(const std::string& filePath);
-    void checkEnemies();
 };
 
 #endif //OOP_CHAPTER2_H

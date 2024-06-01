@@ -132,6 +132,8 @@ add_executable(${PROJECT_NAME}
         source/NPC.cpp
         header/NPC.h
         header/GameExceptions.h
+        source/Zombie.cpp
+        header/Zombie.h
 
 )
 

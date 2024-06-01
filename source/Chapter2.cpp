@@ -5,11 +5,13 @@
 #include "../header/Chapter2.h"
 #include "../header/GameExceptions.h"
 
+std::unordered_map<unsigned long long, bool> Chapter2::frq = {};
+std::vector<Position> Chapter2::poziti = {{100, 100}, {150, 250}, {350, 250}, {700, 200}, {1000, 300},
+                                {1000, 1100}, {900, 100}, {1050, 250}, {1250, 1250}, {790, 900},
+                                {1100, 100}, {100, 1100}};
+std::vector<std::shared_ptr<Enemy>> Chapter2::enemies ={};
 
-Chapter2::Chapter2() : poziti({
-                                      {100, 100}, {150, 250}, {350, 250}, {700, 200}, {1000, 300},
-                                      {1000, 1100}, {900, 100}, {1050, 250}, {1250, 1250}, {790, 900},
-                                      {1100, 100}, {100, 1100}}), wave{Begin}, stage{Playing} {
+Chapter2::Chapter2() : wave{Begin}, stage{Playing} {
     try {
         readFromFile("maps/map2.txt");
         generateEnemies();
@@ -21,21 +23,24 @@ Chapter2::Chapter2() : poziti({
 
 void Chapter2::generateEnemies() {
 
-
     if (wave == Begin) {
 
         /// Generam 4 vampiri
         populate(1,3);
+        frq.clear();
 
     } else if (wave == Medium) {
 
         /// generam 5 skeletoni
         populate(2,5);
+        frq.clear();
 
     } else if (wave == Hard) {
-        /// generam 5 vampiri cu 4 skeletoni
-        populate(1,5);
+        /// generam 3 vampiri cu 4 skeletoni si 2 zombie
+        populate(1,3);
         populate(2,4);
+        populate(3,2);
+        frq.clear();
     }
 }
 
@@ -76,24 +81,8 @@ void Chapter2::update() {
     } else if (wave == Hard && cnt == enemies.size()) {
         stage = Victory;
     }
-
-    checkEnemies();
 }
 
-void Chapter2::checkEnemies() {
-    for (const auto& enemy : enemies) {
-        /// dynamic_cast pentru a identifica tipul de inamic
-        if (auto vampir = dynamic_cast<Vampir*>(enemy.get())) {
-            std::cout << "Found a Vampir with HP: " << vampir->getEnemyHp() << std::endl;
-        } else if (auto skelet = dynamic_cast<Skelet*>(enemy.get())) {
-            std::cout << "Found a Skelet with HP: " << skelet->getEnemyHp() << std::endl;
-        }
-
-        /// Demonstram ca clonare functioneaza
-        auto cloned_enemy = enemy->clone();
-        std::cout << "Cloned enemy HP: " << cloned_enemy->getEnemyHp() << std::endl;
-    }
-}
 
 void Chapter2::render(sf::RenderWindow &window) {
     Map::draw(Map::convert_map(map2), window);
@@ -178,14 +167,14 @@ void Chapter2::populate(int nivel_wave, int count) {
             std::uniform_int_distribution<unsigned long long> distrib(0, poziti.size() - 1);
 
             unsigned long long number = distrib(gen);
-            while (frq[number]) {
+            while (Chapter2::frq[number]) {
                 number = distrib(gen);
             }
             frq[number] = true;
             vamp1->positionUpdate(poziti[number].x, poziti[number].y);
 
             enemies.emplace_back(vamp1);
-        } else {
+        } else if( nivel_wave == 2){
             auto skelet = std::make_shared<Skelet>();
 
             std::random_device rd;
@@ -193,15 +182,28 @@ void Chapter2::populate(int nivel_wave, int count) {
             std::uniform_int_distribution<unsigned long long> distrib(0, poziti.size() - 1);
 
             unsigned long long number = distrib(gen);
-            while (frq[number]) {
+            while (Chapter2::frq[number]) {
                 number = distrib(gen);
             }
             frq[number] = true;
             skelet->positionUpdate(poziti[number].x, poziti[number].y);
 
             enemies.emplace_back(skelet);
+        }else{
+            auto zombie = std::make_shared<Zombie>();
+
+            std::random_device rd;
+            std::mt19937 gen(rd());
+            std::uniform_int_distribution<unsigned long long> distrib(0, poziti.size() - 1);
+
+            unsigned long long number = distrib(gen);
+            while (Chapter2::frq[number]) {
+                number = distrib(gen);
+            }
+            frq[number] = true;
+            zombie->positionUpdate(poziti[number].x, poziti[number].y);
+
+            enemies.emplace_back(zombie);
         }
     }
-
-    frq.clear();
 }
