@@ -15,14 +15,16 @@
 class GameEngine {
 
 public:
-
-    GameEngine();
+    static GameEngine* getInstance();
     void run();
 
     friend std::ostream& operator<<(std::ostream& os, const GameEngine& gameEngine);
     ~GameEngine();
 
 private:
+
+    static GameEngine* instance;
+    GameEngine();
 
     void processEvents();
     void update();

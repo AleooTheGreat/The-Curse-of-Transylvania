@@ -10,6 +10,7 @@
 #include "Player.h"
 #include "NPC.h"
 #include "Map.h"
+#include "ScoreDisplay.h"
 
 class Chapter2 {
 public:
@@ -65,6 +66,10 @@ private:
     static Position getRandomPosition();
     bool allEnemiesDefeated();
     void duplicateZombies();
+
+
+    ScoreDisplay<double> scoreDisplay;
+    void updateScore(const std::shared_ptr<Enemy>& enemy);
 
 };
 

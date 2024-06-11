@@ -2,6 +2,14 @@
 #include "../header/GameExceptions.h"
 #include <iostream>
 
+GameEngine* GameEngine::instance = nullptr;
+
+GameEngine* GameEngine::getInstance() {
+    if (instance == nullptr) {
+        instance = new GameEngine();
+    }
+    return instance;
+}
 
 GameEngine::GameEngine() : window(sf::VideoMode(1 * 1280 + 64, 1 * 1280 + 64), "My Window", sf::Style::Default) {
     try {

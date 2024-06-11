@@ -25,7 +25,6 @@ void Map::draw(const std::array<std::array<Cell, Map_height>,Map_width>& i_map,s
         }
     } catch (const TextureLoadException& e) {
         std::cerr << e.what() << std::endl;
-        throw;
     }
 
     for(unsigned char a = 0; a < Map_width; a++){

@@ -27,3 +27,8 @@ private:
 
 
 #endif //OOP_NPC_H
+
+#include <iostream>
+using namespace std;
+
+

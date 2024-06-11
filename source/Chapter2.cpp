@@ -18,7 +18,7 @@ std::vector<Position> Chapter2::poziti = {
         {875, 225}, {925, 275}, {975, 325}, {1025, 375}, {1075, 425}
 };
 
-Chapter2::Chapter2() : wave(BEGIN), stage(Playing), hardLevelStartTimeSet(false) {
+Chapter2::Chapter2() : wave(BEGIN), stage(Playing), hardLevelStartTimeSet(false),scoreDisplay() {
     try {
         readFromFile("maps/map2.txt");
         generateEnemies();
@@ -31,6 +31,7 @@ Chapter2::Chapter2() : wave(BEGIN), stage(Playing), hardLevelStartTimeSet(false)
     } catch (const std::exception& e) {
         std::cerr << "Unexpected error: " << e.what() << std::endl;
     }
+    scoreDisplay.setScore(0.0);
 }
 
 void Chapter2::generateEnemies() {
@@ -62,9 +63,14 @@ void Chapter2::update() {
     main_player.handleInput();
     main_player.update(Map::convert_map(map2));
 
-    for (auto& it : enemies) {
-        if (it->getEnemyHp() > 0) {
-            it->update(main_player, help_player);
+
+    for (auto it = enemies.begin(); it != enemies.end();) {
+        if ((*it)->getEnemyHp() <= 0) {
+            updateScore(*it);
+            it = enemies.erase(it);
+        } else {
+            (*it)->update(main_player, help_player);
+            ++it;
         }
     }
 
@@ -117,6 +123,16 @@ void Chapter2::update() {
     }
 }
 
+void Chapter2::updateScore(const std::shared_ptr<Enemy>& enemy) {
+    if (dynamic_cast<Vampir*>(enemy.get())) {
+        scoreDisplay.setScore(scoreDisplay.getScore() + 2.5);
+    } else if (dynamic_cast<Zombie*>(enemy.get())) {
+        scoreDisplay.setScore(scoreDisplay.getScore() + 5);
+    } else if (dynamic_cast<Skelet*>(enemy.get())) {
+        scoreDisplay.setScore(scoreDisplay.getScore() + 3);
+    }
+}
+
 void Chapter2::duplicateZombies() {
     int currentZombieCount = 0;
 
@@ -152,6 +168,7 @@ void Chapter2::render(sf::RenderWindow &window) {
         }
     }
     main_player.drawPlayer(window);
+    scoreDisplay.draw(window);
 }
 
 int Chapter2::keepPlaying() {

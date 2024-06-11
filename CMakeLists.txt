@@ -134,6 +134,7 @@ add_executable(${PROJECT_NAME}
         header/GameExceptions.h
         source/Zombie.cpp
         header/Zombie.h
+        header/ScoreDisplay.h
 
 )
 

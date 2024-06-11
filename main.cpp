@@ -4,8 +4,8 @@
 
 int main() {
     try {
-        GameEngine gameEngine;
-        gameEngine.run();
+        GameEngine* gameEngine = GameEngine::getInstance();
+        gameEngine->run();
     } catch (const GameException& e) {
         std::cerr << "Game exception caught: " << e.what() << std::endl;
         return EXIT_FAILURE;
