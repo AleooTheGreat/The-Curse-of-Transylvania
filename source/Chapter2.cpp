@@ -163,7 +163,7 @@ void Chapter2::populate(WaveLevel level, int count) {
         auto enemy = createEnemy(level);
         Position pos = getRandomPosition();
         enemy->positionUpdate(pos.x, pos.y);
-        enemies.emplace_back(std::move(enemy));
+        enemies.emplace_back(enemy->clone());
     }
 }
 
