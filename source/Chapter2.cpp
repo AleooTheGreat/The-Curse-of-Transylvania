@@ -23,48 +23,39 @@ Chapter2::Chapter2() : wave(BEGIN), stage(Playing) {
         readFromFile("maps/map2.txt");
         generateEnemies();
     } catch (const FileLoadException& e) {
-        std::cerr << e.what() << std::endl;
-        throw;
+        std::cerr << "FileLoadException: " << e.what() << std::endl;
+    } catch (const TextureLoadException& e) {
+        std::cerr << "TextureLoadException: " << e.what() << std::endl;
+    } catch (const InvalidEnemyTypeException& e) {
+        std::cerr << "InvalidEnemyTypeException: " << e.what() << std::endl;
+    } catch (const std::exception& e) {
+        std::cerr << "Unexpected error: " << e.what() << std::endl;
     }
 }
 
 void Chapter2::generateEnemies() {
-    switch (wave) {
-        case BEGIN:
-            populate(BEGIN, 4);
-            break;
-        case MEDIUM:
-            populate(MEDIUM, 5);
-            break;
-        case HARD:
-            populate(BEGIN, 3);
-            populate(MEDIUM, 4);
-            populate(HARD, 2);
-            break;
-        default:
-            populate(BEGIN, 4);
+    try {
+        switch (wave) {
+            case BEGIN:
+                populate(BEGIN, 4);
+                break;
+            case MEDIUM:
+                populate(MEDIUM, 5);
+                break;
+            case HARD:
+                populate(BEGIN, 3);
+                populate(MEDIUM, 4);
+                populate(HARD, 2);
+                break;
+            default:
+                throw InvalidEnemyTypeException("Invalid wave level encountered.");
+        }
+        frq.clear();
+    } catch (const InvalidEnemyTypeException& e) {
+        std::cerr << "InvalidEnemyTypeException: " << e.what() << std::endl;
+    } catch (const std::exception& e) {
+        std::cerr << "Unexpected error in generateEnemies: " << e.what() << std::endl;
     }
-    frq.clear();
-}
-
-[[maybe_unused]]Chapter2::Chapter2(const Chapter2& other)
-        : wave(other.wave), stage(other.stage), enemies(other.enemies),
-          main_player(other.main_player), help_player(other.help_player), map2(other.map2) {
-}
-
-Chapter2& Chapter2::operator=(Chapter2 other) {
-    swap(*this, other);
-    return *this;
-}
-
-void swap(Chapter2& first, Chapter2& second) noexcept {
-    using std::swap;
-    swap(first.wave, second.wave);
-    swap(first.stage, second.stage);
-    swap(first.enemies, second.enemies);
-    swap(first.main_player, second.main_player);
-    swap(first.help_player, second.help_player);
-    swap(first.map2, second.map2);
 }
 
 void Chapter2::update() {
@@ -78,31 +69,33 @@ void Chapter2::update() {
     }
 
     if (allEnemiesDefeated()) {
-        switch (wave) {
-            case BEGIN:
-                main_player.buff(120, 6);
-                help_player.heal(150);
-                wave = MEDIUM;
-                break;
-            case MEDIUM:
-                main_player.buff(140, 9);
-                help_player.heal(170);
-                wave = HARD;
-                break;
-            case HARD:
-                stage = Victory;
-                break;
-            default:
-                main_player.buff(100, 5);
-                help_player.heal(100);
-                wave = BEGIN;
+        try {
+            switch (wave) {
+                case BEGIN:
+                    main_player.buff(120, 6);
+                    help_player.heal(150);
+                    wave = MEDIUM;
+                    break;
+                case MEDIUM:
+                    main_player.buff(140, 9);
+                    help_player.heal(170);
+                    wave = HARD;
+                    break;
+                case HARD:
+                    stage = Victory;
+                    break;
+                default:
+                    throw InvalidEnemyTypeException("Invalid wave level during update.");
+            }
+            enemies.clear();
+            generateEnemies();
+            std::cout << main_player.getHp() << " " << main_player.get_attack() << '\n';
+            std::cout << help_player.getHp() << "\n";
+        } catch (const InvalidEnemyTypeException& e) {
+            std::cerr << "InvalidEnemyTypeException: " << e.what() << std::endl;
+        } catch (const std::exception& e) {
+            std::cerr << "Unexpected error during wave transition: " << e.what() << std::endl;
         }
-
-        enemies.clear();
-        generateEnemies();
-        std::cout << main_player.getHp() << " " << main_player.get_attack() << '\n';
-        std::cout << help_player.getHp() << "\n";
-
     }
 
     if (main_player.getHp() < 0 || help_player.getHp() < 0) {
@@ -159,11 +152,17 @@ void Chapter2::readFromFile(const std::string &filePath) {
 }
 
 void Chapter2::populate(WaveLevel level, int count) {
-    for (int i = 0; i < count; ++i) {
-        auto enemy = createEnemy(level);
-        Position pos = getRandomPosition();
-        enemy->positionUpdate(pos.x, pos.y);
-        enemies.emplace_back(enemy->clone());
+    try {
+        for (int i = 0; i < count; ++i) {
+            auto enemy = createEnemy(level);
+            Position pos = getRandomPosition();
+            enemy->positionUpdate(pos.x, pos.y);
+            enemies.emplace_back(std::move(enemy));
+        }
+    } catch (const InvalidEnemyTypeException& e) {
+        std::cerr << "InvalidEnemyTypeException: " << e.what() << std::endl;
+    } catch (const std::exception& e) {
+        std::cerr << "Unexpected error in populate: " << e.what() << std::endl;
     }
 }
 
@@ -185,7 +184,7 @@ std::shared_ptr<Enemy> Chapter2::createEnemy(WaveLevel level) {
         case BEGIN: return std::make_shared<Vampir>();
         case MEDIUM: return std::make_shared<Skelet>();
         case HARD: return std::make_shared<Zombie>();
-        default : std::cout << "Nu exista acest timp de enemy" << '\n', exit(0);
+        default: throw InvalidEnemyTypeException("Invalid enemy type encountered.");
     }
 }
 

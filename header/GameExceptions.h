@@ -1,37 +1,27 @@
-//
-// Created by aleoo on 5/29/24.
-//
-
 #ifndef GAME_EXCEPTIONS_H
 #define GAME_EXCEPTIONS_H
 
-#include <exception>
+#include <stdexcept>
 #include <string>
 
-class GameException : public std::exception {
-protected:
-    std::string message;
+class GameException : public std::runtime_error {
 public:
-    explicit GameException(const std::string& msg) : message(msg) {}
-    virtual const char* what() const noexcept override {
-        return message.c_str();
-    }
+    explicit GameException(const std::string& message) : std::runtime_error(message) {}
 };
 
 class FileLoadException : public GameException {
 public:
-    explicit FileLoadException(const std::string& msg) : GameException("File Load Error: " + msg) {}
+    explicit FileLoadException(const std::string& message) : GameException(message) {}
 };
 
 class TextureLoadException : public GameException {
 public:
-    explicit TextureLoadException(const std::string& msg) : GameException("Texture Load Error: " + msg) {}
+    explicit TextureLoadException(const std::string& message) : GameException(message) {}
 };
 
-class InvalidStateException : public GameException {
+class InvalidEnemyTypeException : public GameException {
 public:
-    explicit InvalidStateException(const std::string& msg) : GameException("Invalid State Error: " + msg) {}
+    explicit InvalidEnemyTypeException(const std::string& message) : GameException(message) {}
 };
 
 #endif // GAME_EXCEPTIONS_H
-
