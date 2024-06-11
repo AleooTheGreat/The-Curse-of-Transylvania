@@ -18,7 +18,7 @@ std::vector<Position> Chapter2::poziti = {
         {875, 225}, {925, 275}, {975, 325}, {1025, 375}, {1075, 425}
 };
 
-Chapter2::Chapter2() : wave(BEGIN), stage(Playing) {
+Chapter2::Chapter2() : wave(BEGIN), stage(Playing), hardLevelStartTimeSet(false) {
     try {
         readFromFile("maps/map2.txt");
         generateEnemies();
@@ -68,6 +68,19 @@ void Chapter2::update() {
         }
     }
 
+    if (wave == HARD && !hardLevelStartTimeSet) {
+        hardLevelStartTime = std::chrono::steady_clock::now();
+        hardLevelStartTimeSet = true;
+    }else if (wave == HARD) {
+        auto currentTime = std::chrono::steady_clock::now();
+        auto elapsedTime = std::chrono::duration_cast<std::chrono::seconds>(currentTime - hardLevelStartTime).count();
+
+        if (elapsedTime > 5) {
+            duplicateZombies();
+            hardLevelStartTimeSet = false;
+        }
+    }
+
     if (allEnemiesDefeated()) {
         try {
             switch (wave) {
@@ -80,6 +93,7 @@ void Chapter2::update() {
                     main_player.buff(140, 9);
                     help_player.heal(170);
                     wave = HARD;
+                    hardLevelStartTimeSet = false;
                     break;
                 case HARD:
                     stage = Victory;
@@ -100,6 +114,23 @@ void Chapter2::update() {
 
     if (main_player.getHp() < 0 || help_player.getHp() < 0) {
         stage = Defeat;
+    }
+}
+
+void Chapter2::duplicateZombies() {
+    int currentZombieCount = 0;
+
+    for (const auto& enemy : enemies) {
+        if (dynamic_cast<Zombie*>(enemy.get())) {
+            currentZombieCount++;
+                if (currentZombieCount >= 20) {
+                    break;
+                }
+        }
+    }
+
+    if (currentZombieCount < 20) {
+        populate(HARD, 2);
     }
 }
 
@@ -149,6 +180,30 @@ void Chapter2::readFromFile(const std::string &filePath) {
     }
 
     fin.close();
+}
+
+[[maybe_unused]]Chapter2::Chapter2(const Chapter2& other)
+        : wave(other.wave), stage(other.stage), enemies(other.enemies),
+          hardLevelStartTime(other.hardLevelStartTime), hardLevelStartTimeSet(other.hardLevelStartTimeSet),
+          main_player(other.main_player), help_player(other.help_player),
+          map2(other.map2) {
+}
+
+Chapter2& Chapter2::operator=(Chapter2 other) {
+    swap(*this, other);
+    return *this;
+}
+
+void swap(Chapter2& first, Chapter2& second) noexcept {
+    using std::swap;
+    swap(first.wave, second.wave);
+    swap(first.stage, second.stage);
+    swap(first.enemies, second.enemies);
+    swap(first.main_player, second.main_player);
+    swap(first.help_player, second.help_player);
+    swap(first.map2, second.map2);
+    swap(first.hardLevelStartTime, second.hardLevelStartTime);
+    swap(first.hardLevelStartTimeSet, second.hardLevelStartTimeSet);
 }
 
 void Chapter2::populate(WaveLevel level, int count) {

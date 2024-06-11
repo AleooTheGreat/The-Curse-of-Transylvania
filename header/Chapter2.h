@@ -4,6 +4,8 @@
 #include <unordered_map>
 #include <vector>
 #include <memory>
+#include <chrono>
+#include <typeinfo>
 #include "Enemy.h"
 #include "Player.h"
 #include "NPC.h"
@@ -44,6 +46,8 @@ private:
 
     std::vector<std::shared_ptr<Enemy>> enemies;
 
+    std::chrono::time_point<std::chrono::steady_clock> hardLevelStartTime;
+    bool hardLevelStartTimeSet = false;
 
     Player main_player;
     NPC help_player;
@@ -60,6 +64,7 @@ private:
     void populate(WaveLevel level, int count);
     static Position getRandomPosition();
     bool allEnemiesDefeated();
+    void duplicateZombies();
 
 };
 
