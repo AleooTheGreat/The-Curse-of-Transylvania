@@ -41,8 +41,30 @@ void Chapter2::generateEnemies() {
             populate(MEDIUM, 4);
             populate(HARD, 2);
             break;
+        default:
+            populate(BEGIN, 4);
     }
     frq.clear();
+}
+
+[[maybe_unused]]Chapter2::Chapter2(const Chapter2& other)
+        : wave(other.wave), stage(other.stage), enemies(other.enemies),
+          main_player(other.main_player), help_player(other.help_player), map2(other.map2) {
+}
+
+Chapter2& Chapter2::operator=(Chapter2 other) {
+    swap(*this, other);
+    return *this;
+}
+
+void swap(Chapter2& first, Chapter2& second) noexcept {
+    using std::swap;
+    swap(first.wave, second.wave);
+    swap(first.stage, second.stage);
+    swap(first.enemies, second.enemies);
+    swap(first.main_player, second.main_player);
+    swap(first.help_player, second.help_player);
+    swap(first.map2, second.map2);
 }
 
 void Chapter2::update() {
@@ -70,6 +92,10 @@ void Chapter2::update() {
             case HARD:
                 stage = Victory;
                 break;
+            default:
+                main_player.buff(100, 5);
+                help_player.heal(100);
+                wave = BEGIN;
         }
 
         enemies.clear();
@@ -159,6 +185,7 @@ std::shared_ptr<Enemy> Chapter2::createEnemy(WaveLevel level) {
         case BEGIN: return std::make_shared<Vampir>();
         case MEDIUM: return std::make_shared<Skelet>();
         case HARD: return std::make_shared<Zombie>();
+        default : std::cout << "Nu exista acest timp de enemy" << '\n', exit(0);
     }
 }
 

@@ -19,7 +19,13 @@ public:
 
     static void testCopyAndSwap();
 
+    [[maybe_unused]]Chapter2(const Chapter2& other);
+    Chapter2& operator=(Chapter2 other);
+
+
 private:
+
+    friend void swap(Chapter2& first, Chapter2& second) noexcept;
 
     enum GameState{
         Playing,
