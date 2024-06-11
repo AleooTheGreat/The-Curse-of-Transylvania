@@ -7,7 +7,7 @@
 
 
 Vampir::Vampir(int hp, unsigned short int dmg, float speed, std::string texturePath)
-        : v_hp{hp}, v_dmg{dmg}, v_speed{speed}, chase{true},vampir_texturePath{std::move(texturePath)},
+        : Enemy(hp,dmg,speed), chase{true},vampir_texturePath{std::move(texturePath)},
           target{100, 100}, initialPosition({0, 0}), circularRotation{false},
           rotationAngle{0.0f}, rotationRadius{150.0f}, rotationSpeed{0.01f}, verticalOffset{0.0f} {
     try {
@@ -23,7 +23,7 @@ Vampir::Vampir(int hp, unsigned short int dmg, float speed, std::string textureP
 }
 
 Vampir::Vampir(const Vampir& other)
-        : v_hp{other.v_hp}, v_dmg{other.v_dmg}, v_speed{other.v_speed}, chase{other.chase},
+        : Enemy(other.e_hp,other.e_dmg,other.e_speed), chase{other.chase},
           vampir_texturePath{other.vampir_texturePath}, target{other.target},
           initialPosition{other.initialPosition}, circularRotation{other.circularRotation},
           rotationAngle{other.rotationAngle}, rotationRadius{other.rotationRadius},
@@ -47,9 +47,7 @@ Vampir& Vampir::operator=(Vampir other) {
 
 void swap(Vampir& first, Vampir& second) noexcept {
     using std::swap;
-    swap(first.v_hp, second.v_hp);
-    swap(first.v_dmg, second.v_dmg);
-    swap(first.v_speed, second.v_speed);
+    swap(static_cast<Enemy&>(first),static_cast<Enemy&>(second));
     swap(first.chase, second.chase);
     swap(first.vampir_texturePath, second.vampir_texturePath);
     swap(first.vampir_sprite, second.vampir_sprite);
@@ -92,19 +90,19 @@ void Vampir::update(Player& p, NPC& npc) {
             direction.y /= length;
         }
 
-        vampir_sprite.move(direction.x * v_speed, direction.y * v_speed);
+        vampir_sprite.move(direction.x * e_speed, direction.y * e_speed);
     }
 
     if (player_collision(npc)) {
         if (attackTimer.getElapsedTime().asMilliseconds() >= 750) {
-            npc.loseHp(v_dmg);
+            npc.loseHp(e_dmg);
             std::cout << "NPC HP: " << npc.getHp() << '\n';
             attackTimer.restart();
         }
     }
     if (player_collision(p)) {
         if(attackTimer.getElapsedTime().asMilliseconds() >= 1050) {
-            p.loseHp(v_dmg);
+            p.loseHp(e_dmg);
             std::cout << "Player HP: " << p.getHp() << '\n';
             attackTimer.restart();
         }
@@ -112,8 +110,8 @@ void Vampir::update(Player& p, NPC& npc) {
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
             if(getAttacked.getElapsedTime().asMilliseconds() < 20) {
                 std::cout << "hit" << '\n';
-                v_hp -= static_cast<int>(std::floor(p.get_attack()));
-                std::cout << v_hp << '\n';
+                e_hp -= static_cast<int>(std::floor(p.get_attack()));
+                std::cout << e_hp << '\n';
             }
             if(getAttacked.getElapsedTime().asMilliseconds() > 200){
                 getAttacked.restart();
@@ -141,5 +139,5 @@ std::shared_ptr<Enemy> Vampir::clone() const {
 }
 
 int Vampir::getEnemyHp() const {
-    return v_hp;
+    return e_hp;
 }

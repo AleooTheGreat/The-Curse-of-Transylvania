@@ -7,7 +7,7 @@
 
 
 Skelet::Skelet(int hp, unsigned short int dmg, float speed, std::string texturePath)
-        : s_hp{hp}, s_dmg{dmg}, s_speed{speed}, skelet_texturePath{std::move(texturePath)},
+        : Enemy(hp,dmg,speed), skelet_texturePath{std::move(texturePath)},
           target{100, 100}, npcInitialPosition({0, 0}), state{CHASING_NPC} {
     try {
         if (!skelet_texture.loadFromFile(skelet_texturePath)) {
@@ -22,7 +22,7 @@ Skelet::Skelet(int hp, unsigned short int dmg, float speed, std::string textureP
 }
 
 Skelet::Skelet(const Skelet& other)
-        : s_hp{other.s_hp}, s_dmg{other.s_dmg}, s_speed{other.s_speed},
+        : Enemy(other.e_hp, other.e_dmg, other.e_speed),
           skelet_texturePath{other.skelet_texturePath}, target{other.target},
           npcInitialPosition{other.npcInitialPosition}, state{other.state} {
     try {
@@ -44,9 +44,7 @@ Skelet& Skelet::operator=(Skelet other) {
 
 void swap(Skelet& first, Skelet& second) noexcept {
     using std::swap;
-    swap(first.s_hp, second.s_hp);
-    swap(first.s_dmg, second.s_dmg);
-    swap(first.s_speed, second.s_speed);
+    swap(static_cast<Enemy&>(first), static_cast<Enemy&>(second));
     swap(first.skelet_texturePath, second.skelet_texturePath);
     swap(first.skelet_sprite, second.skelet_sprite);
     swap(first.skelet_texture, second.skelet_texture);
@@ -90,11 +88,11 @@ void Skelet::update(Player& p, NPC& npc) {
         direction.y /= length;
     }
 
-    skelet_sprite.move(direction.x * s_speed, direction.y * s_speed);
+    skelet_sprite.move(direction.x * e_speed, direction.y * e_speed);
 
     if (player_collision(npc)) {
         if (attackTimer.getElapsedTime().asMilliseconds() >= 150) {
-            npc.loseHp(s_dmg);
+            npc.loseHp(e_dmg);
             std::cout << "NPC HP: " << npc.getHp() << '\n';
             attackTimer.restart();
         }
@@ -102,7 +100,7 @@ void Skelet::update(Player& p, NPC& npc) {
 
     if (player_collision(p)) {
         if(attackTimer.getElapsedTime().asMilliseconds() >= 750) {
-            p.loseHp(s_dmg);
+            p.loseHp(e_dmg);
             std::cout << "Player HP: " << p.getHp() << '\n';
             attackTimer.restart();
         }
@@ -110,8 +108,8 @@ void Skelet::update(Player& p, NPC& npc) {
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
             if(getAttacked.getElapsedTime().asMilliseconds() < 20) {
                 std::cout << "hit" << '\n';
-                s_hp -= static_cast<int>(std::floor(p.get_attack()));
-                std::cout << s_hp << '\n';
+                e_hp -= static_cast<int>(std::floor(p.get_attack()));
+                std::cout << e_hp << '\n';
             }
             if(getAttacked.getElapsedTime().asMilliseconds() > 200){
                 getAttacked.restart();
@@ -139,5 +137,5 @@ std::shared_ptr<Enemy> Skelet::clone() const {
 }
 
 int Skelet::getEnemyHp() const {
-    return s_hp;
+    return e_hp;
 }

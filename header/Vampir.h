@@ -9,20 +9,22 @@
 
 class Vampir : public Enemy {
 public:
+
     explicit Vampir(int hp = 70, unsigned short int dmg = 3, float speed = 1.7, std::string texturePath = "textures/vampir.png");
+
     Vampir(const Vampir& other);
     Vampir& operator=(Vampir other);
+
     void update(Player& p, NPC& npc) override;
     void drawEnemy(sf::RenderWindow& window) override;
-    void positionUpdate(float x, float y);
+
+    void positionUpdate(float x, float y) override;
     int getEnemyHp() const override;
+
     std::shared_ptr<Enemy> clone() const override;
 
 private:
     friend void swap(Vampir& first, Vampir& second) noexcept;
-    int v_hp;
-    unsigned short int v_dmg;
-    float v_speed;
     bool chase;
     sf::Sprite vampir_sprite;
     sf::Texture vampir_texture;

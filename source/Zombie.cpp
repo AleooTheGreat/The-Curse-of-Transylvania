@@ -6,8 +6,8 @@
 #include <memory>
 #include <SFML/Window/Keyboard.hpp>
 
-Zombie::Zombie(int hp, float dmg, float speed, std::string texturePath):
-z_hp{hp}, z_dmg{dmg}, z_speed{speed}, z_texture_path{std::move(texturePath)}{
+Zombie::Zombie(int hp, unsigned short int dmg, float speed, std::string texturePath):
+Enemy(hp,dmg,speed), z_texture_path{std::move(texturePath)}{
     z_texture.loadFromFile(z_texture_path);
     z_sprite.setTexture(z_texture);
 }
@@ -23,11 +23,11 @@ void Zombie::update(Player& p, NPC& npc){
         direction.y /= length;
     }
 
-    z_sprite.move(direction.x * z_speed, direction.y * z_speed);
+    z_sprite.move(direction.x * e_speed, direction.y * e_speed);
 
     if (player_collision(npc)) {
         if (attackTimer.getElapsedTime().asMilliseconds() >= 750) {
-            npc.loseHp(z_dmg);
+            npc.loseHp(e_dmg);
             std::cout << "NPC HP: " << npc.getHp() << '\n';
             attackTimer.restart();
         }
@@ -35,7 +35,7 @@ void Zombie::update(Player& p, NPC& npc){
 
     if (player_collision(p)) {
         if(attackTimer.getElapsedTime().asMilliseconds() >= 750) {
-            p.loseHp(z_dmg);
+            p.loseHp(e_dmg);
             std::cout << "Player HP: " << p.getHp() << '\n';
             attackTimer.restart();
         }
@@ -43,8 +43,8 @@ void Zombie::update(Player& p, NPC& npc){
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
             if(getAttacked.getElapsedTime().asMilliseconds() < 20) {
                 std::cout << "hit" << '\n';
-                z_hp -= static_cast<int>(std::floor(p.get_attack()));
-                std::cout << z_hp << '\n';
+                e_hp -= static_cast<int>(std::floor(p.get_attack()));
+                std::cout << e_hp << '\n';
             }
             if(getAttacked.getElapsedTime().asMilliseconds() > 200){
                 getAttacked.restart();
@@ -68,11 +68,11 @@ std::shared_ptr<Enemy> Zombie::clone() const {
 }
 
 int Zombie::getEnemyHp() const {
-    return z_hp;
+    return e_hp;
 }
 
-Zombie::Zombie(const Zombie &other) : z_hp{other.z_hp},z_dmg{other.z_dmg},
-z_speed{other.z_speed},z_texture_path(other.z_texture_path){
+Zombie::Zombie(const Zombie &other) : Enemy(other.e_hp,other.e_dmg,other.e_speed)
+    ,z_texture_path(other.z_texture_path){
     z_texture.loadFromFile(z_texture_path);
     z_sprite.setTexture(z_texture);
     z_sprite.setPosition(other.z_sprite.getPosition());
@@ -84,9 +84,7 @@ void Zombie::positionUpdate(float x,float y) {
 
 void swap(Zombie &first, Zombie &second) noexcept{
     using std::swap;
-    swap(first.z_hp,second.z_hp);
-    swap(first.z_dmg,second.z_dmg);
-    swap(first.z_speed,second.z_speed);
+    swap(static_cast<Enemy&>(first),static_cast<Enemy&>(second));
     swap(first.z_texture_path,second.z_texture_path);
     swap(first.z_texture,second.z_texture);
     swap(first.z_sprite,second.z_sprite);

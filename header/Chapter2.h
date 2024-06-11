@@ -1,49 +1,60 @@
-#ifndef OOP_CHAPTER2_H
-#define OOP_CHAPTER2_H
+#ifndef CHAPTER2_H
+#define CHAPTER2_H
 
-#include <vector>
-#include <array>
-#include <memory>
 #include <unordered_map>
-#include <SFML/Graphics/RenderWindow.hpp>
+#include <vector>
+#include <memory>
+#include "Enemy.h"
 #include "Player.h"
-#include "Map.h"
-#include "Vampir.h"
 #include "NPC.h"
-#include "Global.h"
-#include "Skelet.h"
-#include "Zombie.h"
+#include "Map.h"
 
 class Chapter2 {
 public:
-    explicit Chapter2();
-    void generateEnemies();
-    int keepPlaying();
+    Chapter2();
+
     void update();
-    void render(sf::RenderWindow& window);
+    void render(sf::RenderWindow &window);
+    int keepPlaying();
+
     static void testCopyAndSwap();
 
 private:
-    static void populate(int nivel_wave,int count);
-    std::array<std::string, Map_height> map2;
-    Player main_player;
-    NPC help_player;
-    static std::vector<std::shared_ptr<Enemy>> enemies;
-    static std::vector<Position> poziti;
-    enum tip_wave {
-        Begin,
-        Medium,
-        Hard
-    };
-    tip_wave wave;
-    enum tip_Playing {
+
+    enum GameState{
         Playing,
         Defeat,
         Victory
     };
-    tip_Playing stage;
+
+    enum WaveLevel {
+        BEGIN = 1,
+        MEDIUM = 2,
+        HARD = 3
+    };
+
+    WaveLevel wave;
+    GameState stage;
+
+    std::vector<std::shared_ptr<Enemy>> enemies;
+
+
+    Player main_player;
+    NPC help_player;
+
+    std::array<std::string, Map_height> map2;
+
     static std::unordered_map<unsigned long long, bool> frq;
-    void readFromFile(const std::string& filePath);
+    static std::vector<Position> poziti;
+
+    static std::shared_ptr<Enemy> createEnemy(WaveLevel level);
+
+    void readFromFile(const std::string &filePath);
+    void generateEnemies();
+    void populate(WaveLevel level, int count);
+    static Position getRandomPosition();
+    bool allEnemiesDefeated();
+
 };
 
-#endif //OOP_CHAPTER2_H
+#endif // CHAPTER2_H
