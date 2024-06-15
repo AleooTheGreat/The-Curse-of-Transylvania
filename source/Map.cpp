@@ -11,28 +11,26 @@
 #include "../header/Map.h"
 #include "../header/GameExceptions.h"
 
-void Map::draw(const std::array<std::array<Cell, Map_height>,Map_width>& i_map,sf::RenderWindow& window){
+void Map::draw(const std::array<std::array<Cell, Map_height>,Map_width>& i_map,sf::RenderWindow& window) {
     sf::Sprite cell_sprite;
     sf::Texture wall_texture;
     sf::Texture floor_texture;
 
-    try {
-        if (!wall_texture.loadFromFile("textures/wall.png")) {
-            throw TextureLoadException("Failed to load wall.png");
-        }
-        if (!floor_texture.loadFromFile("textures/brick_floor.png")) {
-            throw TextureLoadException("Failed to load brick_floor.png");
-        }
-    } catch (const TextureLoadException& e) {
-        std::cerr << e.what() << std::endl;
+
+    if (!wall_texture.loadFromFile("textures/wall.png")) {
+        throw TextureLoadException("Failed to load wall.png");
+    }
+    if (!floor_texture.loadFromFile("textures/brick_floor.png")) {
+        throw TextureLoadException("Failed to load brick_floor.png");
     }
 
-    for(unsigned char a = 0; a < Map_width; a++){
-        for(unsigned char b = 0 ; b < Map_height; b++){
+
+    for (unsigned char a = 0; a < Map_width; a++) {
+        for (unsigned char b = 0; b < Map_height; b++) {
             cell_sprite.setPosition(float(Cell_size * a), float(Cell_size * b));
-            if(i_map[a][b] == Cell::Wall) {
+            if (i_map[a][b] == Cell::Wall) {
                 cell_sprite.setTexture(wall_texture);
-            }else{
+            } else {
                 cell_sprite.setTexture(floor_texture);
             }
             window.draw(cell_sprite);

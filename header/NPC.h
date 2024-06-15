@@ -9,6 +9,7 @@
 #include <string>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include "Player.h"
+
 class NPC : public Player{
 public:
     explicit NPC(short int hp = 100, std::string texture = "textures/help_girl.png");
@@ -27,8 +28,5 @@ private:
 
 
 #endif //OOP_NPC_H
-
-#include <iostream>
-using namespace std;
 
 

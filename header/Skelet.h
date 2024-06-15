@@ -18,6 +18,7 @@ public:
     void drawEnemy(sf::RenderWindow& window) override;
     void positionUpdate(float x, float y) override;
     int getEnemyHp() const override;
+    double getScoreValue() const override;
     std::shared_ptr<Enemy> clone() const override;
 
 private:

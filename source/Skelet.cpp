@@ -9,14 +9,10 @@
 Skelet::Skelet(int hp, unsigned short int dmg, float speed, std::string texturePath)
         : Enemy(hp,dmg,speed), skelet_texturePath{std::move(texturePath)},
           target{100, 100}, npcInitialPosition({0, 0}), state{CHASING_NPC} {
-    try {
-        if (!skelet_texture.loadFromFile(skelet_texturePath)) {
-            throw TextureLoadException("Failed to load Skelet texture: " + skelet_texturePath);
-        }
-    } catch (const TextureLoadException& e) {
-        std::cerr << e.what() << std::endl;
-        throw;
+    if (!skelet_texture.loadFromFile(skelet_texturePath)) {
+        throw TextureLoadException("Failed to load Skelet texture: " + skelet_texturePath);
     }
+
     skelet_sprite.setTexture(skelet_texture);
     skelet_sprite.setPosition(600, 600);
 }
@@ -138,4 +134,8 @@ std::shared_ptr<Enemy> Skelet::clone() const {
 
 int Skelet::getEnemyHp() const {
     return e_hp;
+}
+
+double Skelet::getScoreValue() const {
+    return 3.0;
 }

@@ -12,6 +12,12 @@ private:
     sf::Font font;
     sf::Text text;
 
+    void updateText() {
+        std::ostringstream stream;
+        stream << std::fixed << std::setprecision(1) << score;
+        text.setString("Score: " + stream.str());
+    }
+
 public:
     ScoreDisplay() : score(0) {
         if (!font.loadFromFile("font/aerial.ttf")) {
@@ -24,15 +30,9 @@ public:
         text.setPosition(10, 10);
     }
 
-    void setScore(T newScore) {
-        score = newScore;
-        std::ostringstream stream;
-        stream << std::fixed << std::setprecision(1) << score;
-        text.setString("Score: " + stream.str());
-    }
-
-    T getScore() const {
-        return score;
+    void addScore(T increment) {
+        score += increment;
+        updateText();
     }
 
     void draw(sf::RenderWindow& window) {

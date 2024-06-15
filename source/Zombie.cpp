@@ -96,3 +96,7 @@ Zombie& Zombie::operator=(Zombie other) {
     swap(*this,other);
     return *this;
 }
+
+double Zombie::getScoreValue() const {
+    return 5.0;
+}

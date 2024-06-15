@@ -1,28 +1,20 @@
+// GameEngine.cpp
+
 #include "../header/GameEngine.h"
-#include "../header/GameExceptions.h"
 #include <iostream>
 
-GameEngine* GameEngine::instance = nullptr;
 
-GameEngine* GameEngine::getInstance() {
-    if (instance == nullptr) {
-        instance = new GameEngine();
-    }
+GameEngine& GameEngine::getInstance() {
+    static GameEngine instance;
     return instance;
 }
 
 GameEngine::GameEngine() : window(sf::VideoMode(1 * 1280 + 64, 1 * 1280 + 64), "My Window", sf::Style::Default) {
-    try {
-        if (!win_screen_texture.loadFromFile("textures/win_screen.png")) {
-            throw TextureLoadException("Failed to load win_screen.png");
-        }
-        if (!end_screen_texture.loadFromFile("textures/end_screen.png")) {
-            throw TextureLoadException("Failed to load end_screen.png");
-        }
-    } catch (const TextureLoadException& e) {
-        std::cerr << e.what() << std::endl;
-        window.close();
-        throw;
+    if (!win_screen_texture.loadFromFile("textures/win_screen.png")) {
+        throw TextureLoadException("Failed to load win_screen.png");
+    }
+    if (!end_screen_texture.loadFromFile("textures/end_screen.png")) {
+        throw TextureLoadException("Failed to load end_screen.png");
     }
 
     is_render = false;

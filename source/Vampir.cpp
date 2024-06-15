@@ -10,14 +10,11 @@ Vampir::Vampir(int hp, unsigned short int dmg, float speed, std::string textureP
         : Enemy(hp,dmg,speed), chase{true},vampir_texturePath{std::move(texturePath)},
           target{100, 100}, initialPosition({0, 0}), circularRotation{false},
           rotationAngle{0.0f}, rotationRadius{150.0f}, rotationSpeed{0.01f}, verticalOffset{0.0f} {
-    try {
-        if (!vampir_texture.loadFromFile(vampir_texturePath)) {
-            throw TextureLoadException("Failed to load Vampir texture: " + vampir_texturePath);
-        }
-    } catch (const TextureLoadException& e) {
-        std::cerr << e.what() << std::endl;
-        throw;
+
+    if (!vampir_texture.loadFromFile(vampir_texturePath)) {
+        throw TextureLoadException("Failed to load Vampir texture: " + vampir_texturePath);
     }
+
     vampir_sprite.setTexture(vampir_texture);
     vampir_sprite.setPosition(600, 600);
 }
@@ -140,4 +137,8 @@ std::shared_ptr<Enemy> Vampir::clone() const {
 
 int Vampir::getEnemyHp() const {
     return e_hp;
+}
+
+double Vampir::getScoreValue() const {
+    return 2.5;
 }

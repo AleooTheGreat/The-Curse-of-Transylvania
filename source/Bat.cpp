@@ -1,25 +1,15 @@
-//
-// Created by pasca on 3/31/2024.
-//
-
-#include <cmath>
-#include<iostream>
-#include<string>
-#include <SFML/Window/Keyboard.hpp>
 #include "../header/Bat.h"
 #include "../header/GameExceptions.h"
 #include "../header/Map.h"
+#include <cmath>
+#include <iostream>
+#include <SFML/Window/Keyboard.hpp>
 
 Bat::Bat(int hp, float speed, float dmg, std::string texturePath)
-        : bat_power(dmg),bat_speed(speed), bat_hp(hp), bat_texturePath(std::move(texturePath)),
+        : bat_power(dmg), bat_speed(speed), bat_hp(hp), bat_texturePath(std::move(texturePath)),
           position{64,64}, direction(0), target{600,600} {
-    try {
-        if (!bat_texture.loadFromFile(bat_texturePath)) {
-            throw TextureLoadException("Failed to load bat texture: " + bat_texturePath);
-        }
-    } catch (const TextureLoadException& e) {
-        std::cerr << e.what() << std::endl;
-        throw;
+    if (!bat_texture.loadFromFile(bat_texturePath)) {
+        throw TextureLoadException("Failed to load bat texture: " + bat_texturePath);
     }
     bat_sprite.setTexture(bat_texture);
 }
@@ -45,7 +35,6 @@ Bat& Bat::operator=(const Bat& other) {
         direction = 0;
         target = {0,0};
 
-
         bat_texture.loadFromFile(bat_texturePath);
         bat_sprite.setTexture(bat_texture);
         bat_sprite.setPosition(other.bat_sprite.getPosition());
@@ -54,7 +43,6 @@ Bat& Bat::operator=(const Bat& other) {
     }
     return *this;
 }
-
 
 std::ostream& operator<<(std::ostream& os, const Bat& bat) {
     os <<"Bat current hp: " << bat.bat_hp << '\n';
@@ -71,19 +59,16 @@ float Bat::get_target_distance(unsigned char i_direction) const
         case 0:
         {
             x += bat_speed;
-
             break;
         }
         case 1:
         {
             y -= bat_speed;
-
             break;
         }
         case 2:
         {
             x -= bat_speed;
-
             break;
         }
         case 3:
@@ -92,7 +77,6 @@ float Bat::get_target_distance(unsigned char i_direction) const
         }
         default:
         {
-
         }
     }
 
@@ -101,10 +85,8 @@ float Bat::get_target_distance(unsigned char i_direction) const
 
 bool Bat::player_collision(Player& main_player) const
 {
-
     sf::FloatRect batBounds = bat_sprite.getGlobalBounds();
     sf::FloatRect playerBounds = main_player.getBounds();
-
     return batBounds.intersects(playerBounds);
 }
 
@@ -121,7 +103,6 @@ void Bat::update(Player& main_player, std::array<std::array<Cell, Map_height>, M
 
     unsigned char optimal_direction = 4;
     target = main_player.getPosition();
-   // std::cout<<target.x<<" "<< target.y<<'\n';
 
     for (unsigned char a = 0; a < 4; a++)
     {
@@ -166,19 +147,16 @@ void Bat::update(Player& main_player, std::array<std::array<Cell, Map_height>, M
         case 0:
         {
             position.x += speed;
-
             break;
         }
         case 1:
         {
             position.y -= speed;
-
             break;
         }
         case 2:
         {
             position.x -= speed;
-
             break;
         }
         case 3:
@@ -200,20 +178,16 @@ void Bat::update(Player& main_player, std::array<std::array<Cell, Map_height>, M
                 std::cout<<"hit"<<'\n';
                 bat_hp -= (int) (std::floor(main_player.get_attack()));
                 std::cout << bat_hp << '\n';
-            }if(getAttacked.getElapsedTime().asMilliseconds() > 150){
+            }
+            if(getAttacked.getElapsedTime().asMilliseconds() > 150){
                 getAttacked.restart();
             }
         }
-
-
     }
 
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::X)){
         bat_hp = 0;
     }
-
-
-
 }
 
 Bat::~Bat() {
@@ -225,7 +199,7 @@ void Bat::draw(sf::RenderWindow& window) {
     window.draw(bat_sprite);
 }
 
-int Bat::getHp() const{
+int Bat::getHp() const {
     return bat_hp;
 }
 
@@ -234,3 +208,6 @@ void Bat::setPosition(float x, float y) {
     position.y = y;
 }
 
+int Bat::getScoreValue() const {
+    return 1;
+}

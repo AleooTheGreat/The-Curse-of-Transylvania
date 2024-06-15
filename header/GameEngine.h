@@ -1,29 +1,31 @@
-//
-// Created by pasca on 4/2/2024.
-//
+// GameEngine.h
 
 #ifndef OOP_GAMEENGINE_H
 #define OOP_GAMEENGINE_H
 
-
 #include <SFML/Window/Event.hpp>
+#include <SFML/Graphics.hpp>
 #include "Bat.h"
 #include "Map.h"
 #include "Chapter1.h"
 #include "Chapter2.h"
+#include "GameExceptions.h"
 
 class GameEngine {
 
 public:
-    static GameEngine* getInstance();
+    static GameEngine& getInstance();
+
     void run();
 
     friend std::ostream& operator<<(std::ostream& os, const GameEngine& gameEngine);
+
+    GameEngine(const GameEngine&) = delete;
+    GameEngine& operator=(const GameEngine&) = delete;
+
     ~GameEngine();
 
 private:
-
-    static GameEngine* instance;
     GameEngine();
 
     void processEvents();
@@ -41,8 +43,6 @@ private:
     sf::Texture win_screen_texture;
     sf::Sprite end_screen;
     sf::Sprite win_screen;
-
 };
-
 
 #endif //OOP_GAMEENGINE_H

@@ -1,3 +1,5 @@
+// main.cpp
+
 #include "header/GameEngine.h"
 #include "header/GameExceptions.h"
 #include <iostream>
@@ -10,7 +12,6 @@ bool isMouseOverSprite(const sf::Sprite& sprite, const sf::RenderWindow& window)
 }
 
 int main() {
-
     sf::RenderWindow window(sf::VideoMode(1024, 1024), "Game Menu");
     bool wasStarted = false;
 
@@ -31,7 +32,6 @@ int main() {
 
     sf::Sprite menu;
     sf::Texture menuTexture;
-
     if (!menuTexture.loadFromFile("textures/menu.png")) {
         std::cerr << "Error loading menu texture" << std::endl;
         return EXIT_FAILURE;
@@ -47,9 +47,9 @@ int main() {
                 if (isMouseOverSprite(playButtonSprite, window)) {
                     window.close();
                     try {
-                        GameEngine* gameEngine = GameEngine::getInstance();
+                        GameEngine& gameEngine = GameEngine::getInstance();
                         wasStarted = true;
-                        gameEngine->run();
+                        gameEngine.run();
                     } catch (const GameException& e) {
                         std::cerr << "Game exception caught: " << e.what() << std::endl;
                         return EXIT_FAILURE;

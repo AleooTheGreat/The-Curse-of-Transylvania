@@ -2,11 +2,13 @@
 #include <chrono>
 #include <iostream>
 #include <fstream>
+#include <unordered_map>
+#include <vector>
+#include <cmath>
+#include <SFML/Graphics.hpp>
 #include "../header/Chapter2.h"
 #include "../header/GameExceptions.h"
-#include "../header/Vampir.h"
-#include "../header/Skelet.h"
-#include "../header/Zombie.h"
+#include "../header/Map.h"
 #include "../header/HealthPotion.h"
 #include "../header/DamagePotion.h"
 
@@ -20,59 +22,39 @@ std::vector<Position> Chapter2::poziti = {
         {875, 225}, {925, 275}, {975, 325}, {1025, 375}, {1075, 425}
 };
 
-Chapter2::Chapter2() : wave(BEGIN), stage(Playing), hardLevelStartTimeSet(false), scoreDisplay() {
-    try {
-        readFromFile("maps/map2.txt");
-        generateEnemies();
+Chapter2::Chapter2() : wave(WaveLevel::BEGIN), stage(Playing), hardLevelStartTimeSet(false), scoreDisplay() {
+    readFromFile("maps/map2.txt");
+    generateEnemies();
 
-        if (!healthPotionTexture.loadFromFile("textures/health_potion.png")) {
-            throw TextureLoadException("Failed to load health potion texture.");
-        }
-
-        if (!damagePotionTexture.loadFromFile("textures/damage_potion.png")) {
-            throw TextureLoadException("Failed to load damage potion texture.");
-        }
-
-        healthPotionSprite.setTexture(healthPotionTexture);
-        damagePotionSprite.setTexture(damagePotionTexture);
-
-        lastPotionSpawnTime = std::chrono::steady_clock::now();
-    } catch (const FileLoadException& e) {
-        std::cerr << "FileLoadException: " << e.what() << std::endl;
-    } catch (const TextureLoadException& e) {
-        std::cerr << "TextureLoadException: " << e.what() << std::endl;
-    } catch (const InvalidEnemyTypeException& e) {
-        std::cerr << "InvalidEnemyTypeException: " << e.what() << std::endl;
-    } catch (const std::exception& e) {
-        std::cerr << "Unexpected error: " << e.what() << std::endl;
+    auto& textureManager = TextureManager::getInstance();
+    if (!textureManager.loadTexture("health_potion", "textures/health_potion.png")) {
+        throw TextureLoadException("Failed to load health potion texture.");
     }
-    scoreDisplay.setScore(0.0);
+    if (!textureManager.loadTexture("damage_potion", "textures/damage_potion.png")) {
+        throw TextureLoadException("Failed to load damage potion texture.");
+    }
+
+    healthPotionSprite.setTexture(textureManager.getTexture("health_potion"));
+    damagePotionSprite.setTexture(textureManager.getTexture("damage_potion"));
+
+    lastPotionSpawnTime = std::chrono::steady_clock::now();
 }
 
-
 void Chapter2::generateEnemies() {
-    try {
-        switch (wave) {
-            case BEGIN:
-                populate(BEGIN, 4);
-                break;
-            case MEDIUM:
-                populate(MEDIUM, 5);
-                break;
-            case HARD:
-                populate(BEGIN, 3);
-                populate(MEDIUM, 4);
-                populate(HARD, 2);
-                break;
-            default:
-                throw InvalidEnemyTypeException("Invalid wave level encountered.");
-        }
-        frq.clear();
-    } catch (const InvalidEnemyTypeException& e) {
-        std::cerr << "InvalidEnemyTypeException: " << e.what() << std::endl;
-    } catch (const std::exception& e) {
-        std::cerr << "Unexpected error in generateEnemies: " << e.what() << std::endl;
+    switch (wave) {
+        case WaveLevel::BEGIN:
+            populate(WaveLevel::BEGIN, 4);
+            break;
+        case WaveLevel::MEDIUM:
+            populate(WaveLevel::MEDIUM, 5);
+            break;
+        case WaveLevel::HARD:
+            populate(WaveLevel::BEGIN, 3);
+            populate(WaveLevel::MEDIUM, 4);
+            populate(WaveLevel::HARD, 2);
+            break;
     }
+    frq.clear();
 }
 
 void Chapter2::update() {
@@ -96,10 +78,10 @@ void Chapter2::update() {
 void Chapter2::handlePotions() {
     for (auto it = potions.begin(); it != potions.end();) {
         if (main_player.getBounds().intersects(it->getGlobalBounds())) {
-            if (it->getTexture() == &healthPotionTexture) {
+            if (it->getTexture() == healthPotionSprite.getTexture()) {
                 auto potion = std::make_unique<HealthPotion>();
                 main_player.usePotion(std::move(potion));
-            } else if (it->getTexture() == &damagePotionTexture) {
+            } else if (it->getTexture() == damagePotionSprite.getTexture()) {
                 auto potion = std::make_unique<DamagePotion>();
                 main_player.usePotion(std::move(potion));
             }
@@ -123,10 +105,10 @@ void Chapter2::handleEnemies() {
 }
 
 void Chapter2::handleHardWave() {
-    if (wave == HARD && !hardLevelStartTimeSet) {
+    if (wave == WaveLevel::HARD && !hardLevelStartTimeSet) {
         hardLevelStartTime = std::chrono::steady_clock::now();
         hardLevelStartTimeSet = true;
-    } else if (wave == HARD) {
+    } else if (wave == WaveLevel::HARD) {
         auto currentTime = std::chrono::steady_clock::now();
         auto elapsedTime = std::chrono::duration_cast<std::chrono::seconds>(currentTime - hardLevelStartTime).count();
 
@@ -147,34 +129,26 @@ void Chapter2::handleStageTransition() {
         } else {
             auto transitionElapsedTime = std::chrono::duration_cast<std::chrono::seconds>(currentTime - stageTransitionTime).count();
             if (transitionElapsedTime >= 3) {
-                try {
-                    switch (wave) {
-                        case BEGIN:
-                            main_player.buff(120, 6);
-                            help_player.heal(200);
-                            wave = MEDIUM;
-                            break;
-                        case MEDIUM:
-                            main_player.buff(140, 9);
-                            help_player.heal(350);
-                            wave = HARD;
-                            hardLevelStartTimeSet = false;
-                            break;
-                        case HARD:
-                            stage = Victory;
-                            break;
-                        default:
-                            throw InvalidEnemyTypeException("Invalid wave level during update.");
-                    }
-                    enemies.clear();
-                    generateEnemies();
-                    std::cout << main_player.getHp() << " " << main_player.get_attack() << '\n';
-                    std::cout << help_player.getHp() << "\n";
-                } catch (const InvalidEnemyTypeException& e) {
-                    std::cerr << "InvalidEnemyTypeException: " << e.what() << std::endl;
-                } catch (const std::exception& e) {
-                    std::cerr << "Unexpected error during wave transition: " << e.what() << std::endl;
+                switch (wave) {
+                    case WaveLevel::BEGIN:
+                        main_player.buff(120, main_player.get_attack() + 3);
+                        help_player.heal(200);
+                        wave = WaveLevel::MEDIUM;
+                        break;
+                    case WaveLevel::MEDIUM:
+                        main_player.buff(140, main_player.get_attack() + 5);
+                        help_player.heal(350);
+                        wave = WaveLevel::HARD;
+                        hardLevelStartTimeSet = false;
+                        break;
+                    case WaveLevel::HARD:
+                        stage = Victory;
+                        break;
                 }
+                enemies.clear();
+                generateEnemies();
+                std::cout << main_player.getHp() << " " << main_player.get_attack() << '\n';
+                std::cout << help_player.getHp() << "\n";
                 stageTransitioning = false;
             }
         }
@@ -184,8 +158,6 @@ void Chapter2::handleStageTransition() {
         stage = Defeat;
     }
 }
-
-
 
 void Chapter2::spawnRandomPotion() {
     std::random_device rd;
@@ -206,15 +178,8 @@ void Chapter2::spawnRandomPotion() {
     potions.push_back(potionSprite);
 }
 
-
 void Chapter2::updateScore(const std::shared_ptr<Enemy>& enemy) {
-    if (dynamic_cast<Vampir*>(enemy.get())) {
-        scoreDisplay.setScore(scoreDisplay.getScore() + 2.5);
-    } else if (dynamic_cast<Zombie*>(enemy.get())) {
-        scoreDisplay.setScore(scoreDisplay.getScore() + 5);
-    } else if (dynamic_cast<Skelet*>(enemy.get())) {
-        scoreDisplay.setScore(scoreDisplay.getScore() + 3);
-    }
+    scoreDisplay.addScore(enemy->getScoreValue());
 }
 
 void Chapter2::duplicateZombies() {
@@ -223,14 +188,14 @@ void Chapter2::duplicateZombies() {
     for (const auto& enemy : enemies) {
         if (dynamic_cast<Zombie*>(enemy.get())) {
             currentZombieCount++;
-                if (currentZombieCount >= 20) {
-                    break;
-                }
+            if (currentZombieCount >= 20) {
+                break;
+            }
         }
     }
 
     if (currentZombieCount < 20) {
-        populate(HARD, 2);
+        populate(WaveLevel::HARD, 2);
     }
 }
 
@@ -257,7 +222,6 @@ void Chapter2::render(sf::RenderWindow &window) {
     main_player.drawPlayer(window);
     scoreDisplay.draw(window);
 }
-
 
 int Chapter2::keepPlaying() {
     switch (stage) {
@@ -288,11 +252,10 @@ void Chapter2::readFromFile(const std::string &filePath) {
 }
 
 [[maybe_unused]]Chapter2::Chapter2(const Chapter2& other)
-        : wave(other.wave), stage(other.stage), enemies(other.enemies),
-          hardLevelStartTime(other.hardLevelStartTime), hardLevelStartTimeSet(other.hardLevelStartTimeSet),
-          main_player(other.main_player), help_player(other.help_player),
-          map2(other.map2) {
-}
+        : main_player(other.main_player), help_player(other.help_player), map2(other.map2),
+          enemies(other.enemies), wave(other.wave),
+          stage(other.stage), hardLevelStartTimeSet(other.hardLevelStartTimeSet),
+          hardLevelStartTime(other.hardLevelStartTime) {}
 
 Chapter2& Chapter2::operator=(Chapter2 other) {
     swap(*this, other);
@@ -312,17 +275,11 @@ void swap(Chapter2& first, Chapter2& second) noexcept {
 }
 
 void Chapter2::populate(WaveLevel level, int count) {
-    try {
-        for (int i = 0; i < count; ++i) {
-            auto enemy = createEnemy(level);
-            Position pos = getRandomPosition();
-            enemy->positionUpdate(pos.x, pos.y);
-            enemies.emplace_back(enemy->clone());
-        }
-    } catch (const InvalidEnemyTypeException& e) {
-        std::cerr << "InvalidEnemyTypeException: " << e.what() << std::endl;
-    } catch (const std::exception& e) {
-        std::cerr << "Unexpected error in populate: " << e.what() << std::endl;
+    for (int i = 0; i < count; ++i) {
+        auto enemy = EnemyFactory::createEnemy(level);
+        Position pos = getRandomPosition();
+        enemy->positionUpdate(pos.x, pos.y);
+        enemies.emplace_back(enemy->clone());
     }
 }
 
@@ -337,13 +294,4 @@ Position Chapter2::getRandomPosition() {
     }
     frq[number] = true;
     return poziti[number];
-}
-
-std::shared_ptr<Enemy> Chapter2::createEnemy(WaveLevel level) {
-    switch (level) {
-        case BEGIN: return std::make_shared<Vampir>();
-        case MEDIUM: return std::make_shared<Skelet>();
-        case HARD: return std::make_shared<Zombie>();
-        default: throw InvalidEnemyTypeException("Invalid enemy type encountered.");
-    }
 }

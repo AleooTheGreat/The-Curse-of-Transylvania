@@ -6,12 +6,8 @@
 #include "../header/GameExceptions.h"
 
 Chapter1::Chapter1() {
-    try {
-        readMapFromFile("maps/map1.txt");
-    } catch (const FileLoadException& e) {
-        std::cerr << e.what() << std::endl;
-        throw;
-    }
+
+    readMapFromFile("maps/map1.txt");
 
     ///Initializari
     Bat bat4(bat1);  ///Aici demonstram ca functioneaza copy si cu egal si &Bat
@@ -20,7 +16,6 @@ Chapter1::Chapter1() {
     bat2 = bat1;
 
     stage = Playing;
-    scoreDisplay.setScore(0);
 }
 
 void Chapter1::update() {
@@ -31,21 +26,21 @@ void Chapter1::update() {
         if (bat1.getHp() > 0) {
             bat1.update(main_player, Map::convert_map(map1));
             if (bat1.getHp() <= 0) {
-                scoreDisplay.setScore(scoreDisplay.getScore() + 1);
+                scoreDisplay.addScore(bat1.getScoreValue());
             }
         }
 
         if (bat2.getHp() > 0) {
             bat2.update(main_player, Map::convert_map(map1));
             if (bat2.getHp() <= 0) {
-                scoreDisplay.setScore(scoreDisplay.getScore() + 1);
+                scoreDisplay.addScore(bat2.getScoreValue());
             }
         }
 
         if (bat3.getHp() > 0) {
             bat3.update(main_player, Map::convert_map(map1));
             if (bat3.getHp() <= 0) {
-                scoreDisplay.setScore(scoreDisplay.getScore() + 1);
+                scoreDisplay.addScore(bat3.getScoreValue());
             }
         }
 

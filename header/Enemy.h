@@ -18,6 +18,7 @@ public:
     virtual int getEnemyHp() const = 0;
     virtual void positionUpdate(float x, float y) = 0;
     virtual std::shared_ptr<Enemy> clone() const = 0;
+    virtual double getScoreValue() const = 0;
 
     virtual ~Enemy() = default;
 

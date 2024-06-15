@@ -28,6 +28,7 @@ public:
     void draw(sf::RenderWindow& window);
     int getHp() const;
     void setPosition(float x, float y);
+    int getScoreValue() const;
 
 private:
     float bat_power;

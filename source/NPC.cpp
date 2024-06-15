@@ -7,16 +7,13 @@
 #include "../header/GameExceptions.h"
 
 NPC::NPC(short int hp, std::string texture) : npc_hp{hp},npc_string{std::move(texture)} {
-    try {
-        if (!npc_texture.loadFromFile(npc_string)) {
-            throw TextureLoadException("Failed to load NPC texture: " + npc_string);
-        }
-    } catch (const TextureLoadException& e) {
-        std::cerr << e.what() << std::endl;
-        throw;
+
+    if (!npc_texture.loadFromFile(npc_string)) {
+        throw TextureLoadException("Failed to load NPC texture: " + npc_string);
     }
+
     npc_sprite.setTexture(npc_texture);
-    npc_sprite.setPosition(600,600);
+    npc_sprite.setPosition(600, 600);
 }
 
 void NPC::update() {

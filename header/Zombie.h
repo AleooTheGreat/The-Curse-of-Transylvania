@@ -20,6 +20,8 @@ public:
     int getEnemyHp() const override;
     void positionUpdate(float x,float y) override;
 
+    double getScoreValue() const override;
+
     std::shared_ptr<Enemy> clone() const override;
 
     Zombie(const Zombie& other);

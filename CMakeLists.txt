@@ -139,6 +139,10 @@ add_executable(${PROJECT_NAME}
         header/DamagePotion.h
         header/HealthPotion.h
         header/PotionFactory.h
+        source/TextureManager.cpp
+        header/TextureManager.h
+        header/EnemyFactory.h
+        source/EnemyFactory.cpp
 
 )
 
