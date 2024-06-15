@@ -33,7 +33,6 @@ private:
     std::string z_texture_path;
     sf::Clock attackTimer;
     sf::Clock getAttacked;
-    bool eKeyWasPressed = false;
 };
 
 

@@ -39,7 +39,6 @@ private:
     float rotationRadius;
     float rotationSpeed;
     float verticalOffset;
-    bool eKeyWasPressed = false;
 };
 
 #endif //OOP_VAMPIR_H
