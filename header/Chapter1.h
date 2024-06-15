@@ -10,6 +10,7 @@
 #include "Map.h"
 #include "Player.h"
 #include "Bat.h"
+#include "ScoreDisplay.h"
 
 ///Aici avem tema 1 deci nimic special.Doar le am facut sa fie mai frumos organizate.
 
@@ -33,6 +34,7 @@ private:
     };
     situation stage;
     void readMapFromFile(const std::string& filePath);
+    ScoreDisplay<int> scoreDisplay;
 };
 
 

@@ -10,7 +10,7 @@
 class Vampir : public Enemy {
 public:
 
-    explicit Vampir(int hp = 70, unsigned short int dmg = 3, float speed = 1.7, std::string texturePath = "textures/vampir.png");
+    explicit Vampir(int hp = 100, unsigned short int dmg = 5, float speed = 1.7, std::string texturePath = "textures/vampir.png");
 
     Vampir(const Vampir& other);
     Vampir& operator=(Vampir other);
@@ -39,6 +39,7 @@ private:
     float rotationRadius;
     float rotationSpeed;
     float verticalOffset;
+    bool eKeyWasPressed = false;
 };
 
 #endif //OOP_VAMPIR_H

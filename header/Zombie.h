@@ -12,7 +12,7 @@
 
 class Zombie : public Enemy{
 public:
-    explicit Zombie(int hp = 50, unsigned short int dmg = 5, float speed = 1.15, std::string texturePath = "textures/zombie.png");
+    explicit Zombie(int hp = 165, unsigned short int dmg = 4, float speed = 1.05, std::string texturePath = "textures/zombie.png");
 
     void update(Player &p, NPC& npc) override;
     void drawEnemy(sf::RenderWindow& window) override;
@@ -33,6 +33,7 @@ private:
     std::string z_texture_path;
     sf::Clock attackTimer;
     sf::Clock getAttacked;
+    bool eKeyWasPressed = false;
 };
 
 

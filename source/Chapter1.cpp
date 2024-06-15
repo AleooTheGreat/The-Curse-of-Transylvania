@@ -20,25 +20,39 @@ Chapter1::Chapter1() {
     bat2 = bat1;
 
     stage = Playing;
+    scoreDisplay.setScore(0);
 }
 
 void Chapter1::update() {
-    if(main_player.getHp() > 0 && (bat1.getHp() > 0 || bat2.getHp() > 0 || bat3.getHp() > 0)) {
+    if (main_player.getHp() > 0 && (bat1.getHp() > 0 || bat2.getHp() > 0 || bat3.getHp() > 0)) {
         main_player.handleInput();
         main_player.update(Map::convert_map(map1));
-        if(bat1.getHp() > 0) {
+
+        if (bat1.getHp() > 0) {
             bat1.update(main_player, Map::convert_map(map1));
+            if (bat1.getHp() <= 0) {
+                scoreDisplay.setScore(scoreDisplay.getScore() + 1);
+            }
         }
-        if(bat2.getHp() > 0) {
+
+        if (bat2.getHp() > 0) {
             bat2.update(main_player, Map::convert_map(map1));
+            if (bat2.getHp() <= 0) {
+                scoreDisplay.setScore(scoreDisplay.getScore() + 1);
+            }
         }
-        if(bat3.getHp() > 0) {
+
+        if (bat3.getHp() > 0) {
             bat3.update(main_player, Map::convert_map(map1));
+            if (bat3.getHp() <= 0) {
+                scoreDisplay.setScore(scoreDisplay.getScore() + 1);
+            }
         }
+
         stage = Playing;
-    }else if(main_player.getHp() < 0){
-         stage = Defeat;
-    }else{
+    } else if (main_player.getHp() < 0) {
+        stage = Defeat;
+    } else {
         stage = Next;
     }
 }
@@ -74,6 +88,8 @@ void Chapter1::render(sf::RenderWindow &window) {
             bat3.draw(window);
         }
     }
+
+    scoreDisplay.draw(window);
 }
 
 void Chapter1::readMapFromFile(const std::string& filePath) {

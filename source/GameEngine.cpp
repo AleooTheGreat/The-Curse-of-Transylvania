@@ -31,9 +31,6 @@ GameEngine::GameEngine() : window(sf::VideoMode(1 * 1280 + 64, 1 * 1280 + 64), "
 
     end_screen.setTexture(end_screen_texture);
     win_screen.setTexture(win_screen_texture);
-
-    // Testam copy si swap
-    Chapter2::testCopyAndSwap();
 }
 
 void GameEngine::run() {

@@ -15,7 +15,9 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <vector>
 #include <array>
+#include <memory>
 #include "Global.h"
+#include "Potion.h"
 
 class Player{
 public:
@@ -26,6 +28,7 @@ public:
     ///Operator<<
     friend std::ostream& operator<<(std::ostream& os, const Player& player);
 
+    void usePotion(std::unique_ptr<Potion> potion);
     void handleInput();
     void update(const std::array<std::array<Cell, Map_height>,Map_width>& map);
     void drawPlayer(sf::RenderWindow& window);

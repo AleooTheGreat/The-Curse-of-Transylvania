@@ -135,6 +135,10 @@ add_executable(${PROJECT_NAME}
         source/Zombie.cpp
         header/Zombie.h
         header/ScoreDisplay.h
+        header/Potion.h
+        header/DamagePotion.h
+        header/HealthPotion.h
+        header/PotionFactory.h
 
 )
 

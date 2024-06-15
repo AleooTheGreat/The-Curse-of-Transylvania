@@ -20,8 +20,6 @@ public:
     void render(sf::RenderWindow &window);
     int keepPlaying();
 
-    static void testCopyAndSwap();
-
     [[maybe_unused]]Chapter2(const Chapter2& other);
     Chapter2& operator=(Chapter2 other);
 
@@ -70,6 +68,23 @@ private:
 
     ScoreDisplay<double> scoreDisplay;
     void updateScore(const std::shared_ptr<Enemy>& enemy);
+
+    void spawnRandomPotion();
+
+    sf::Texture healthPotionTexture;
+    sf::Texture damagePotionTexture;
+    sf::Sprite healthPotionSprite;
+    sf::Sprite damagePotionSprite;
+    std::vector<sf::Sprite> potions;
+    std::chrono::steady_clock::time_point lastPotionSpawnTime;
+
+    std::chrono::steady_clock::time_point stageTransitionTime;
+    bool stageTransitioning = false;
+
+    void handlePotions();
+    void handleEnemies();
+    void handleHardWave();
+    void handleStageTransition();
 
 };
 

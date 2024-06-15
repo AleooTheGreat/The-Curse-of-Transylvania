@@ -144,4 +144,8 @@ void Player::buff(int hp, float power) {
     m_power = power;
 }
 
+void Player::usePotion(std::unique_ptr<Potion> potion) {
+    potion->use(*this);
+}
+
 
