@@ -1,12 +1,16 @@
-This file contains all the LLM I used and how he helped me.
+This file contains all the LLMs I used and how they helped me.
 
-I used ChatGPT4.0 only as ChatBot. I asked him about my collision detection and he gave me some concepts that were not implemented because I found better solutions. 
+I used ChatGPT-4.0 only as a chatbot. I asked it about my collision detection, and it gave me some concepts that I did not implement because
+I found better solutions.
 
-His biggest help was generating my textures and explaining me how to scale my player to interact with my current detection algorithm for walls.
+Its biggest help was generating my textures and explaining how to scale my player to interact with my current detection algorithm for walls.
 
-His solution was quite good so I implemented: "It assumes the top-left corner of the sprite is at (i_x, i_y) and calculates the bottom-right corner by adding 31 to both i_x and i_y (since the sprite dimensions are 32x32,
-we use 31 to stay within the bounds of the sprite). It then iterates over every cell within these bounds, checking for collisions with walls. " This was very helpful and I figured out it is not that non-efficient overall.
+The solution it provided was quite good, so I implemented it: "It assumes the top-left corner of the sprite is at (i_x, i_y) and calculates
+the bottom-right corner by adding 31 to both i_x and i_y (since the sprite dimensions are 32x32, we use 31 to stay within the bounds of the sprite).
+It then iterates over every cell within these bounds, checking for collisions with walls." This was very helpful, and I found it to be not too
+inefficient overall.
 
-Also my biggest inspiration is from Kofybrek : 
+
+Also my biggest inspiration is from Kofybrek :
 https://www.youtube.com/@Kofybrek - here he explains what he is doing (funny guy! I like him)
 https://github.com/Kofybrek - here he explains more about implementation and you can see his code.

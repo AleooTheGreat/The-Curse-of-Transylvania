@@ -2,6 +2,8 @@
 
 #include <SFML/Graphics.hpp>
 #include <string>
+#include <iomanip>
+#include <sstream>
 
 template <typename T>
 class ScoreDisplay {
@@ -24,7 +26,9 @@ public:
 
     void setScore(T newScore) {
         score = newScore;
-        text.setString("Score: " + std::to_string(score));
+        std::ostringstream stream;
+        stream << std::fixed << std::setprecision(1) << score;
+        text.setString("Score: " + stream.str());
     }
 
     T getScore() const {

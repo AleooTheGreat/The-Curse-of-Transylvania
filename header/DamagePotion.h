@@ -10,7 +10,7 @@
 class DamagePotion : public Potion {
 public:
     void use(Player& player) override {
-        player.buff(player.getHp(), player.get_attack() + 1);
+        player.buff(player.getHp(), (float)(player.get_attack() + 2.5));
     }
 };
 

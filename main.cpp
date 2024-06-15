@@ -3,10 +3,10 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
-bool isMouseOverButton(const sf::RectangleShape& button, const sf::RenderWindow& window) {
+bool isMouseOverSprite(const sf::Sprite& sprite, const sf::RenderWindow& window) {
     sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-    sf::FloatRect buttonBounds = button.getGlobalBounds();
-    return buttonBounds.contains(static_cast<sf::Vector2f>(mousePos));
+    sf::FloatRect spriteBounds = sprite.getGlobalBounds();
+    return spriteBounds.contains(static_cast<sf::Vector2f>(mousePos));
 }
 
 int main() {
@@ -20,25 +20,23 @@ int main() {
         return EXIT_FAILURE;
     }
 
-    sf::RectangleShape playButton(sf::Vector2f(200, 100));
-    playButton.setPosition(412, 800);
-    playButton.setFillColor(sf::Color::Blue);
+    sf::Sprite playButtonSprite;
+    sf::Texture playButtonTexture;
+    if (!playButtonTexture.loadFromFile("textures/play_button.png")) {
+        std::cerr << "Error loading play button texture" << std::endl;
+        return EXIT_FAILURE;
+    }
+    playButtonSprite.setTexture(playButtonTexture);
+    playButtonSprite.setPosition(462, 880);
 
     sf::Sprite menu;
-    sf::Texture menu_texture;
+    sf::Texture menuTexture;
 
-    menu_texture.loadFromFile("textures/menu.png");
-    menu.setTexture(menu_texture);
-
-    sf::Text playText;
-    playText.setFont(font);
-    playText.setString("Play");
-    playText.setCharacterSize(30);
-    playText.setFillColor(sf::Color::White);
-    playText.setPosition(
-            playButton.getPosition().x + (playButton.getSize().x - playText.getLocalBounds().width) / 2,
-            playButton.getPosition().y + (playButton.getSize().y - playText.getLocalBounds().height) / 2 - 10
-    );
+    if (!menuTexture.loadFromFile("textures/menu.png")) {
+        std::cerr << "Error loading menu texture" << std::endl;
+        return EXIT_FAILURE;
+    }
+    menu.setTexture(menuTexture);
 
     while (window.isOpen()) {
         sf::Event event{};
@@ -46,7 +44,7 @@ int main() {
             if (event.type == sf::Event::Closed)
                 window.close();
             if (event.type == sf::Event::MouseButtonPressed) {
-                if (isMouseOverButton(playButton, window)) {
+                if (isMouseOverSprite(playButtonSprite, window)) {
                     window.close();
                     try {
                         GameEngine* gameEngine = GameEngine::getInstance();
@@ -62,16 +60,14 @@ int main() {
                         std::cerr << "Unknown exception caught" << std::endl;
                         return EXIT_FAILURE;
                     }
-
                 }
             }
         }
 
-        if(!wasStarted) {
+        if (!wasStarted) {
             window.clear();
             window.draw(menu);
-            window.draw(playButton);
-            window.draw(playText);
+            window.draw(playButtonSprite);
             window.display();
         }
     }
