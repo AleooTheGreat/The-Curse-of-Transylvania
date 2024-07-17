@@ -18,27 +18,27 @@ Chapter1::Chapter1() {
     stage = Playing;
 }
 
-void Chapter1::update() {
+void Chapter1::update(sf::Time dt) {
     if (main_player.getHp() > 0 && (bat1.getHp() > 0 || bat2.getHp() > 0 || bat3.getHp() > 0)) {
         main_player.handleInput();
-        main_player.update(Map::convert_map(map1));
+        main_player.update(Map::convert_map(map1), dt);
 
         if (bat1.getHp() > 0) {
-            bat1.update(main_player, Map::convert_map(map1));
+            bat1.update(main_player, Map::convert_map(map1), dt);
             if (bat1.getHp() <= 0) {
                 scoreDisplay.addScore(bat1.getScoreValue());
             }
         }
 
         if (bat2.getHp() > 0) {
-            bat2.update(main_player, Map::convert_map(map1));
+            bat2.update(main_player, Map::convert_map(map1), dt);
             if (bat2.getHp() <= 0) {
                 scoreDisplay.addScore(bat2.getScoreValue());
             }
         }
 
         if (bat3.getHp() > 0) {
-            bat3.update(main_player, Map::convert_map(map1));
+            bat3.update(main_player, Map::convert_map(map1), dt);
             if (bat3.getHp() <= 0) {
                 scoreDisplay.addScore(bat3.getScoreValue());
             }

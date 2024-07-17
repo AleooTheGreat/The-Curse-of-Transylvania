@@ -17,7 +17,7 @@
 class Chapter2 {
 public:
     Chapter2();
-    void update();
+    void update(sf::Time deltaTime);
     void render(sf::RenderWindow& window);
     int keepPlaying();
 
@@ -29,7 +29,7 @@ public:
 private:
     void generateEnemies();
     void handlePotions();
-    void handleEnemies();
+    void handleEnemies(sf::Time deltaTime);
     void handleHardWave();
     void handleStageTransition();
     void spawnRandomPotion();

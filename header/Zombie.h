@@ -12,9 +12,9 @@
 
 class Zombie : public Enemy{
 public:
-    explicit Zombie(int hp = 165, unsigned short int dmg = 4, float speed = 1.05, std::string texturePath = "textures/zombie.png");
+    explicit Zombie(int hp = 165, unsigned short int dmg = 4, float speed = 105, std::string texturePath = "textures/zombie.png");
 
-    void update(Player &p, NPC& npc) override;
+    void update(Player &p, NPC& npc, sf::Time deltaTime) override;
     void drawEnemy(sf::RenderWindow& window) override;
 
     int getEnemyHp() const override;

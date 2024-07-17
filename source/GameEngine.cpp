@@ -26,9 +26,11 @@ GameEngine::GameEngine() : window(sf::VideoMode(1 * 1280 + 64, 1 * 1280 + 64), "
 }
 
 void GameEngine::run() {
+    sf::Clock clock1;
     while (window.isOpen()) {
         processEvents();
-        update();
+        sf::Time deltaTime = clock1.restart();
+        update(deltaTime);
         render();
     }
 }
@@ -42,12 +44,12 @@ void GameEngine::processEvents() {
     }
 }
 
-void GameEngine::update() {
+void GameEngine::update(sf::Time dt) {
     if (ch1.keepCondition() == 1) {
-        ch1.update();
+        ch1.update(dt);
     } else if (ch1.keepCondition() == 2) {
         if (ch2.keepPlaying() == 2) {
-            ch2.update();
+            ch2.update(dt);
         } else {
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
                 window.close();

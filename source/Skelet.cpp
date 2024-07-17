@@ -51,7 +51,7 @@ void swap(Skelet& first, Skelet& second) noexcept {
     swap(first.getAttacked, second.getAttacked);
 }
 
-void Skelet::update(Player& p, NPC& npc) {
+void Skelet::update(Player& p, NPC& npc, sf::Time dt) {
     switch (state) {
         case CHASING_NPC:
             target = npc.getPosition();
@@ -75,7 +75,9 @@ void Skelet::update(Player& p, NPC& npc) {
             }
             break;
     }
-
+    
+    float speed = e_speed * dt.asSeconds();
+    
     Position currentPosition = {skelet_sprite.getPosition().x, skelet_sprite.getPosition().y};
     Position direction = {target.x - currentPosition.x, target.y - currentPosition.y};
     float length = std::sqrt(direction.x * direction.x + direction.y * direction.y);
@@ -84,7 +86,7 @@ void Skelet::update(Player& p, NPC& npc) {
         direction.y /= length;
     }
 
-    skelet_sprite.move(direction.x * e_speed, direction.y * e_speed);
+    skelet_sprite.move(direction.x * speed, direction.y * speed);
 
     if (player_collision(npc)) {
         if (attackTimer.getElapsedTime().asMilliseconds() >= 150) {

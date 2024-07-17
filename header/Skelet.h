@@ -9,12 +9,12 @@
 
 class Skelet : public Enemy {
 public:
-    explicit Skelet(int hp = 100, unsigned short int dmg = 5, float speed = 1.7, std::string texturePath = "textures/skelet.png");
+    explicit Skelet(int hp = 100, unsigned short int dmg = 5, float speed = 250, std::string texturePath = "textures/skelet.png");
 
     Skelet(const Skelet& other);
     Skelet& operator=(Skelet other);
 
-    void update(Player& p, NPC& npc) override;
+    void update(Player& p, NPC& npc, sf::Time deltaTime) override;
     void drawEnemy(sf::RenderWindow& window) override;
     void positionUpdate(float x, float y) override;
     int getEnemyHp() const override;

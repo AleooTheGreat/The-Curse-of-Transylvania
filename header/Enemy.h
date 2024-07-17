@@ -13,7 +13,7 @@ public:
     Enemy() = default;
     Enemy(int hp, unsigned short int dmg, float speed) : e_hp(hp), e_dmg(dmg), e_speed(speed) {}
 
-    virtual void update(Player& p, NPC& npc) = 0;
+    virtual void update(Player& p, NPC& npc, sf::Time deltaTime) = 0;
     virtual void drawEnemy(sf::RenderWindow& window) = 0;
     virtual int getEnemyHp() const = 0;
     virtual void positionUpdate(float x, float y) = 0;

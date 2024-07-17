@@ -29,7 +29,7 @@ private:
     GameEngine();
 
     void processEvents();
-    void update();
+    void update(sf::Time dt);
     void render();
 
     bool is_render;
@@ -43,6 +43,8 @@ private:
     sf::Texture win_screen_texture;
     sf::Sprite end_screen;
     sf::Sprite win_screen;
+
+    sf::Clock clock;
 };
 
 #endif //OOP_GAMEENGINE_H

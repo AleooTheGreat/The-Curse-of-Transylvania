@@ -57,9 +57,9 @@ void Chapter2::generateEnemies() {
     frq.clear();
 }
 
-void Chapter2::update() {
+void Chapter2::update(sf::Time dt) {
     main_player.handleInput();
-    main_player.update(Map::convert_map(map2));
+    main_player.update(Map::convert_map(map2), dt);
 
     auto currentTime = std::chrono::steady_clock::now();
     auto elapsedTime = std::chrono::duration_cast<std::chrono::seconds>(currentTime - lastPotionSpawnTime).count();
@@ -70,7 +70,7 @@ void Chapter2::update() {
     }
 
     handlePotions();
-    handleEnemies();
+    handleEnemies(dt);
     handleHardWave();
     handleStageTransition();
 }
@@ -92,13 +92,13 @@ void Chapter2::handlePotions() {
     }
 }
 
-void Chapter2::handleEnemies() {
+void Chapter2::handleEnemies(sf::Time dt) {
     for (auto it = enemies.begin(); it != enemies.end();) {
         if ((*it)->getEnemyHp() <= 0) {
             updateScore(*it);
             it = enemies.erase(it);
         } else {
-            (*it)->update(main_player, help_player);
+            (*it)->update(main_player, help_player, dt);
             ++it;
         }
     }

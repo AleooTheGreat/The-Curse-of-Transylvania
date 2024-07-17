@@ -14,7 +14,7 @@
 class Bat {
 public:
 
-    explicit Bat(int hp = 20,float speed = 1, float dmg = 5, std::string texturePath = "textures/bat.png");
+    explicit Bat(int hp = 20,float speed = 150, float dmg = 5, std::string texturePath = "textures/bat.png");
 
     Bat& operator=(const Bat& other);
     Bat(const Bat& other);
@@ -24,7 +24,7 @@ public:
 
     float get_target_distance(unsigned char i_direction) const;
     bool player_collision(Player& player) const;
-    void update(Player& player, std::array<std::array<Cell, Map_height>, Map_width> i_map);
+    void update(Player& player, std::array<std::array<Cell, Map_height>, Map_width> i_map, sf::Time deltaTime);
     void draw(sf::RenderWindow& window);
     int getHp() const;
     void setPosition(float x, float y);

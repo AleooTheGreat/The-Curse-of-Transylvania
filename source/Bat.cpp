@@ -90,9 +90,9 @@ bool Bat::player_collision(Player& main_player) const
     return batBounds.intersects(playerBounds);
 }
 
-void Bat::update(Player& main_player, std::array<std::array<Cell, Map_height>, Map_width> i_map) {
+void Bat::update(Player& main_player, std::array<std::array<Cell, Map_height>, Map_width> i_map, sf::Time dt) {
 
-    float speed = 1.f;
+    float speed = bat_speed * dt.asSeconds();
     unsigned char available_ways = 0;
 
     std::array<bool, 4> walls{};

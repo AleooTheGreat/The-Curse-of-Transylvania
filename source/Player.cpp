@@ -45,20 +45,22 @@ void Player::handleInput() {
 }
 
 
-void Player::update(const std::array<std::array<Cell, Map_height>,Map_width>& map) {
+void Player::update(const std::array<std::array<Cell, Map_height>,Map_width>& map, sf::Time dt) {
 
+
+    float speed = m_speed * dt.asSeconds();
     std::array<bool, 4> walls{};
-    walls[0] = Map::map_collision_player((unsigned short)(m_speed + player_sprite.getPosition().x), (unsigned short)player_sprite.getPosition().y, map);
-    walls[1] = Map::map_collision_player((unsigned short)(player_sprite.getPosition().x), (unsigned short)(player_sprite.getPosition().y - m_speed), map);
-    walls[2] = Map::map_collision_player((unsigned short)(player_sprite.getPosition().x - m_speed), (unsigned short)(player_sprite.getPosition().y), map);
-    walls[3] = Map::map_collision_player((unsigned short)(player_sprite.getPosition().x), (unsigned short)(m_speed + player_sprite.getPosition().y), map);
+    walls[0] = Map::map_collision_player((unsigned short)(speed + player_sprite.getPosition().x), (unsigned short)player_sprite.getPosition().y, map);
+    walls[1] = Map::map_collision_player((unsigned short)(player_sprite.getPosition().x), (unsigned short)(player_sprite.getPosition().y - speed), map);
+    walls[2] = Map::map_collision_player((unsigned short)(player_sprite.getPosition().x - speed), (unsigned short)(player_sprite.getPosition().y), map);
+    walls[3] = Map::map_collision_player((unsigned short)(player_sprite.getPosition().x), (unsigned short)(speed + player_sprite.getPosition().y), map);
 
     if (1 == sf::Keyboard::isKeyPressed(sf::Keyboard::D))
     {
         if (0 == walls[0])
         {
             direction = 0;
-            position.x += m_speed;
+            position.x += speed;
         }
     }
 
@@ -67,7 +69,7 @@ void Player::update(const std::array<std::array<Cell, Map_height>,Map_width>& ma
         if (0 == walls[1])
         {
             direction = 1;
-            position.y -= m_speed;
+            position.y -= speed;
         }
     }
 
@@ -76,7 +78,7 @@ void Player::update(const std::array<std::array<Cell, Map_height>,Map_width>& ma
         if (0 == walls[2])
         {
             direction = 2;
-            position.x -= m_speed;
+            position.x -= speed;
         }
     }
 
@@ -85,7 +87,7 @@ void Player::update(const std::array<std::array<Cell, Map_height>,Map_width>& ma
         if (0 == walls[3])
         {
             direction = 3;
-            position.y += m_speed;
+            position.y += speed;
         }
     }
 

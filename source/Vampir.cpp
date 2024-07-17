@@ -60,7 +60,7 @@ void swap(Vampir& first, Vampir& second) noexcept {
     swap(first.getAttacked, second.getAttacked);
 }
 
-void Vampir::update(Player& p, NPC& npc) {
+void Vampir::update(Player& p, NPC& npc, sf::Time dt) {
     if (circularRotation) {
         rotationAngle += rotationSpeed;
         verticalOffset += std::sin(rotationAngle) * 0.5f;
@@ -79,6 +79,7 @@ void Vampir::update(Player& p, NPC& npc) {
             initialPosition.y = vampir_sprite.getPosition().y;
         }
 
+        float speed = e_speed * dt.asSeconds();
         Position currentPosition = {vampir_sprite.getPosition().x, vampir_sprite.getPosition().y};
         Position direction = {target.x - currentPosition.x, target.y - currentPosition.y};
         float length = std::sqrt(direction.x * direction.x + direction.y * direction.y);
@@ -87,7 +88,7 @@ void Vampir::update(Player& p, NPC& npc) {
             direction.y /= length;
         }
 
-        vampir_sprite.move(direction.x * e_speed, direction.y * e_speed);
+        vampir_sprite.move(direction.x * speed, direction.y * speed);
     }
 
     if (player_collision(npc)) {

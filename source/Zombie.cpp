@@ -12,8 +12,9 @@ Enemy(hp,dmg,speed), z_texture_path{std::move(texturePath)}{
     z_sprite.setTexture(z_texture);
 }
 
-void Zombie::update(Player& p, NPC& npc){
+void Zombie::update(Player& p, NPC& npc, sf::Time dt){
     Position target = p.getPosition();
+    float speed = e_speed * dt.asSeconds();
 
     Position currentPosition = {z_sprite.getPosition().x, z_sprite.getPosition().y};
     Position direction = {target.x - currentPosition.x, target.y - currentPosition.y};
@@ -23,7 +24,7 @@ void Zombie::update(Player& p, NPC& npc){
         direction.y /= length;
     }
 
-    z_sprite.move(direction.x * e_speed, direction.y * e_speed);
+    z_sprite.move(direction.x * speed, direction.y * speed);
 
     if (player_collision(npc)) {
         if (attackTimer.getElapsedTime().asMilliseconds() >= 750) {

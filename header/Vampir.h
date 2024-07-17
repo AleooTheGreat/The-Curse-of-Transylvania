@@ -10,12 +10,12 @@
 class Vampir : public Enemy {
 public:
 
-    explicit Vampir(int hp = 100, unsigned short int dmg = 5, float speed = 1.7, std::string texturePath = "textures/vampir.png");
+    explicit Vampir(int hp = 100, unsigned short int dmg = 5, float speed = 160, std::string texturePath = "textures/vampir.png");
 
     Vampir(const Vampir& other);
     Vampir& operator=(Vampir other);
 
-    void update(Player& p, NPC& npc) override;
+    void update(Player& p, NPC& npc, sf::Time deltaTime) override;
     void drawEnemy(sf::RenderWindow& window) override;
 
     void positionUpdate(float x, float y) override;

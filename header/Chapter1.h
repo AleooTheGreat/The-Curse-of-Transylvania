@@ -19,7 +19,7 @@ public:
     explicit Chapter1();
     unsigned short int keepCondition();
     void render(sf::RenderWindow& windows);
-    void update();
+    void update(sf::Time deltaTime);
 private:
 
     std::array<std::string,Map_height> map1;

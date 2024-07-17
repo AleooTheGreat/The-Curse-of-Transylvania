@@ -22,7 +22,7 @@
 class Player{
 public:
     ///Constructor
-    explicit Player(std::string  name = "Gigel", int hp = 100, float speed = 1.25f, float power = 4.0f,
+    explicit Player(std::string  name = "Gigel", int hp = 100, float speed = 175.f, float power = 4.0f,
                     std::string texture = "textures/player.png");
 
     ///Operator<<
@@ -30,7 +30,7 @@ public:
 
     void usePotion(std::unique_ptr<Potion> potion);
     void handleInput();
-    void update(const std::array<std::array<Cell, Map_height>,Map_width>& map);
+    void update(const std::array<std::array<Cell, Map_height>,Map_width>& map, sf::Time deltaTime);
     void drawPlayer(sf::RenderWindow& window);
     virtual void loseHp(float dmg);
     float get_attack() const;
