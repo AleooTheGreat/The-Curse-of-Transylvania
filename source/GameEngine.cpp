@@ -20,6 +20,8 @@ GameEngine::GameEngine() : window(sf::VideoMode(1 * 1280 + 64, 1 * 1280 + 64), "
     is_render = false;
     window.setView(sf::View(sf::FloatRect(0, 0, 1280, 1280)));
     window.setVerticalSyncEnabled(true);
+    window.setFramerateLimit(170);
+
 
     end_screen.setTexture(end_screen_texture);
     win_screen.setTexture(win_screen_texture);
