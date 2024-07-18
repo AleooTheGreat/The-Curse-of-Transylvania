@@ -36,3 +36,6 @@ Oh no! You wake up to find yourself trapped. As you begin to explore the room, y
 
 ## Requirements:
 >> **Resolution:** *Minimum 1920x1080*
+
+## Additional information:
+>> *Winning the game requires either completing all the waves or hitting a 150 score.*
