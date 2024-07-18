@@ -45,7 +45,7 @@ void Chapter1::update(sf::Time dt) {
         }
 
         stage = Playing;
-    } else if (main_player.getHp() < 0) {
+    } else if (main_player.getHp() <= 0) {
         stage = Defeat;
     } else {
         stage = Next;

@@ -9,7 +9,7 @@
 Vampir::Vampir(int hp, unsigned short int dmg, float speed, std::string texturePath)
         : Enemy(hp,dmg,speed), chase{true},vampir_texturePath{std::move(texturePath)},
           target{100, 100}, initialPosition({0, 0}), circularRotation{false},
-          rotationAngle{0.0f}, rotationRadius{150.0f}, rotationSpeed{0.01f}, verticalOffset{0.0f} {
+          rotationAngle{0.0f}, rotationRadius{150.0f}, rotationSpeed{0.025f}, verticalOffset{0.0f} {
 
     if (!vampir_texture.loadFromFile(vampir_texturePath)) {
         throw TextureLoadException("Failed to load Vampir texture: " + vampir_texturePath);
@@ -111,7 +111,7 @@ void Vampir::update(Player& p, NPC& npc, sf::Time dt) {
                 e_hp -= static_cast<int>(std::floor(p.get_attack()));
                 std::cout << e_hp << '\n';
             }
-            if(getAttacked.getElapsedTime().asMilliseconds() > 200){
+            if(getAttacked.getElapsedTime().asMilliseconds() > 150){
                 getAttacked.restart();
             }
         }

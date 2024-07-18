@@ -55,7 +55,7 @@ private:
     std::chrono::steady_clock::time_point hardLevelStartTime;
     std::chrono::steady_clock::time_point lastPotionSpawnTime;
     std::chrono::steady_clock::time_point stageTransitionTime;
-    ScoreDisplay<double> scoreDisplay;
+    ScoreDisplay<float> scoreDisplay;
 
     sf::Sprite healthPotionSprite;
     sf::Sprite damagePotionSprite;

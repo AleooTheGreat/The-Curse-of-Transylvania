@@ -10,7 +10,7 @@
 class Vampir : public Enemy {
 public:
 
-    explicit Vampir(int hp = 100, unsigned short int dmg = 5, float speed = 160, std::string texturePath = "textures/vampir.png");
+    explicit Vampir(int hp = 60, unsigned short int dmg = 5, float speed = 160, std::string texturePath = "textures/vampir.png");
 
     Vampir(const Vampir& other);
     Vampir& operator=(Vampir other);

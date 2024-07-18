@@ -30,6 +30,10 @@ public:
         text.setPosition(10, 10);
     }
 
+    T getScore(){
+        return score;
+    }
+
     void addScore(T increment) {
         score += increment;
         updateText();

@@ -104,12 +104,12 @@ void Skelet::update(Player& p, NPC& npc, sf::Time dt) {
         }
 
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
-            if(getAttacked.getElapsedTime().asMilliseconds() < 20) {
+            if(getAttacked.getElapsedTime().asMilliseconds() < 25) {
                 std::cout << "hit" << '\n';
                 e_hp -= static_cast<int>(std::floor(p.get_attack()));
                 std::cout << e_hp << '\n';
             }
-            if(getAttacked.getElapsedTime().asMilliseconds() > 200){
+            if(getAttacked.getElapsedTime().asMilliseconds() > 150){
                 getAttacked.restart();
             }
         }

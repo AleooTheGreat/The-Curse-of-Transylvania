@@ -69,6 +69,10 @@ void Chapter2::update(sf::Time dt) {
         lastPotionSpawnTime = currentTime;
     }
 
+    if(scoreDisplay.getScore() > 150){
+        stage = Victory;
+    }
+
     handlePotions();
     handleEnemies(dt);
     handleHardWave();

@@ -9,7 +9,7 @@
 
 class Skelet : public Enemy {
 public:
-    explicit Skelet(int hp = 100, unsigned short int dmg = 5, float speed = 250, std::string texturePath = "textures/skelet.png");
+    explicit Skelet(int hp = 25, unsigned short int dmg = 3, float speed = 250, std::string texturePath = "textures/skelet.png");
 
     Skelet(const Skelet& other);
     Skelet& operator=(Skelet other);
