@@ -34,7 +34,5 @@ Oh no! You wake up to find yourself trapped. As you begin to explore the room, y
 > **Programming Languages:** C++
 >
 
-## Game Restrictions:
->> **Refresh rate:** *Minimum 144hz*
->>
+## Requirements:
 >> **Resolution:** *Minimum 1920x1080*
